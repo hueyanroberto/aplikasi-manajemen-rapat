@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Aplikasi Manajemen Rapat</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="email_address">Email Address</string>
+    <string name="internal_error_message">Something went wrong. But don\'t worry, it\'s not your fault</string>
+    <string name="email_password_incorrect">Your email/password incorrect, please try again</string>
+    <string name="invalid_email_format">Invalid email format</string>
+    <string name="email_used">This email is already used. Please use other email</string>
+    <string name="password_length_error">Password must have minimum 8 digit length</string>
+    <string name="password_confirm_error">Your confirmation password doesn\'t match</string>
+    <string name="required_field">This field is required</string>
+    <string name="back">back</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="full_name">Full Name</string>
+</resources>
