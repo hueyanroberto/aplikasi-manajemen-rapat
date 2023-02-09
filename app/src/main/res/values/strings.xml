@@ -6,14 +6,23 @@
     <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
     <string name="email_address">Email Address</string>
+    <string name="back">back</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="full_name">Full Name</string>
+    <string name="save">Save</string>
+    <string name="take_photo">Take a Photo</string>
+    <string name="choose_from_gallery">Choose from Gallery</string>
+    <string name="cancel">Cancel</string>
+    <string name="choose_profile_picture">Choose Profile Picture</string>
+
+    <!--  MESSAGES  -->
     <string name="internal_error_message">Something went wrong. But don\'t worry, it\'s not your fault</string>
+    <string name="user_not_login_error">You\'ve been logged out. Please log in again</string>
     <string name="email_password_incorrect">Your email/password incorrect, please try again</string>
     <string name="invalid_email_format">Invalid email format</string>
     <string name="email_used">This email is already used. Please use other email</string>
     <string name="password_length_error">Password must have minimum 8 digit length</string>
     <string name="password_confirm_error">Your confirmation password doesn\'t match</string>
     <string name="required_field">This field is required</string>
-    <string name="back">back</string>
-    <string name="confirm_password">Confirm Password</string>
-    <string name="full_name">Full Name</string>
+    <string name="permission_declined">Permission Declined</string>
 </resources>

@@ -13,17 +13,18 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RegisterViewModel @Inject constructor(
+class RegisterNameViewModel @Inject constructor(
     private val userUseCase: UserUseCase,
     private val userPreferenceUseCase: UserPreferenceUseCase
 ): ViewModel() {
-    fun register(email: String, password: String): LiveData<Resource<User?>> =
-        userUseCase.register(email, password).asLiveData()
+    fun registerName(userId: Int, name: String, profilePic: String): LiveData<Resource<User?>> =
+        userUseCase.registerNameAndProfilePic(userId, name, profilePic).asLiveData()
+
+    fun getUser(): LiveData<User> = userPreferenceUseCase.getUser().asLiveData()
 
     fun saveUserData(user: User) {
         viewModelScope.launch {
             userPreferenceUseCase.saveUser(user)
         }
     }
-
 }

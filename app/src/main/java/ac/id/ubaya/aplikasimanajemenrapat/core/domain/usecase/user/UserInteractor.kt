@@ -7,15 +7,12 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class UserInteractor @Inject constructor(private val userRepository: UserRepository): UserUseCase {
-    override fun login(email: String, password: String): Flow<Resource<User?>> {
-        return userRepository.login(email, password)
-    }
+    override fun login(email: String, password: String): Flow<Resource<User?>> =
+        userRepository.login(email, password)
 
-    override fun register(email: String, password: String): Flow<Resource<User?>> {
-        return userRepository.register(email, password)
-    }
+    override fun register(email: String, password: String): Flow<Resource<User?>> =
+        userRepository.register(email, password)
 
-    override fun registerNameAndProfilePic(userId: Int, name: String, profilePic: String) {
-        TODO("Not yet implemented")
-    }
+    override fun registerNameAndProfilePic(userId: Int, name: String, profilePic: String) =
+        userRepository.registerNameAndProfile(userId, name, profilePic)
 }

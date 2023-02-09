@@ -3,7 +3,6 @@ package ac.id.ubaya.aplikasimanajemenrapat.ui.register
 import ac.id.ubaya.aplikasimanajemenrapat.R
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.Resource
 import ac.id.ubaya.aplikasimanajemenrapat.databinding.ActivityRegisterBinding
-import ac.id.ubaya.aplikasimanajemenrapat.ui.main.MainActivity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,8 +10,9 @@ import android.util.Patterns
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityRegisterBinding
@@ -24,6 +24,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(binding.root)
 
         binding.imageRegisterBack.setOnClickListener(this)
+        binding.buttonSignUp.setOnClickListener(this)
     }
 
     private fun register(email: String, password: String) {
@@ -43,7 +44,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                     if (user != null) {
                         registerViewModel.saveUserData(user)
                         Toast.makeText(this, "success", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this, MainActivity::class.java))
+                        startActivity(Intent(this, RegisterNameActivity::class.java))
                         finishAffinity()
                     } else {
                         binding.textInputRegisterEmail.error = resources.getString(R.string.email_used)

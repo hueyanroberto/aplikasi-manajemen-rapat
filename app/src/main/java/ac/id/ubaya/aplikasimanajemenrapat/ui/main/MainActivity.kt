@@ -1,5 +1,6 @@
 package ac.id.ubaya.aplikasimanajemenrapat.ui.main
 
+import ac.id.ubaya.aplikasimanajemenrapat.R
 import ac.id.ubaya.aplikasimanajemenrapat.databinding.ActivityMainBinding
 import ac.id.ubaya.aplikasimanajemenrapat.ui.login.LoginActivity
 import android.content.Intent
@@ -24,5 +25,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, LoginActivity::class.java))
             finishAffinity()
         }
+
+        supportActionBar?.title = resources.getString(R.string.app_name)
     }
 }
