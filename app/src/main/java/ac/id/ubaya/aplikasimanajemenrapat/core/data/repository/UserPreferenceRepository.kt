@@ -1,6 +1,5 @@
 package ac.id.ubaya.aplikasimanajemenrapat.core.data.repository
 
-import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.datastore.UserPreference
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.User
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.repository.IUserPreferenceRepository
 import androidx.datastore.core.DataStore

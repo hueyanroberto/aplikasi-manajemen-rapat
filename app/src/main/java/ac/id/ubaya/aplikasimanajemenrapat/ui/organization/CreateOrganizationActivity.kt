@@ -1,16 +1,13 @@
-package ac.id.ubaya.aplikasimanajemenrapat.ui.register
+package ac.id.ubaya.aplikasimanajemenrapat.ui.organization
 
 import ac.id.ubaya.aplikasimanajemenrapat.R
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.Resource
-import ac.id.ubaya.aplikasimanajemenrapat.databinding.ActivityRegisterNameBinding
+import ac.id.ubaya.aplikasimanajemenrapat.databinding.ActivityCreateOrganizationBinding
 import ac.id.ubaya.aplikasimanajemenrapat.ui.login.LoginActivity
-import ac.id.ubaya.aplikasimanajemenrapat.ui.main.MainActivity
 import ac.id.ubaya.aplikasimanajemenrapat.utils.bitmapToBase64
-import ac.id.ubaya.aplikasimanajemenrapat.utils.createTempFile
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.Intent.ACTION_GET_CONTENT
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
@@ -21,18 +18,18 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
 @AndroidEntryPoint
-class RegisterNameActivity : AppCompatActivity() {
+class CreateOrganizationActivity : AppCompatActivity(), View.OnClickListener {
 
     companion object {
         private val REQUIRED_PERMISSION = arrayOf(
@@ -43,70 +40,76 @@ class RegisterNameActivity : AppCompatActivity() {
         private const val REQUEST_CODE_PERMISSION = 10
     }
 
-    private lateinit var binding: ActivityRegisterNameBinding
-    private val viewModel: RegisterNameViewModel by viewModels()
-    private lateinit var name: String
+    private lateinit var binding: ActivityCreateOrganizationBinding
+    private val viewModel: CreateOrganizationViewModel by viewModels()
+
+
     private var profilePic = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityRegisterNameBinding.inflate(layoutInflater)
+        binding = ActivityCreateOrganizationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+        binding.imageCreateOrganizationBack.setOnClickListener(this)
+        binding.buttonAddProfileOrganization.setOnClickListener(this)
+        binding.buttonCreateOrganization.setOnClickListener(this)
 
-        binding.imageAddProfile.setImageResource(R.drawable.blank_profile)
-        binding.buttonAddProfile.setOnClickListener {
-            if (allPermissionGranted()) {
-                alertDialogChooser()
-            } else {
-                ActivityCompat.requestPermissions(this, REQUIRED_PERMISSION, REQUEST_CODE_PERMISSION)
+        binding.imageAddProfileOrganization.setImageResource(R.drawable.blank_profile)
+    }
+
+    override fun onClick(v: View) {
+        when (v.id) {
+            binding.imageCreateOrganizationBack.id -> finish()
+            binding.buttonAddProfileOrganization.id -> {
+                if (allPermissionGranted()) {
+                    alertDialogChooser()
+                } else {
+                    ActivityCompat.requestPermissions(this, REQUIRED_PERMISSION, REQUEST_CODE_PERMISSION)
+                }
+            }
+            binding.buttonCreateOrganization.id -> {
+                binding.textInputCreateOrganizationName.error = null
+                val name = binding.editCreateOrganizationName.text.toString().trim()
+                val description = binding.editCreateOrganizationDescription.text.toString().trim()
+                if (name.isEmpty()) {
+                    binding.textInputCreateOrganizationName.error = resources.getString(R.string.required_field)
+                } else {
+                    createOrganization(name, description, profilePic)
+                }
             }
         }
-
-        binding.buttonSaveName.setOnClickListener { buttonSaveClicked() }
     }
 
-    private fun buttonSaveClicked() {
-        binding.textInputRegisterName.error = null
-
-        name = binding.editRegisterName.text.toString().trim()
-        if (name.isEmpty()) {
-            binding.textInputRegisterName.error = resources.getString(R.string.required_field)
-        } else {
-            addNameAndProfile()
-        }
-    }
-
-    private fun addNameAndProfile() {
+    private fun createOrganization(name: String, description: String, profilePic: String) {
         viewModel.getUser().observe(this) {
             if (it.id != -1) {
-                viewModel.registerName(it.id, name, profilePic).observe(this) {userResource ->
-                    when (userResource) {
+                viewModel.createOrganization(name, description, profilePic, it.id).observe(this) { organizationResource ->
+                    when (organizationResource) {
                         is Resource.Loading -> {
-                            binding.buttonSaveName.setBackgroundResource(R.drawable.button_disable)
-                            binding.buttonSaveName.setOnClickListener(null)
-                            binding.progressBarRegisterName.visibility = View.VISIBLE
+                            binding.progressBarCreateOrganization.visibility = View.VISIBLE
+                            binding.buttonCreateOrganization.setOnClickListener(null)
+                            binding.buttonCreateOrganization.setBackgroundResource(R.drawable.button_disable)
                         }
                         is Resource.Success -> {
-                            binding.progressBarRegisterName.visibility = View.GONE
-                            val user = userResource.data
-                            if (user != null) {
-                                viewModel.saveUserData(user)
-                                startActivity(Intent(this, MainActivity::class.java))
-                            } else {
-                                binding.buttonSaveName.setBackgroundResource(R.drawable.button_disable)
-                                binding.buttonSaveName.setOnClickListener { buttonSaveClicked() }
+                            binding.progressBarCreateOrganization.visibility = View.GONE
+                            binding.buttonCreateOrganization.setOnClickListener(this)
+                            binding.buttonCreateOrganization.setBackgroundResource(R.drawable.button_primary)
 
-                                Toast.makeText(this, resources.getString(R.string.internal_error_message), Toast.LENGTH_SHORT).show()
-                            }
+                            val intent = Intent(this, OrganizationActivity::class.java)
+                            intent.putExtra(OrganizationActivity.EXTRA_ORGANIZATION, organizationResource.data)
+                            startActivity(intent)
+                            finish()
                         }
                         is Resource.Error -> {
-                            binding.buttonSaveName.setBackgroundResource(R.drawable.button_disable)
-                            binding.buttonSaveName.setOnClickListener { buttonSaveClicked() }
-                            binding.progressBarRegisterName.visibility = View.GONE
+                            binding.progressBarCreateOrganization.visibility = View.GONE
+                            binding.buttonCreateOrganization.setOnClickListener(this)
+                            binding.buttonCreateOrganization.setBackgroundResource(R.drawable.button_primary)
 
-                            Toast.makeText(this, resources.getString(R.string.internal_error_message), Toast.LENGTH_SHORT).show()
+                            Snackbar.make(binding.buttonCreateOrganization, resources.getString(R.string.internal_error_message), Snackbar.LENGTH_LONG)
+                                .setBackgroundTint(resources.getColor(R.color.secondary_dark, theme))
+                                .setTextColor(resources.getColor(R.color.white, theme))
+                                .show()
                         }
                     }
                 }
@@ -115,12 +118,6 @@ class RegisterNameActivity : AppCompatActivity() {
                 startActivity(Intent(this, LoginActivity::class.java))
                 finishAffinity()
             }
-        }
-    }
-
-    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            buttonSaveClicked()
         }
     }
 
@@ -174,7 +171,7 @@ class RegisterNameActivity : AppCompatActivity() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         intent.resolveActivity(packageManager)
 
-        createTempFile(application).also {
+        ac.id.ubaya.aplikasimanajemenrapat.utils.createTempFile(application).also {
             val photoURI: Uri = FileProvider.getUriForFile(this, packageName, it)
             currentPhotoPath = it.absolutePath
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
@@ -184,7 +181,7 @@ class RegisterNameActivity : AppCompatActivity() {
 
     private fun startGallery() {
         val intent = Intent()
-        intent.action = ACTION_GET_CONTENT
+        intent.action = Intent.ACTION_GET_CONTENT
         intent.type = "image/*"
         val chooser = Intent.createChooser(intent, resources.getString(R.string.choose_profile_picture))
         launcherIntentGallery.launch(chooser)
@@ -196,7 +193,7 @@ class RegisterNameActivity : AppCompatActivity() {
             val myFile = File(currentPhotoPath)
             val bitmapResult = BitmapFactory.decodeFile(myFile.path)
             profilePic = bitmapToBase64(bitmapResult)
-            binding.imageAddProfile.setImageBitmap(bitmapResult)
+            binding.imageAddProfileOrganization.setImageBitmap(bitmapResult)
         }
     }
 
@@ -211,7 +208,7 @@ class RegisterNameActivity : AppCompatActivity() {
                 ImageDecoder.decodeBitmap(source)
             }
             profilePic = bitmapToBase64(imageBitmap)
-            binding.imageAddProfile.setImageBitmap(imageBitmap)
+            binding.imageAddProfileOrganization.setImageBitmap(imageBitmap)
         }
     }
 }

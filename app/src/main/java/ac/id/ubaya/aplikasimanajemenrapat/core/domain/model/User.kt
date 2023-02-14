@@ -1,5 +1,9 @@
 package ac.id.ubaya.aplikasimanajemenrapat.core.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class User(
     val id: Int,
     val email: String,
@@ -7,4 +11,4 @@ data class User(
     var exp: Int,
     var profilePic: String?,
     var levelId: Int
-)
+): Parcelable

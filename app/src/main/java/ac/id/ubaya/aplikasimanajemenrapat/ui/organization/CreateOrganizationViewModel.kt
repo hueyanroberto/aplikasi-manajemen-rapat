@@ -1,4 +1,4 @@
-package ac.id.ubaya.aplikasimanajemenrapat.ui.main
+package ac.id.ubaya.aplikasimanajemenrapat.ui.organization
 
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.Resource
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Organization
@@ -8,24 +8,22 @@ import ac.id.ubaya.aplikasimanajemenrapat.core.domain.usecase.userPreference.Use
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
-    private val userPreferenceUseCase: UserPreferenceUseCase,
-    private val organizationUseCase: OrganizationUseCase
+class CreateOrganizationViewModel @Inject constructor(
+    private val organizationUseCase: OrganizationUseCase,
+    private val userPreferenceUseCase: UserPreferenceUseCase
 ): ViewModel() {
-    fun logOut() {
-        viewModelScope.launch {
-            userPreferenceUseCase.logout()
-        }
-    }
-
     fun getUser(): LiveData<User> = userPreferenceUseCase.getUser().asLiveData()
 
-    fun getListOrganization(userId: Int): LiveData<Resource<List<Organization>>> =
-        organizationUseCase.getListOrganization(userId).asLiveData()
+    fun createOrganization(
+        name: String,
+        description: String,
+        profilePic: String,
+        userId: Int
+    ): LiveData<Resource<Organization?>> {
+        return organizationUseCase.createOrganization(name, description, profilePic, userId).asLiveData()
+    }
 }

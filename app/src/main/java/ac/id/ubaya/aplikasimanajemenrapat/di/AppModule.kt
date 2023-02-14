@@ -1,5 +1,7 @@
 package ac.id.ubaya.aplikasimanajemenrapat.di
 
+import ac.id.ubaya.aplikasimanajemenrapat.core.domain.usecase.organization.OrganizationInteractor
+import ac.id.ubaya.aplikasimanajemenrapat.core.domain.usecase.organization.OrganizationUseCase
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.usecase.user.UserInteractor
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.usecase.user.UserUseCase
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.usecase.userPreference.UserPreferenceInteractor
@@ -17,4 +19,7 @@ abstract class AppModule {
 
     @Binds
     abstract fun provideUserPreferenceUseCase(userPreferenceInteractor: UserPreferenceInteractor): UserPreferenceUseCase
+
+    @Binds
+    abstract fun provideOrganizationUseCase(organizationInteractor: OrganizationInteractor): OrganizationUseCase
 }
