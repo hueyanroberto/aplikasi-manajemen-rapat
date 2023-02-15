@@ -37,4 +37,9 @@
     <string name="create_organization">Create Organization</string>
     <string name="join_organization">Join Organization</string>
     <string name="organization_code">Organization Code</string>
+    <string name="meetings">Meetings</string>
+    <string name="members">Members</string>
+    <string name="leaderboard">Leaderboard</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

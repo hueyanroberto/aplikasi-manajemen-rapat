@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/organization_navigation"
+    app:startDestination="@id/navigation_meetings">
+
+    <fragment
+        android:id="@+id/navigation_meetings"
+        android:name="ac.id.ubaya.aplikasimanajemenrapat.ui.organization.MeetingsListFragment"
+        android:label="fragment_meetings_list"
+        tools:layout="@layout/fragment_meetings_list" />
+    <fragment
+        android:id="@+id/navigation_members"
+        android:name="ac.id.ubaya.aplikasimanajemenrapat.ui.organization.MemberListFragment"
+        android:label="fragment_member_list"
+        tools:layout="@layout/fragment_member_list" />
+    <fragment
+        android:id="@+id/navigation_leaderboard"
+        android:name="ac.id.ubaya.aplikasimanajemenrapat.ui.organization.LeaderboardFragment"
+        android:label="fragment_leaderboard"
+        tools:layout="@layout/fragment_leaderboard" />
+</navigation>

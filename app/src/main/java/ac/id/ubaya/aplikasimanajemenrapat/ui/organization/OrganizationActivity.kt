@@ -1,10 +1,15 @@
 package ac.id.ubaya.aplikasimanajemenrapat.ui.organization
 
+import ac.id.ubaya.aplikasimanajemenrapat.R
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Organization
 import ac.id.ubaya.aplikasimanajemenrapat.databinding.ActivityOrganizationBinding
 import android.os.Build.VERSION
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,5 +33,8 @@ class OrganizationActivity : AppCompatActivity() {
         } else {
             intent.getParcelableExtra(EXTRA_ORGANIZATION)
         }
+
+        val navController = findNavController(R.id.nav_host_fragment_organization)
+        binding.bottomNavOrganization.setupWithNavController(navController)
     }
 }

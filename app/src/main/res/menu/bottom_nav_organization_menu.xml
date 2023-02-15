@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_meetings"
+        android:icon="@drawable/baseline_calendar_today_24"
+        android:title="@string/meetings" />
+    <item
+        android:id="@+id/navigation_members"
+        android:icon="@drawable/baseline_people_24"
+        android:title="@string/members" />
+    <item
+        android:id="@+id/navigation_leaderboard"
+        android:icon="@drawable/baseline_leaderboard_24"
+        android:title="@string/leaderboard" />
+</menu>

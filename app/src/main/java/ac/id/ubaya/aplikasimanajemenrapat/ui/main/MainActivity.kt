@@ -2,6 +2,7 @@ package ac.id.ubaya.aplikasimanajemenrapat.ui.main
 
 import ac.id.ubaya.aplikasimanajemenrapat.R
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.Resource
+import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.User
 import ac.id.ubaya.aplikasimanajemenrapat.databinding.ActivityMainBinding
 import ac.id.ubaya.aplikasimanajemenrapat.ui.login.LoginActivity
 import ac.id.ubaya.aplikasimanajemenrapat.ui.organization.CreateOrganizationActivity
@@ -16,13 +17,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val mainViewModel: MainViewModel by viewModels()
     private var isAllFabsVisible = false
+    private var user: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,59 +33,76 @@ class MainActivity : AppCompatActivity() {
         setUpFab()
 
         binding.recyclerOrganizations.layoutManager = LinearLayoutManager(this)
-        getListOrganization(false)
 
         binding.refreshMain.setOnRefreshListener {
-            getListOrganization(true)
+            binding.refreshMain.isRefreshing = false
         }
 
-        binding.imageLogOut.setOnClickListener {
-            mainViewModel.logOut()
-        }
+        init()
     }
 
-    private fun getListOrganization(isRefreshing: Boolean) {
+    private fun init() {
+        mainViewModel.isUserGet.observe(this) { isUserGet ->
+            if (isUserGet) {
+                getListOrganization()
+
+                binding.refreshMain.setOnRefreshListener {
+                    getListOrganization()
+                }
+
+                binding.imageLogOut.setOnClickListener {
+                    mainViewModel.logOut()
+                }
+            }
+        }
+
         mainViewModel.getUser().observe(this) {
             if (it.id != -1) {
-                mainViewModel.getListOrganization(it.id).observe(this) { organizationResponse ->
-                    when (organizationResponse) {
-                        is Resource.Loading -> {
-                            if (!isRefreshing) binding.progressBarMain.visibility = View.VISIBLE
-                            else binding.refreshMain.isRefreshing = true
-                        }
-                        is Resource.Success -> {
-                            if (!isRefreshing) binding.progressBarMain.visibility = View.GONE
-                            else binding.refreshMain.isRefreshing = false
-
-                            val organization = organizationResponse.data
-                            if (organization != null) {
-                                val adapter = OrganizationAdapter(organization)
-                                binding.recyclerOrganizations.adapter = adapter
-                            }
-                        }
-                        is Resource.Error -> {
-                            if (!isRefreshing) binding.progressBarMain.visibility = View.GONE
-                            else binding.refreshMain.isRefreshing = false
-
-                            val organization = organizationResponse.data
-                            if (organization != null) {
-                                val adapter = OrganizationAdapter(organization)
-                                binding.recyclerOrganizations.adapter = adapter
-                            }
-                            Snackbar.make(binding.fabAddOrganization, resources.getString(R.string.internal_error_message), Snackbar.LENGTH_LONG)
-                                .setBackgroundTint(resources.getColor(R.color.secondary_dark, theme))
-                                .setTextColor(resources.getColor(R.color.white, theme))
-                                .setAction(resources.getString(R.string.refresh)) {
-                                    getListOrganization(true)
-                                }
-                                .show()
-                        }
-                    }
-                }
+                user = it
+                mainViewModel.changeGetUserStatus()
             } else {
                 Toast.makeText(this, resources.getString(R.string.user_not_login_error), Toast.LENGTH_SHORT).show()
                 startActivity(Intent(this, LoginActivity::class.java))
                 finishAffinity()
+            }
+        }
+    }
+
+    private fun getListOrganization() {
+        user?.let {
+            mainViewModel.getListOrganization(it.id).observe(this) { organizationResponse ->
+                when (organizationResponse) {
+                    is Resource.Loading -> {
+                        binding.progressBarMain.visibility = View.VISIBLE
+                    }
+                    is Resource.Success -> {
+                        binding.progressBarMain.visibility = View.GONE
+                        binding.refreshMain.isRefreshing = false
+
+                        val organization = organizationResponse.data
+                        if (organization != null) {
+                            val adapter = OrganizationAdapter(organization)
+                            binding.recyclerOrganizations.adapter = adapter
+                        }
+                    }
+                    is Resource.Error -> {
+                        binding.progressBarMain.visibility = View.GONE
+                        binding.refreshMain.isRefreshing = false
+
+                        val organization = organizationResponse.data
+                        if (organization != null) {
+                            val adapter = OrganizationAdapter(organization)
+                            binding.recyclerOrganizations.adapter = adapter
+                        }
+                        Snackbar.make(binding.fabAddOrganization, resources.getString(R.string.internal_error_message), Snackbar.LENGTH_LONG)
+                            .setBackgroundTint(resources.getColor(R.color.secondary_dark, theme))
+                            .setTextColor(resources.getColor(R.color.white, theme))
+                            .setAction(resources.getString(R.string.refresh)) {
+                                getListOrganization()
+                            }
+                            .show()
+                    }
+                }
             }
         }
     }
@@ -143,7 +161,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        getListOrganization(true)
+        getListOrganization()
     }
 
 }

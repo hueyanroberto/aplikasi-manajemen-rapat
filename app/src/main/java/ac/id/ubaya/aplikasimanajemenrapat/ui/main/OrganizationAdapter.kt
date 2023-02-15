@@ -3,7 +3,9 @@ package ac.id.ubaya.aplikasimanajemenrapat.ui.main
 import ac.id.ubaya.aplikasimanajemenrapat.R
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Organization
 import ac.id.ubaya.aplikasimanajemenrapat.databinding.ItemOrganizationBinding
+import ac.id.ubaya.aplikasimanajemenrapat.ui.organization.OrganizationActivity
 import ac.id.ubaya.aplikasimanajemenrapat.utils.BASE_ASSET_URL
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +35,12 @@ class OrganizationAdapter(private val organizations: List<Organization>): Recycl
                 .load(BASE_ASSET_URL)
                 .error(R.drawable.blank_profile)
                 .into(binding.imageOrganization)
+
+            itemView.setOnClickListener {
+                val intent = Intent(itemView.context, OrganizationActivity::class.java)
+                intent.putExtra(OrganizationActivity.EXTRA_ORGANIZATION, data)
+                itemView.context.startActivity(intent)
+            }
         }
     }
 }
