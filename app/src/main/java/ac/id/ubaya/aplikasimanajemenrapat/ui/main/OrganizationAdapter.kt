@@ -32,7 +32,7 @@ class OrganizationAdapter(private val organizations: List<Organization>): Recycl
         fun bind(data: Organization) {
             binding.textOrganizationName.text = data.name
             Glide.with(itemView.context)
-                .load(BASE_ASSET_URL)
+                .load("$BASE_ASSET_URL/Profile/Organization/${data.profilePicture}")
                 .error(R.drawable.blank_profile)
                 .into(binding.imageOrganization)
 

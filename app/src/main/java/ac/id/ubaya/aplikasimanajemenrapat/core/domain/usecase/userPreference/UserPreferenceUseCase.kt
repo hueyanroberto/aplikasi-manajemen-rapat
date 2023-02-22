@@ -7,4 +7,5 @@ interface UserPreferenceUseCase {
     fun getUser(): Flow<User>
     suspend fun saveUser(user: User)
     suspend fun logout()
+    suspend fun saveName(user: User)
 }

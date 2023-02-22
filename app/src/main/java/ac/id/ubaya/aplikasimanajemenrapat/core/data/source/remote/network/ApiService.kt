@@ -6,6 +6,7 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
@@ -13,51 +14,49 @@ import retrofit2.http.Path
 interface ApiService {
 
     @FormUrlEncoded
-    @POST("user/login")
+    @POST("login")
     suspend fun login(
-        @Header("Authorization") apiKey: String,
         @Field("email") email: String,
         @Field("password") password: String
     ): UserResponse
 
     @FormUrlEncoded
-    @POST("user/register")
+    @POST("register")
     suspend fun register(
-        @Header("Authorization") apiKey: String,
         @Field("email") email: String,
         @Field("password") password: String
     ): UserResponse
 
     @FormUrlEncoded
-    @PUT("user/register/{userId}")
+    @PUT("register")
+    @Headers("Accept: application/json")
     suspend fun registerNameAndProfilePic(
-        @Header("Authorization") apiKey: String,
-        @Path("userId") userId: Int,
+        @Header("Authorization") token: String,
         @Field("name") name: String,
-        @Field("profilePic") profilePic: String
+        @Field("profile_pic") profilePic: String
     ): UserResponse
 
-    @GET("organizations/{userId}")
+    @GET("organization")
+    @Headers("Accept: application/json")
     suspend fun getListOrganization(
-        @Header("Authorization") apiKey: String,
-        @Path("userId") userId: Int
+        @Header("Authorization") token: String
     ): OrganizationResponse
 
     @FormUrlEncoded
-    @POST("/organization")
+    @POST("organization/create")
+    @Headers("Accept: application/json")
     suspend fun createOrganization(
-        @Header("Authorization") apiKey: String,
+        @Header("Authorization") token: String,
         @Field("name") name: String,
         @Field("description") description: String,
-        @Field("profilePic") profilePic: String,
-        @Field("userId") userId: Int
+        @Field("profile_pic") profilePic: String
     ): OrganizationResponse
 
     @FormUrlEncoded
-    @POST("/organization/join")
+    @POST("organization/join")
+    @Headers("Accept: application/json")
     suspend fun joinOrganization(
-        @Header("Authorization") apiKey: String,
-        @Field("userId") userId: Int,
-        @Field("organizationCode") organizationCode: String
+        @Header("Authorization") token: String,
+        @Field("code") organizationCode: String
     ): OrganizationResponse
 }

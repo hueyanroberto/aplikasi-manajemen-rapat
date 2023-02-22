@@ -53,13 +53,14 @@ class UserRepository @Inject constructor(
     }
 
     override fun registerNameAndProfile(
+        token: String,
         userId: Int,
         name: String,
         profilePic: String
     ): Flow<Resource<User?>> {
         return flow {
             emit(Resource.Loading())
-            when (val apiResponse = userRemoteDataSource.registerNameAndProfilePic(userId, name, profilePic).first()) {
+            when (val apiResponse = userRemoteDataSource.registerNameAndProfilePic(token, userId, name, profilePic).first()) {
                 is ApiResponse.Success -> {
                     val data = DataMapper.userResponseToModel(apiResponse.data.userData!!)
                     emit(Resource.Success(data))

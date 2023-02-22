@@ -22,12 +22,25 @@ class UserPreferenceRepository @Inject constructor(
                 preference[NAME_KEY] ?: "",
                 preference[EXP_KEY] ?: 0,
                 preference[PROFILE_PIC_KEY] ?: "",
-                preference[LEVEL_ID_KEY] ?: -1
+                preference[LEVEL_ID_KEY] ?: -1,
+                preference[TOKEN_KEY] ?: ""
             )
         }
     }
 
     override suspend fun saveUser(user: User) {
+        dataStore.edit { preference ->
+            preference[ID_KEY] = user.id
+            preference[EMAIL_KEY] = user.email
+            preference[NAME_KEY] = user.name
+            preference[EXP_KEY] = user.exp
+            preference[PROFILE_PIC_KEY] = user.profilePic ?: ""
+            preference[LEVEL_ID_KEY] = user.levelId
+            preference[TOKEN_KEY] = user.token ?: ""
+        }
+    }
+
+    override suspend fun saveName(user: User) {
         dataStore.edit { preference ->
             preference[ID_KEY] = user.id
             preference[EMAIL_KEY] = user.email
@@ -46,6 +59,7 @@ class UserPreferenceRepository @Inject constructor(
             preference[EXP_KEY] = 0
             preference[PROFILE_PIC_KEY] = "'"
             preference[LEVEL_ID_KEY] = -1
+            preference[TOKEN_KEY] = ""
         }
     }
 
@@ -56,5 +70,6 @@ class UserPreferenceRepository @Inject constructor(
         private val PROFILE_PIC_KEY = stringPreferencesKey("profile_pic")
         private val LEVEL_ID_KEY = intPreferencesKey("level_id")
         private val EXP_KEY = intPreferencesKey("exp")
+        private val TOKEN_KEY = stringPreferencesKey("token")
     }
 }

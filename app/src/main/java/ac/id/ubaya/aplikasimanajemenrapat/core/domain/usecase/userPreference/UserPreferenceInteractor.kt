@@ -10,5 +10,6 @@ class UserPreferenceInteractor @Inject constructor(
 ): UserPreferenceUseCase {
     override fun getUser(): Flow<User> = userPreferenceRepository.getUser()
     override suspend fun saveUser(user: User) = userPreferenceRepository.saveUser(user)
-    override suspend fun logout() =userPreferenceRepository.logout()
+    override suspend fun logout() = userPreferenceRepository.logout()
+    override suspend fun saveName(user: User) = userPreferenceRepository.saveName(user)
 }

@@ -14,10 +14,10 @@ import javax.inject.Singleton
 
 @Singleton
 class OrganizationRemoteDataSource @Inject constructor(private val apiService: ApiService) {
-    suspend fun getListOrganization(userId: Int): Flow<ApiResponse<OrganizationResponse>> {
+    suspend fun getListOrganization(token: String): Flow<ApiResponse<OrganizationResponse>> {
         return flow {
             try {
-                val organizationResponse = apiService.getListOrganization(BuildConfig.API_KEY, userId)
+                val organizationResponse = apiService.getListOrganization("Bearer $token")
                 if (organizationResponse.organizationData.isNotEmpty()) {
                     emit(ApiResponse.Success(organizationResponse))
                 } else {
@@ -34,11 +34,11 @@ class OrganizationRemoteDataSource @Inject constructor(private val apiService: A
         name: String,
         description: String,
         profilePic: String,
-        userId: Int
+        token: String
     ): Flow<ApiResponse<OrganizationResponse>> {
         return flow {
             try {
-                val organizationResponse = apiService.createOrganization(BuildConfig.API_KEY, name, description, profilePic, userId)
+                val organizationResponse = apiService.createOrganization("Bearer $token", name, description, profilePic)
                 if (organizationResponse.organizationData.isNotEmpty()) {
                     emit(ApiResponse.Success(organizationResponse))
                 } else {
@@ -51,10 +51,10 @@ class OrganizationRemoteDataSource @Inject constructor(private val apiService: A
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun joinOrganization(userId: Int, organizationCode: String): Flow<ApiResponse<OrganizationResponse>> {
+    suspend fun joinOrganization(token: String, organizationCode: String): Flow<ApiResponse<OrganizationResponse>> {
         return flow {
             try {
-                val organizationResponse = apiService.joinOrganization(BuildConfig.API_KEY, userId, organizationCode)
+                val organizationResponse = apiService.joinOrganization("Bearer $token", organizationCode)
                 if (organizationResponse.organizationData.isNotEmpty()) {
                     emit(ApiResponse.Success(organizationResponse))
                 } else {

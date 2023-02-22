@@ -7,6 +7,7 @@ import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.network.ApiRes
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Organization
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.repository.IOrganizationRepository
 import ac.id.ubaya.aplikasimanajemenrapat.core.utils.DataMapper
+import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
@@ -19,12 +20,13 @@ class OrganizationRepository @Inject constructor(
     private val organizationRemoteDataSource: OrganizationRemoteDataSource,
     private val organizationLocalDataSource: OrganizationLocalDataSource
 ) : IOrganizationRepository {
-    override fun getListOrganization(userId: Int): Flow<Resource<List<Organization>>> {
+    override fun getListOrganization(token: String): Flow<Resource<List<Organization>>> {
         return flow {
             emit(Resource.Loading())
-            when (val apiResponse = organizationRemoteDataSource.getListOrganization(userId).first()) {
+            when (val apiResponse = organizationRemoteDataSource.getListOrganization(token).first()) {
                 is ApiResponse.Success -> {
                     val organizationList = apiResponse.data.organizationData
+                    Log.d("OrganizationRepository", organizationList.toString())
                     organizationLocalDataSource.deleteAll()
                     organizationLocalDataSource.insert(DataMapper.organizationResponseToEntity(organizationList))
 
@@ -51,11 +53,11 @@ class OrganizationRepository @Inject constructor(
         name: String,
         description: String,
         profilePic: String,
-        userId: Int
+        token: String
     ): Flow<Resource<Organization?>> {
         return flow {
             emit(Resource.Loading())
-            when (val apiResponse = organizationRemoteDataSource.createOrganization(name, description, profilePic, userId).first()) {
+            when (val apiResponse = organizationRemoteDataSource.createOrganization(name, description, profilePic, token).first()) {
                 is ApiResponse.Success -> {
                     val organizationList = apiResponse.data.organizationData
                     organizationLocalDataSource.insert(DataMapper.organizationResponseToEntity(organizationList))
@@ -73,12 +75,12 @@ class OrganizationRepository @Inject constructor(
     }
 
     override fun joinOrganization(
-        userId: Int,
+        token: String,
         organizationCode: String
     ): Flow<Resource<Organization?>> {
         return flow {
             emit(Resource.Loading())
-            when (val apiResponse = organizationRemoteDataSource.joinOrganization(userId, organizationCode).first()) {
+            when (val apiResponse = organizationRemoteDataSource.joinOrganization(token, organizationCode).first()) {
                 is ApiResponse.Success -> {
                     val organizationList = apiResponse.data.organizationData
                     organizationLocalDataSource.insert(DataMapper.organizationResponseToEntity(organizationList))

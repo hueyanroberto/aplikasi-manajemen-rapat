@@ -10,5 +10,6 @@ data class User(
     var name: String,
     var exp: Int,
     var profilePic: String?,
-    var levelId: Int
+    var levelId: Int,
+    var token: String? = null
 ): Parcelable

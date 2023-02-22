@@ -12,22 +12,22 @@ data class OrganizationResponse(
 	val organizationData: List<OrganizationData>,
 
 	@field:SerializedName("message")
-	val message: String,
+	val message: String = "",
 
 	@field:SerializedName("status")
-	val status: String
+	val status: String = ""
 ) : Parcelable
 
 @Parcelize
 data class OrganizationData(
 
-	@field:SerializedName("profilePicture")
-	val profilePicture: String,
+	@field:SerializedName("profile_pic")
+	val profilePicture: String = "",
 
 	@field:SerializedName("code")
 	val code: String,
 
-	@field:SerializedName("leaderboardEnd")
+	@field:SerializedName("leaderboard_end")
 	val leaderboardEnd: Date?,
 
 	@field:SerializedName("name")
@@ -39,6 +39,9 @@ data class OrganizationData(
 	@field:SerializedName("id")
 	val id: Int,
 
-	@field:SerializedName("leaderboardStart")
-	val leaderboardStart: Date?
+	@field:SerializedName("leaderboard_start")
+	val leaderboardStart: Date?,
+
+	@field:SerializedName("role")
+	val role: RoleResponse?
 ) : Parcelable

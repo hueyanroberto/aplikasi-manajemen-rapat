@@ -16,7 +16,8 @@ object DataMapper {
             name = userData.name,
             profilePic = userData.profilePic,
             exp = userData.exp,
-            levelId = userData.levelId
+            levelId = userData.levelId,
+            token = userData.token
         )
     }
 

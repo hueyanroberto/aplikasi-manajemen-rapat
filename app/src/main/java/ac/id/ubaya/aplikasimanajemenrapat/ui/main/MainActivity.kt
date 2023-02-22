@@ -9,6 +9,7 @@ import ac.id.ubaya.aplikasimanajemenrapat.ui.organization.CreateOrganizationActi
 import ac.id.ubaya.aplikasimanajemenrapat.ui.organization.JoinOrganizationActivity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -22,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val mainViewModel: MainViewModel by viewModels()
-    private var isAllFabsVisible = false
+    private var isAllFabVisible = false
     private var user: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +60,7 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.getUser().observe(this) {
             if (it.id != -1) {
                 user = it
+                Log.d("MainActivity", user.toString())
                 mainViewModel.changeGetUserStatus()
             } else {
                 Toast.makeText(this, resources.getString(R.string.user_not_login_error), Toast.LENGTH_SHORT).show()
@@ -70,7 +72,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun getListOrganization() {
         user?.let {
-            mainViewModel.getListOrganization(it.id).observe(this) { organizationResponse ->
+            mainViewModel.getListOrganization(it.token.toString()).observe(this) { organizationResponse ->
                 when (organizationResponse) {
                     is Resource.Loading -> {
                         binding.progressBarMain.visibility = View.VISIBLE
@@ -117,7 +119,7 @@ class MainActivity : AppCompatActivity() {
         binding.fabAddOrganization.shrink()
 
         binding.fabAddOrganization.setOnClickListener {
-            showFab(!isAllFabsVisible)
+            showFab(!isAllFabVisible)
         }
 
         binding.relativeMainOverlay.setOnClickListener {
@@ -145,7 +147,7 @@ class MainActivity : AppCompatActivity() {
 
             binding.fabAddOrganization.extend()
 
-            isAllFabsVisible = true
+            isAllFabVisible = true
         } else {
             binding.relativeMainOverlay.visibility = View.GONE
             binding.fabCreateOrganization.hide()
@@ -155,13 +157,13 @@ class MainActivity : AppCompatActivity() {
 
             binding.fabAddOrganization.shrink()
 
-            isAllFabsVisible = false
+            isAllFabVisible = false
         }
     }
 
     override fun onResume() {
         super.onResume()
-        getListOrganization()
+//        getListOrganization()
     }
 
 }

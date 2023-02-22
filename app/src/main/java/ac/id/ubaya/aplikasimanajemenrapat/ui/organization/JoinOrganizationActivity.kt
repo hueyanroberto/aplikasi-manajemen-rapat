@@ -31,7 +31,7 @@ class JoinOrganizationActivity : AppCompatActivity(), View.OnClickListener {
     private fun joinOrganization(code: String) {
         viewModel.getUser().observe(this) {
             if (it.id != -1) {
-                viewModel.joinOrganization(it.id, code).observe(this) { organizationResource ->
+                viewModel.joinOrganization(it.token.toString(), code).observe(this) { organizationResource ->
                     when (organizationResource) {
                         is Resource.Loading -> {
                             binding.progressBarJoinOrganization.visibility = View.VISIBLE

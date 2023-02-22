@@ -18,7 +18,7 @@ class UserRemoteDataSource @Inject constructor(private val apiService: ApiServic
     suspend fun login (email: String, password: String): Flow<ApiResponse<UserResponse>> {
         return flow {
             try {
-                val userResponse = apiService.login(BuildConfig.API_KEY, email, password)
+                val userResponse = apiService.login(email, password)
                 if (userResponse.userData != null) {
                     emit(ApiResponse.Success(userResponse))
                 } else {
@@ -34,7 +34,7 @@ class UserRemoteDataSource @Inject constructor(private val apiService: ApiServic
     suspend fun register (email: String, password: String): Flow<ApiResponse<UserResponse>> {
         return flow {
             try {
-                val userResponse = apiService.register(BuildConfig.API_KEY, email, password)
+                val userResponse = apiService.register(email, password)
                 if (userResponse.userData != null) {
                     emit(ApiResponse.Success(userResponse))
                 } else {
@@ -48,13 +48,14 @@ class UserRemoteDataSource @Inject constructor(private val apiService: ApiServic
     }
 
     suspend fun registerNameAndProfilePic(
+        token: String,
         userId: Int,
         name: String,
-        profilePic: String
+        profilePic: String,
     ): Flow<ApiResponse<UserResponse>> {
         return flow {
             try {
-                val userResponse = apiService.registerNameAndProfilePic(BuildConfig.API_KEY, userId, name, profilePic)
+                val userResponse = apiService.registerNameAndProfilePic("Bearer $token", name, profilePic)
                 if (userResponse.userData != null) {
                     emit(ApiResponse.Success(userResponse))
                 } else {

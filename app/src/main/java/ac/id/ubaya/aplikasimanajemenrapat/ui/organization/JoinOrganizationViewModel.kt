@@ -18,7 +18,7 @@ class JoinOrganizationViewModel @Inject constructor(
 ) : ViewModel() {
     fun getUser(): LiveData<User> = userPreferenceUseCase.getUser().asLiveData()
 
-    fun joinOrganization(userId: Int, organizationCode: String): LiveData<Resource<Organization?>> {
-        return organizationUseCase.joinOrganization(userId, organizationCode).asLiveData()
+    fun joinOrganization(token: String, organizationCode: String): LiveData<Resource<Organization?>> {
+        return organizationUseCase.joinOrganization(token, organizationCode).asLiveData()
     }
 }

@@ -17,14 +17,14 @@ class RegisterNameViewModel @Inject constructor(
     private val userUseCase: UserUseCase,
     private val userPreferenceUseCase: UserPreferenceUseCase
 ): ViewModel() {
-    fun registerName(userId: Int, name: String, profilePic: String): LiveData<Resource<User?>> =
-        userUseCase.registerNameAndProfilePic(userId, name, profilePic).asLiveData()
+    fun registerName(token: String, userId: Int, name: String, profilePic: String): LiveData<Resource<User?>> =
+        userUseCase.registerNameAndProfilePic(token, userId, name, profilePic).asLiveData()
 
     fun getUser(): LiveData<User> = userPreferenceUseCase.getUser().asLiveData()
 
     fun saveUserData(user: User) {
         viewModelScope.launch {
-            userPreferenceUseCase.saveUser(user)
+            userPreferenceUseCase.saveName(user)
         }
     }
 }

@@ -84,7 +84,7 @@ class CreateOrganizationActivity : AppCompatActivity(), View.OnClickListener {
     private fun createOrganization(name: String, description: String, profilePic: String) {
         viewModel.getUser().observe(this) {
             if (it.id != -1) {
-                viewModel.createOrganization(name, description, profilePic, it.id).observe(this) { organizationResource ->
+                viewModel.createOrganization(name, description, profilePic, it.token.toString()).observe(this) { organizationResource ->
                     when (organizationResource) {
                         is Resource.Loading -> {
                             binding.progressBarCreateOrganization.visibility = View.VISIBLE

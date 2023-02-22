@@ -31,8 +31,8 @@ class MainViewModel @Inject constructor(
 
     fun getUser(): LiveData<User> = userPreferenceUseCase.getUser().asLiveData()
 
-    fun getListOrganization(userId: Int): LiveData<Resource<List<Organization>>> =
-        organizationUseCase.getListOrganization(userId).asLiveData()
+    fun getListOrganization(token: String): LiveData<Resource<List<Organization>>> =
+        organizationUseCase.getListOrganization(token).asLiveData()
 
     fun changeGetUserStatus() {
         _isUserGet.value = true

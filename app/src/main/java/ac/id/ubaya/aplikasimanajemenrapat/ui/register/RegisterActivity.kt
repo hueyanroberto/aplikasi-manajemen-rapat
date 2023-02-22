@@ -6,6 +6,7 @@ import ac.id.ubaya.aplikasimanajemenrapat.databinding.ActivityRegisterBinding
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.Toast
@@ -42,6 +43,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                     binding.buttonSignUp.setBackgroundResource(R.drawable.button_primary)
 
                     if (user != null) {
+                        Log.d("RegisterActivity", user.toString())
                         registerViewModel.saveUserData(user)
                         Toast.makeText(this, "success", Toast.LENGTH_SHORT).show()
                         startActivity(Intent(this, RegisterNameActivity::class.java))

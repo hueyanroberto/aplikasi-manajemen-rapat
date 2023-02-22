@@ -80,8 +80,8 @@ class RegisterNameActivity : AppCompatActivity() {
 
     private fun addNameAndProfile() {
         viewModel.getUser().observe(this) {
-            if (it.id != -1) {
-                viewModel.registerName(it.id, name, profilePic).observe(this) {userResource ->
+            if (it.id != -1 && it.token != null) {
+                viewModel.registerName(it.token.toString(), it.id, name, profilePic).observe(this) {userResource ->
                     when (userResource) {
                         is Resource.Loading -> {
                             binding.buttonSaveName.setBackgroundResource(R.drawable.button_disable)
@@ -94,15 +94,16 @@ class RegisterNameActivity : AppCompatActivity() {
                             if (user != null) {
                                 viewModel.saveUserData(user)
                                 startActivity(Intent(this, MainActivity::class.java))
+                                finishAffinity()
                             } else {
-                                binding.buttonSaveName.setBackgroundResource(R.drawable.button_disable)
+                                binding.buttonSaveName.setBackgroundResource(R.drawable.button_primary)
                                 binding.buttonSaveName.setOnClickListener { buttonSaveClicked() }
 
                                 Toast.makeText(this, resources.getString(R.string.internal_error_message), Toast.LENGTH_SHORT).show()
                             }
                         }
                         is Resource.Error -> {
-                            binding.buttonSaveName.setBackgroundResource(R.drawable.button_disable)
+                            binding.buttonSaveName.setBackgroundResource(R.drawable.button_primary)
                             binding.buttonSaveName.setOnClickListener { buttonSaveClicked() }
                             binding.progressBarRegisterName.visibility = View.GONE
 

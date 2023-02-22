@@ -9,7 +9,7 @@ import javax.inject.Inject
 class OrganizationInteractor @Inject constructor(
     private val organizationRepository: OrganizationRepository
 ): OrganizationUseCase {
-    override fun getListOrganization(userId: Int): Flow<Resource<List<Organization>>> = organizationRepository.getListOrganization(userId)
+    override fun getListOrganization(token: String): Flow<Resource<List<Organization>>> = organizationRepository.getListOrganization(token)
 
     override fun getListFromDatabase(): Flow<List<Organization>> = organizationRepository.getListFromDatabase()
 
@@ -17,15 +17,15 @@ class OrganizationInteractor @Inject constructor(
         name: String,
         description: String,
         profilePic: String,
-        userId: Int
+        token: String
     ): Flow<Resource<Organization?>> {
-        return organizationRepository.createOrganization(name, description, profilePic, userId)
+        return organizationRepository.createOrganization(name, description, profilePic, token)
     }
 
     override fun joinOrganization(
-        userId: Int,
+        token: String,
         organizationCode: String
     ): Flow<Resource<Organization?>> {
-        return organizationRepository.joinOrganization(userId, organizationCode)
+        return organizationRepository.joinOrganization(token, organizationCode)
     }
 }

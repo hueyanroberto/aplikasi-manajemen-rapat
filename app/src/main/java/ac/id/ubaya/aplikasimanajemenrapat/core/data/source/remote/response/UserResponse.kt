@@ -8,26 +8,20 @@ import com.google.gson.annotations.SerializedName
 data class UserResponse(
 
 	@field:SerializedName("data")
-	val userData: UserData? = null,
-
-	@field:SerializedName("message")
-	val message: String,
-
-	@field:SerializedName("status")
-	val status: String
+	val userData: UserData? = null
 ) : Parcelable
 
 @Parcelize
 data class UserData(
 
-	@field:SerializedName("profilePic")
-	val profilePic: String? = null,
-
-	@field:SerializedName("levelId")
+	@field:SerializedName("level_id")
 	val levelId: Int,
 
 	@field:SerializedName("name")
 	val name: String,
+
+	@field:SerializedName("profile_pic")
+	val profilePic: String,
 
 	@field:SerializedName("id")
 	val id: Int,
@@ -36,5 +30,11 @@ data class UserData(
 	val exp: Int,
 
 	@field:SerializedName("email")
-	val email: String
+	val email: String,
+
+	@field:SerializedName("token")
+	val token: String? = null,
+
+	@field:SerializedName("level")
+	val level: LevelResponse
 ) : Parcelable
