@@ -26,7 +26,7 @@ class NetworkModule {
     @Provides
     fun provideApiService(client: OkHttpClient): ApiService {
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:8000/api/")
+            .baseUrl("http://192.168.100.33:80/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()

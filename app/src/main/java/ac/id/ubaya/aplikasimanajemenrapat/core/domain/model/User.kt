@@ -11,5 +11,6 @@ data class User(
     var exp: Int,
     var profilePic: String?,
     var levelId: Int,
-    var token: String? = null
+    var token: String? = null,
+    var role: Role? = null
 ): Parcelable

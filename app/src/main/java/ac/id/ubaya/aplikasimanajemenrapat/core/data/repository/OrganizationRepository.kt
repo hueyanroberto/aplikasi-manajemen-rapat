@@ -5,6 +5,7 @@ import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.local.datasource.Orga
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.datasource.OrganizationRemoteDataSource
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.network.ApiResponse
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Organization
+import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.User
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.repository.IOrganizationRepository
 import ac.id.ubaya.aplikasimanajemenrapat.core.utils.DataMapper
 import android.util.Log
@@ -89,6 +90,27 @@ class OrganizationRepository @Inject constructor(
                 }
                 is ApiResponse.Empty -> {
                     emit(Resource.Success(null))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.errorMessage))
+                }
+            }
+        }
+    }
+
+    override fun getOrganizationMembers(
+        token: String,
+        organizationId: Int
+    ): Flow<Resource<List<User>>> {
+        return flow {
+            emit(Resource.Loading())
+            when (val apiResponse = organizationRemoteDataSource.getOrganizationMembers(token, organizationId).first()) {
+                is ApiResponse.Success -> {
+                    val userList = apiResponse.data.userData
+                    emit(Resource.Success(DataMapper.userResponseToModel(userList)))
+                }
+                is ApiResponse.Empty -> {
+                    emit(Resource.Success(listOf<User>()))
                 }
                 is ApiResponse.Error -> {
                     emit(Resource.Error(apiResponse.errorMessage))

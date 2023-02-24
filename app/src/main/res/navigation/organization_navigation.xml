@@ -7,17 +7,17 @@
 
     <fragment
         android:id="@+id/navigation_meetings"
-        android:name="ac.id.ubaya.aplikasimanajemenrapat.ui.organization.MeetingsListFragment"
+        android:name="ac.id.ubaya.aplikasimanajemenrapat.ui.organization.meetingList.MeetingsListFragment"
         android:label="fragment_meetings_list"
         tools:layout="@layout/fragment_meetings_list" />
     <fragment
         android:id="@+id/navigation_members"
-        android:name="ac.id.ubaya.aplikasimanajemenrapat.ui.organization.MemberListFragment"
+        android:name="ac.id.ubaya.aplikasimanajemenrapat.ui.organization.memberList.MemberListFragment"
         android:label="fragment_member_list"
         tools:layout="@layout/fragment_member_list" />
     <fragment
         android:id="@+id/navigation_leaderboard"
-        android:name="ac.id.ubaya.aplikasimanajemenrapat.ui.organization.LeaderboardFragment"
+        android:name="ac.id.ubaya.aplikasimanajemenrapat.ui.organization.leaderboard.LeaderboardFragment"
         android:label="fragment_leaderboard"
         tools:layout="@layout/fragment_leaderboard" />
 </navigation>

@@ -12,6 +12,14 @@ data class UserResponse(
 ) : Parcelable
 
 @Parcelize
+data class UserListResponse (
+
+	@field:SerializedName("data")
+	val userData: List<UserData>
+
+) : Parcelable
+
+@Parcelize
 data class UserData(
 
 	@field:SerializedName("level_id")
@@ -36,5 +44,8 @@ data class UserData(
 	val token: String? = null,
 
 	@field:SerializedName("level")
-	val level: LevelResponse
+	val level: LevelResponse,
+
+	@field:SerializedName("role")
+	val role: RoleResponse? = null
 ) : Parcelable

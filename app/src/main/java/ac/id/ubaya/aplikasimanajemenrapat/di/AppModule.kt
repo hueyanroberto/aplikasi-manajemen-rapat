@@ -1,5 +1,7 @@
 package ac.id.ubaya.aplikasimanajemenrapat.di
 
+import ac.id.ubaya.aplikasimanajemenrapat.core.domain.usecase.meeting.MeetingInteractor
+import ac.id.ubaya.aplikasimanajemenrapat.core.domain.usecase.meeting.MeetingUseCase
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.usecase.organization.OrganizationInteractor
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.usecase.organization.OrganizationUseCase
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.usecase.user.UserInteractor
@@ -22,4 +24,7 @@ abstract class AppModule {
 
     @Binds
     abstract fun provideOrganizationUseCase(organizationInteractor: OrganizationInteractor): OrganizationUseCase
+
+    @Binds
+    abstract fun provideMeetingUseCase(meetingInteractor: MeetingInteractor): MeetingUseCase
 }

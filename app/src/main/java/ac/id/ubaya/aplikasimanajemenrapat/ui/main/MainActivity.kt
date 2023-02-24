@@ -71,6 +71,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getListOrganization() {
+        Log.d("MainActivity", "getListOrganization: Method dipanggil")
         user?.let {
             mainViewModel.getListOrganization(it.token.toString()).observe(this) { organizationResponse ->
                 when (organizationResponse) {
@@ -159,11 +160,6 @@ class MainActivity : AppCompatActivity() {
 
             isAllFabVisible = false
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-//        getListOrganization()
     }
 
 }

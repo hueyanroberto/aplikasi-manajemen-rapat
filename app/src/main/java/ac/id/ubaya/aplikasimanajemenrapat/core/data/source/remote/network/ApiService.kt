@@ -1,6 +1,8 @@
 package ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.network
 
+import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.MeetingResponse
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.OrganizationResponse
+import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.UserListResponse
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.UserResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -59,4 +61,18 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Field("code") organizationCode: String
     ): OrganizationResponse
+
+    @GET("organization/meetings/{organization_id}")
+    @Headers("Accept: application/json")
+    suspend fun getListMeeting(
+        @Header("Authorization") token: String,
+        @Path("organization_id") organizationId: Int
+    ): MeetingResponse
+
+    @GET("organization/members/{organization_id}")
+    @Headers("Accept: application/json")
+    suspend fun getOrganizationMembers(
+        @Header("Authorization") token: String,
+        @Path("organization_id") organizationId: Int
+    ): UserListResponse
 }

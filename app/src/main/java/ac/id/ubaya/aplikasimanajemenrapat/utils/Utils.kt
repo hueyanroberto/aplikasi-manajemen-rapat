@@ -41,3 +41,8 @@ fun bitmapToBase64(bitmap: Bitmap): String {
     val imageByte = byteArrayOutputStream.toByteArray()
     return Base64.encodeToString(imageByte, Base64.DEFAULT)
 }
+
+fun convertDateFormat(date: Date): String {
+    val format = SimpleDateFormat("dd MMM yyyy HH:mm", Locale.getDefault())
+    return format.format(date)
+}

@@ -1,9 +1,9 @@
 package ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.datasource
 
-import ac.id.ubaya.aplikasimanajemenrapat.BuildConfig
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.network.ApiResponse
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.network.ApiService
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.OrganizationResponse
+import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.UserListResponse
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -67,6 +67,22 @@ class OrganizationRemoteDataSource @Inject constructor(private val apiService: A
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
                 Log.e("OrganizationRDataSource", "joinOrganization: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun getOrganizationMembers(token: String, organizationId: Int): Flow<ApiResponse<UserListResponse>> {
+        return flow {
+            try {
+                val userListResponse = apiService.getOrganizationMembers("Bearer $token", organizationId)
+                if (userListResponse.userData.isNotEmpty()) {
+                    emit(ApiResponse.Success(userListResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("OrganizationRDataSource", "getOrganizationMembers: $e")
             }
         }.flowOn(Dispatchers.IO)
     }

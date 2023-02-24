@@ -3,6 +3,7 @@ package ac.id.ubaya.aplikasimanajemenrapat.core.domain.usecase.organization
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.Resource
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.repository.OrganizationRepository
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Organization
+import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.User
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -27,5 +28,12 @@ class OrganizationInteractor @Inject constructor(
         organizationCode: String
     ): Flow<Resource<Organization?>> {
         return organizationRepository.joinOrganization(token, organizationCode)
+    }
+
+    override fun getOrganizationMembers(
+        token: String,
+        organizationId: Int
+    ): Flow<Resource<List<User>>> {
+        return organizationRepository.getOrganizationMembers(token, organizationId)
     }
 }
