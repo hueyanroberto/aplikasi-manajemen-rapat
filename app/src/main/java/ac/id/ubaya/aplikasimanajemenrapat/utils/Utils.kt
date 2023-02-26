@@ -46,3 +46,13 @@ fun convertDateFormat(date: Date): String {
     val format = SimpleDateFormat("dd MMM yyyy HH:mm", Locale.getDefault())
     return format.format(date)
 }
+
+fun convertDateFormatWithoutTime(date: Date): String {
+    val format = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+    return format.format(date)
+}
+
+fun convertTimeFormat(date: Date): String {
+    val format = SimpleDateFormat("HH:mm", Locale.getDefault())
+    return format.format(date)
+}

@@ -14,6 +14,8 @@
     <string name="organization_joined">You are already in this organization</string>
     <string name="organization_not_found">Organization not found. Please check the organization code</string>
     <string name="organization_code_length">Organization code is 7 digit long</string>
+    <string name="agenda_empty">Please fill the agenda</string>
+    <string name="participant_empty">Please select participant</string>
 
     <string name="username">Username</string>
     <string name="password">Password</string>
@@ -44,4 +46,20 @@
     <string name="meeting_not_started">Not yet started</string>
     <string name="meeting_started">Started</string>
     <string name="meeting_ended">Ended</string>
+    <string name="title">Title</string>
+    <string name="location_link">Location / Link</string>
+    <string name="date">Date</string>
+    <string name="end_time">End Time</string>
+    <string name="start_time">Start Time</string>
+    <string name="create_meeting">Create Meeting</string>
+    <string name="enter_start_time">Enter start time</string>
+    <string name="enter_end_time">Enter end time</string>
+    <string name="add_participant">Add Participant</string>
+    <string name="participant_count">%1$s participant(s)</string>
+    <string name="add_agenda">Add Agenda</string>
+    <string name="agenda_count">%1$s list(s)</string>
+    <string name="finish">Finish</string>
+    <string name="add_agenda_plus">+ Add Agenda</string>
+    <string name="no_data">No Data</string>
+    <string name="search">Search</string>
 </resources>

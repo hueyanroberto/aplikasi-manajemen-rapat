@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ac.id.ubaya.aplikasimanajemenrapat.databinding.FragmentMeetingsListBinding
+import ac.id.ubaya.aplikasimanajemenrapat.ui.meeting.create.CreateMeetingActivity
+import android.content.Intent
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -40,6 +42,12 @@ class MeetingsListFragment : Fragment() {
         binding.recyclerMeetingList.layoutManager = LinearLayoutManager(context)
 
         getMeetingList(token, organizationId)
+
+        binding.fabCreateMeeting.setOnClickListener {
+            val intent = Intent(context, CreateMeetingActivity::class.java)
+            intent.putExtra(CreateMeetingActivity.EXTRA_ORGANIZATION_ID, organizationId)
+            context?.startActivity(intent)
+        }
     }
 
     private fun getMeetingList(token: String, organizationId: Int) {

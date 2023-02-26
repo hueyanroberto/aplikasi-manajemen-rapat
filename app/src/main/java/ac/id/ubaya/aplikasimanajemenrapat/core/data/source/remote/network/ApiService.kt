@@ -4,6 +4,8 @@ import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.Meeti
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.OrganizationResponse
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.UserListResponse
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.UserResponse
+import org.json.JSONObject
+import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -12,6 +14,7 @@ import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
 
@@ -75,4 +78,18 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("organization_id") organizationId: Int
     ): UserListResponse
+
+    @GET("meeting/create/member")
+    @Headers("Accept: application/json")
+    suspend fun getMemberToBeChosen(
+        @Header("Authorization") token: String,
+        @Query("organizationId") organizationId: Int
+    ): UserListResponse
+
+    @POST("meeting")
+    @Headers("Accept: application/json")
+    suspend fun createMeeting(
+        @Header("Authorization") token: String,
+        @Body body: JSONObject
+    ): MeetingResponse
 }
