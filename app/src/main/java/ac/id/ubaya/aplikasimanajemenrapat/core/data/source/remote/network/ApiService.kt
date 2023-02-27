@@ -4,6 +4,7 @@ import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.Meeti
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.OrganizationResponse
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.UserListResponse
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.UserResponse
+import okhttp3.RequestBody
 import org.json.JSONObject
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -90,6 +91,6 @@ interface ApiService {
     @Headers("Accept: application/json")
     suspend fun createMeeting(
         @Header("Authorization") token: String,
-        @Body body: JSONObject
+        @Body body: RequestBody
     ): MeetingResponse
 }

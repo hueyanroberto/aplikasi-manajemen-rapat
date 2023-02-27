@@ -23,6 +23,9 @@ class MeetingsListFragment : Fragment() {
 
     private val viewModel: MeetingListViewModel by viewModels()
 
+    private var token = ""
+    private var organizationId = -1
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,12 +34,16 @@ class MeetingsListFragment : Fragment() {
         return binding.root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        token = requireArguments().getString("token", "")
+        organizationId = requireArguments().getInt("organizationId", -1)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val token = arguments?.getString("token", "")
-        val organizationId = arguments?.getInt("organizationId", -1)
 
-        if (token == null || organizationId == null ) return
         if (token.isEmpty() || organizationId == -1) return
 
         binding.recyclerMeetingList.layoutManager = LinearLayoutManager(context)
@@ -75,5 +82,18 @@ class MeetingsListFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (newMeetingAdded) {
+            newMeetingAdded = false
+            getMeetingList(token, organizationId)
+        }
+
+    }
+
+    companion object {
+        var newMeetingAdded = false
     }
 }

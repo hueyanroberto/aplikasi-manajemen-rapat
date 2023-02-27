@@ -9,6 +9,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.Date
@@ -63,19 +65,20 @@ class MeetingRemoteDataSource @Inject constructor(private val apiService: ApiSer
 
         val jsonAgenda = JSONArray(agenda)
         val jsonParticipant = JSONArray(participant)
-        val body = JSONObject()
-        body.put("title", title)
-        body.put("start_time", startTime)
-        body.put("end_time", endTime)
-        body.put("location", location)
-        body.put("description", description)
-        body.put("organization_id", organizationId)
-        body.put("agendas", jsonAgenda)
-        body.put("participants", jsonParticipant)
+        val jsonObject = JSONObject()
+        jsonObject.put("title", title)
+        jsonObject.put("start_time", startTime)
+        jsonObject.put("end_time", endTime)
+        jsonObject.put("location", location)
+        jsonObject.put("description", description)
+        jsonObject.put("organization_id", organizationId)
+        jsonObject.put("agendas", jsonAgenda)
+        jsonObject.put("participants", jsonParticipant)
+        val body = jsonObject.toString().toRequestBody("application/json".toMediaTypeOrNull())
 
         return flow {
             try {
-                val meetingResponse = apiService.createMeeting(token, body)
+                val meetingResponse = apiService.createMeeting("Bearer $token", body)
                 if (meetingResponse.dataMeeting.isNotEmpty()) {
                     emit(ApiResponse.Success(meetingResponse))
                 } else {

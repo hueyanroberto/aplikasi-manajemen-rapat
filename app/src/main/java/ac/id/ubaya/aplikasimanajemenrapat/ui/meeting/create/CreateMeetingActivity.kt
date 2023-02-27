@@ -1,10 +1,12 @@
 package ac.id.ubaya.aplikasimanajemenrapat.ui.meeting.create
 
 import ac.id.ubaya.aplikasimanajemenrapat.R
+import ac.id.ubaya.aplikasimanajemenrapat.core.data.Resource
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.User
 import ac.id.ubaya.aplikasimanajemenrapat.databinding.ActivityCreateMeetingBinding
 import ac.id.ubaya.aplikasimanajemenrapat.ui.UserViewModel
 import ac.id.ubaya.aplikasimanajemenrapat.ui.login.LoginActivity
+import ac.id.ubaya.aplikasimanajemenrapat.ui.organization.meetingList.MeetingsListFragment
 import ac.id.ubaya.aplikasimanajemenrapat.utils.convertDateFormatWithoutTime
 import ac.id.ubaya.aplikasimanajemenrapat.utils.convertTimeFormat
 import android.app.DatePickerDialog
@@ -17,7 +19,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class CreateMeetingActivity : AppCompatActivity(), View.OnClickListener {
@@ -30,13 +34,13 @@ class CreateMeetingActivity : AppCompatActivity(), View.OnClickListener {
     private val userViewModel: UserViewModel by viewModels()
     private val createMeetingViewModel: CreateMeetingViewModel by viewModels()
 
-    private var year: Int? = null
-    private var month: Int? = null
-    private var day: Int? = null
-    private var startHour: Int? = null
-    private var startMinute: Int? = null
-    private var endHour: Int? = null
-    private var endMinute: Int? = null
+    private var year: Int = -1
+    private var month: Int = -1
+    private var day: Int = -1
+    private var startHour: Int = -1
+    private var startMinute: Int = -1
+    private var endHour: Int = -1
+    private var endMinute: Int = -1
 
     private val listAgenda = arrayListOf<String>()
     private val listParticipant = arrayListOf<Int>()
@@ -76,8 +80,30 @@ class CreateMeetingActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun createMeeting() {
-
+    private fun createMeeting(
+        token: String, title: String, startTime: Date, endTime: Date,
+        location: String, description: String, organizationId: Int,
+        participant: List<Int>, agenda: List<String>
+    ) {
+        createMeetingViewModel.createMeeting(token, title, startTime, endTime, location, description, organizationId, participant, agenda)
+            .observe(this) { meetingResource ->
+                when (meetingResource) {
+                    is Resource.Loading -> {
+                        binding.imageCreateMeetingCreate.setOnClickListener(null)
+                    }
+                    is Resource.Success -> {
+                        MeetingsListFragment.newMeetingAdded = true
+                        finish()
+                    }
+                    is Resource.Error -> {
+                        binding.imageCreateMeetingCreate.setOnClickListener(this)
+                        Snackbar.make(binding.imageCreateMeetingCreate, resources.getString(R.string.internal_error_message), Snackbar.LENGTH_LONG)
+                            .setBackgroundTint(resources.getColor(R.color.secondary_dark, theme))
+                            .setTextColor(resources.getColor(R.color.white, theme))
+                            .show()
+                    }
+                }
+            }
     }
 
     override fun onClick(v: View) {
@@ -114,11 +140,13 @@ class CreateMeetingActivity : AppCompatActivity(), View.OnClickListener {
                     when (v.id) {
                         binding.btnStartTime.id -> {
                             binding.textStartTime.text = convertTimeFormat(calendarGet.time)
+                            binding.textStartTime.setTextColor(resources.getColor(R.color.black, theme))
                             this.startHour = h
                             this.startMinute = m
                         }
                         binding.btnEndTime.id -> {
                             binding.textEndTime.text = convertTimeFormat(calendarGet.time)
+                            binding.textEndTime.setTextColor(resources.getColor(R.color.black, theme))
                             this.endHour = h
                             this.endMinute = m
                         }
@@ -139,7 +167,60 @@ class CreateMeetingActivity : AppCompatActivity(), View.OnClickListener {
                 intent.putExtra(ChooseParticipantActivity.EXTRA_PARTICIPANT, listParticipant)
                 resultLauncher.launch(intent)
             }
-            binding.imageCreateMeetingCreate.id -> createMeeting()
+            binding.imageCreateMeetingCreate.id -> {
+                binding.textInputMeetingTitle.error = null
+                binding.textInputMeetingLocation.error = null
+                binding.textInputMeetingDescription.error = null
+                binding.textInputMeetingDate.error = null
+
+                val title = binding.editMeetingTitle.text.toString().trim()
+                val location = binding.editMeetingLocation.text.toString().trim()
+                val description = binding.editMeetingDescription.text.toString().trim()
+
+                when {
+                    title.isEmpty() -> {
+                        binding.textInputMeetingTitle.error = resources.getString(R.string.required_field)
+                    }
+                    location.isEmpty() -> {
+                        binding.textInputMeetingLocation.error = resources.getString(R.string.required_field)
+                    }
+                    description.isEmpty() -> {
+                        binding.textInputMeetingDescription.error = resources.getString(R.string.required_field)
+                    }
+                    year == -1 || month == -1 || day == -1 -> {
+                        binding.textInputMeetingDate.error = resources.getString(R.string.required_field)
+                    }
+                    startHour == -1 || startMinute == -1 -> {
+                        Toast.makeText(this, "Something", Toast.LENGTH_SHORT).show()
+                    }
+                    endHour == -1 || endMinute == -1 -> {
+                        Toast.makeText(this, "Something", Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        val startTime = Calendar.getInstance()
+                        startTime.set(year, month, day, startHour, startMinute)
+                        val endTime = Calendar.getInstance()
+                        endTime.set(year, month, day, endHour, endMinute)
+
+                        if (endTime.time <= startTime.time) {
+                            binding.textEndTime.setTextColor(resources.getColor(R.color.secondary_dark, theme))
+                            Toast.makeText(this, "Something", Toast.LENGTH_SHORT).show()
+                        } else {
+                            createMeeting(
+                                token = user.token.toString(),
+                                title = title,
+                                location = location,
+                                description = description,
+                                startTime = startTime.time,
+                                endTime = endTime.time,
+                                participant = listParticipant,
+                                agenda = listAgenda,
+                                organizationId = organizationId
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 
