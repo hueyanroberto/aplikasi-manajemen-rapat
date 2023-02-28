@@ -13,5 +13,26 @@ data class Meeting(
     val location: String,
     val id: Int,
     val title: String,
-    val status: Int
+    val status: Int,
+    val userStatus: Int = -1,
+    val agenda: List<Agenda> = listOf(),
+    val participant: List<Participant> = listOf()
+): Parcelable
+
+@Parcelize
+data class Agenda(
+    val task: String,
+    val meetingId: Int,
+    val id: Int,
+    val completed: Int
+): Parcelable
+
+@Parcelize
+data class Participant(
+    val name: String,
+    val profilePic: String,
+    val id: Int,
+    val email: String,
+    val status: Int,
+    val role: String
 ): Parcelable

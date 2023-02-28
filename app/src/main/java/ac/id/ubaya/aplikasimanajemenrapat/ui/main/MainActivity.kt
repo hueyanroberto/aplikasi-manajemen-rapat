@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 binding.imageLogOut.setOnClickListener {
-                    mainViewModel.logOut()
+                    mainViewModel.logOut(user?.token.toString())
                 }
             }
         }

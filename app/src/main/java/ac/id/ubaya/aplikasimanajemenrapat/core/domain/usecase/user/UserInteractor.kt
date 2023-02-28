@@ -13,6 +13,8 @@ class UserInteractor @Inject constructor(private val userRepository: UserReposit
     override fun register(email: String, password: String): Flow<Resource<User?>> =
         userRepository.register(email, password)
 
+    override suspend fun logout(token: String) = userRepository.logout(token)
+
     override fun registerNameAndProfilePic(token: String, userId: Int, name: String, profilePic: String) =
         userRepository.registerNameAndProfile(token, userId, name, profilePic)
 }

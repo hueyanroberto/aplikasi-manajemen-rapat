@@ -3,7 +3,9 @@ package ac.id.ubaya.aplikasimanajemenrapat.ui.organization.meetingList
 import ac.id.ubaya.aplikasimanajemenrapat.R
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Meeting
 import ac.id.ubaya.aplikasimanajemenrapat.databinding.ItemMeetingBinding
+import ac.id.ubaya.aplikasimanajemenrapat.ui.meeting.detail.MeetingActivity
 import ac.id.ubaya.aplikasimanajemenrapat.utils.convertDateFormat
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,6 +41,12 @@ class MeetingAdapter (private val meetings: List<Meeting>): RecyclerView.Adapter
                 0 -> binding.textMeetingStatus.text = itemView.context.getText(R.string.meeting_not_started)
                 1 -> binding.textMeetingStatus.text = itemView.context.getText(R.string.meeting_started)
                 2 -> binding.textMeetingStatus.text = itemView.context.getText(R.string.meeting_ended)
+            }
+
+            itemView.setOnClickListener {
+                val intent = Intent(itemView.context, MeetingActivity::class.java)
+                intent.putExtra(MeetingActivity.EXTRA_MEETING_ID, data.id)
+                itemView.context.startActivity(intent)
             }
         }
     }

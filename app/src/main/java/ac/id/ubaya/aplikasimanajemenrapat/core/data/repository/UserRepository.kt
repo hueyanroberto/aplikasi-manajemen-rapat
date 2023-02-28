@@ -6,6 +6,7 @@ import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.network.ApiRes
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.User
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.repository.IUserRepository
 import ac.id.ubaya.aplikasimanajemenrapat.core.utils.DataMapper
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
@@ -73,5 +74,9 @@ class UserRepository @Inject constructor(
                 }
             }
         }
+    }
+
+    override suspend fun logout(token: String) {
+        userRemoteDataSource.logout(token)
     }
 }

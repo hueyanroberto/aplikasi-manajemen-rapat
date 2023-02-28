@@ -1,36 +1,34 @@
-package ac.id.ubaya.aplikasimanajemenrapat.ui.organization.memberList
+package ac.id.ubaya.aplikasimanajemenrapat.ui.meeting.detail.participant
 
 import ac.id.ubaya.aplikasimanajemenrapat.R
-import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.User
+import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Participant
 import ac.id.ubaya.aplikasimanajemenrapat.databinding.ItemPersonBinding
 import ac.id.ubaya.aplikasimanajemenrapat.utils.BASE_ASSET_URL
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class MemberListAdapter(private val members: List<User>): RecyclerView.Adapter<MemberListAdapter.ViewHolder>() {
+class MeetingParticipantAdapter(
+    private val listParticipant: List<Participant>
+): RecyclerView.Adapter<MeetingParticipantAdapter.ViewHolder>() {
+
+    class ViewHolder(val binding: ItemPersonBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_person, parent, false)
-        return ViewHolder(view)
+        val binding = ItemPersonBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = members.size
+    override fun getItemCount(): Int = listParticipant.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val data = members[position]
-        holder.bind(data)
-    }
-
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val binding = ItemPersonBinding.bind(itemView)
-        fun bind(data: User) {
+        val data = listParticipant[position]
+        with(holder) {
             binding.textPersonName.text = data.name
-            binding.textPersonRole.text = data.role?.name
+            binding.textPersonRole.text = data.role
 
             Glide.with(itemView.context)
                 .load("$BASE_ASSET_URL/Profile/user/${data.profilePic}")

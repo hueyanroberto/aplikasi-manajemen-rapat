@@ -1,9 +1,6 @@
 package ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.network
 
-import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.MeetingResponse
-import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.OrganizationResponse
-import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.UserListResponse
-import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.UserResponse
+import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.*
 import okhttp3.RequestBody
 import org.json.JSONObject
 import retrofit2.http.Body
@@ -32,6 +29,11 @@ interface ApiService {
         @Field("email") email: String,
         @Field("password") password: String
     ): UserResponse
+
+    @POST("logout")
+    suspend fun logout(
+        @Header("Authorization") token: String
+    )
 
     @FormUrlEncoded
     @PUT("register")
@@ -93,4 +95,18 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Body body: RequestBody
     ): MeetingResponse
+
+    @GET("meeting")
+    @Headers("Accept: application/json")
+    suspend fun getMeetingDetail(
+        @Header("Authorization") token: String,
+        @Query("meeting_id") meetingId: Int
+    ): MeetingDetailResponse
+
+    @POST("agenda")
+    @Headers("Accept: application/json")
+    suspend fun addAgenda(
+        @Header("Authorization") token: String,
+        @Body body: RequestBody
+    ): AgendaResponse
 }

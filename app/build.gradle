@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -88,4 +89,9 @@ dependencies {
     implementation "androidx.datastore:datastore-preferences:1.0.0"
 
     implementation 'androidx.paging:paging-runtime:2.1.2'
+
+    //Firebase
+    implementation platform('com.google.firebase:firebase-bom:31.2.2')
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 }

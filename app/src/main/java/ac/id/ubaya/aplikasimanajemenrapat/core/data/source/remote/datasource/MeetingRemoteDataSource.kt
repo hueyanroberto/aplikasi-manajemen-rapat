@@ -2,6 +2,8 @@ package ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.datasource
 
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.network.ApiResponse
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.network.ApiService
+import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.AgendaResponse
+import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.MeetingDetailResponse
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.MeetingResponse
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.UserListResponse
 import android.util.Log
@@ -87,6 +89,44 @@ class MeetingRemoteDataSource @Inject constructor(private val apiService: ApiSer
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
                 Log.e("MeetingRDataSource", "createMeeting: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun getMeetingDetail(token: String, meetingId: Int): Flow<ApiResponse<MeetingDetailResponse>> {
+        return flow {
+            try {
+                val meetingDetailResponse = apiService.getMeetingDetail("Bearer $token", meetingId)
+                if (meetingDetailResponse.meetingDetailData != null) {
+                    emit(ApiResponse.Success(meetingDetailResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("MeetingRDataSource", "getMeetingDetail: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun addAgenda(token: String, meetingId: Int, agendas: ArrayList<String>): Flow<ApiResponse<AgendaResponse>> {
+        val jsonAgenda = JSONArray(agendas)
+        val jsonObject = JSONObject()
+        jsonObject.put("meeting_id", meetingId)
+        jsonObject.put("agendas", jsonAgenda)
+        val body = jsonObject.toString().toRequestBody("application/json".toMediaTypeOrNull())
+
+        return flow {
+            try {
+                val agendaResponse = apiService.addAgenda("Bearer $token", body)
+                if (agendaResponse.agendaData.isNotEmpty()) {
+                    emit(ApiResponse.Success(agendaResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("MeetingRDataSource", "addAgenda: $e")
             }
         }.flowOn(Dispatchers.IO)
     }

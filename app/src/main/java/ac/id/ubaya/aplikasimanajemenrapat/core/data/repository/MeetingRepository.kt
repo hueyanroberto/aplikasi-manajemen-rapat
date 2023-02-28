@@ -3,6 +3,7 @@ package ac.id.ubaya.aplikasimanajemenrapat.core.data.repository
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.Resource
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.datasource.MeetingRemoteDataSource
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.network.ApiResponse
+import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Agenda
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Meeting
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.User
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.repository.IMeetingRepository
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.flow
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.collections.ArrayList
 
 @Singleton
 class MeetingRepository @Inject constructor(
@@ -76,6 +78,46 @@ class MeetingRepository @Inject constructor(
                 }
                 is ApiResponse.Empty -> {
                     emit(Resource.Success(listOf<Meeting>()))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.errorMessage))
+                }
+            }
+        }
+    }
+
+    override fun getMeetingDetail(token: String, meetingId: Int): Flow<Resource<Meeting?>> {
+        return flow {
+            emit(Resource.Loading())
+            when (val apiResponse = meetingRemoteDataSource.getMeetingDetail(token, meetingId).first()) {
+                is ApiResponse.Success -> {
+                    val meetingData = apiResponse.data.meetingDetailData
+                    emit(Resource.Success(DataMapper.meetingDataResponseToModel(meetingData!!)))
+                }
+                is ApiResponse.Empty -> {
+                    emit(Resource.Success(null))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.errorMessage))
+                }
+            }
+        }
+    }
+
+    override fun addAgenda(
+        token: String,
+        meetingId: Int,
+        agendas: ArrayList<String>
+    ): Flow<Resource<List<Agenda>>> {
+        return flow {
+            emit(Resource.Loading())
+            when (val apiResponse = meetingRemoteDataSource.addAgenda(token, meetingId, agendas).first()) {
+                is ApiResponse.Success -> {
+                    val agendaData = apiResponse.data.agendaData
+                    emit(Resource.Success(DataMapper.agendaResponseToModel(agendaData)))
+                }
+                is ApiResponse.Empty -> {
+                    emit(Resource.Success(listOf<Agenda>()))
                 }
                 is ApiResponse.Error -> {
                     emit(Resource.Error(apiResponse.errorMessage))

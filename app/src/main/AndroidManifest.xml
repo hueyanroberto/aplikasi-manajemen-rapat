@@ -22,6 +22,12 @@
         android:theme="@style/Theme.AplikasiManajemenRapat"
         tools:targetApi="31">
         <activity
+            android:name=".ui.meeting.detail.agenda.MeetingAddAgendaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.meeting.detail.MeetingActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.meeting.create.AddAgendaActivity"
             android:exported="false" />
         <activity

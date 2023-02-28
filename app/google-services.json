@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "498227645541",
+    "project_id": "aplikasi-manjemen-rapat",
+    "storage_bucket": "aplikasi-manjemen-rapat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:498227645541:android:caed088212d76ad86e0a8c",
+        "android_client_info": {
+          "package_name": "ac.id.ubaya.aplikasimanajemenrapat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "498227645541-0q7coro6f07p0tddg7atusflru0d4rko.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfSWLCrfL-0M5eiJANWy6GH-LF-D6uiBA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "498227645541-0q7coro6f07p0tddg7atusflru0d4rko.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

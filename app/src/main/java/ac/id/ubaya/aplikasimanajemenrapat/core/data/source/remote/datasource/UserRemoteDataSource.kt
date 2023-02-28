@@ -47,6 +47,10 @@ class UserRemoteDataSource @Inject constructor(private val apiService: ApiServic
         }.flowOn(Dispatchers.IO)
     }
 
+    suspend fun logout (token: String) {
+        apiService.logout(token)
+    }
+
     suspend fun registerNameAndProfilePic(
         token: String,
         userId: Int,

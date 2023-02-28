@@ -4,6 +4,7 @@ import ac.id.ubaya.aplikasimanajemenrapat.core.data.Resource
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Organization
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.User
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.usecase.organization.OrganizationUseCase
+import ac.id.ubaya.aplikasimanajemenrapat.core.domain.usecase.user.UserUseCase
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.usecase.userPreference.UserPreferenceUseCase
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,7 +14,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val userPreferenceUseCase: UserPreferenceUseCase,
-    private val organizationUseCase: OrganizationUseCase
+    private val organizationUseCase: OrganizationUseCase,
+    private val userUseCase: UserUseCase
 ): ViewModel() {
 
     private val _isUserGet = MutableLiveData<Boolean>()
@@ -23,9 +25,10 @@ class MainViewModel @Inject constructor(
         _isUserGet.value = false
     }
 
-    fun logOut() {
+    fun logOut(token: String) {
         viewModelScope.launch {
             userPreferenceUseCase.logout()
+            userUseCase.logout(token)
         }
     }
 
