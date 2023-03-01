@@ -11,4 +11,5 @@ interface IOrganizationRepository {
     fun createOrganization(name: String, description: String, profilePic: String, token: String): Flow<Resource<Organization?>>
     fun joinOrganization(token: String, organizationCode: String): Flow<Resource<Organization?>>
     fun getOrganizationMembers(token: String, organizationId: Int): Flow<Resource<List<User>>>
+    fun updateRole(token: String, organizationId: Int, userId: Int, roleId: Int): Flow<Resource<User>>
 }

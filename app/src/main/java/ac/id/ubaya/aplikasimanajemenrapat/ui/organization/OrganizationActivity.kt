@@ -10,7 +10,6 @@ import android.content.Intent
 import android.os.Build.VERSION
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.os.bundleOf
@@ -65,11 +64,16 @@ class OrganizationActivity : AppCompatActivity() {
 
                 val argumentToken = NavArgument.Builder().setDefaultValue(user?.token ?: "").build()
                 val argumentOrganizationId = NavArgument.Builder().setDefaultValue(organization?.id ?: -1).build()
+                val argumentRoleId = NavArgument.Builder().setDefaultValue(organization?.role?.id ?: -1).build()
 
                 destinationMeeting?.addArgument("token", argumentToken)
                 destinationMeeting?.addArgument("organizationId", argumentOrganizationId)
+                destinationMeeting?.addArgument("roleId", argumentRoleId)
+
                 destinationMember?.addArgument("token", argumentToken)
                 destinationMember?.addArgument("organizationId", argumentOrganizationId)
+                destinationMember?.addArgument("roleId", argumentRoleId)
+
                 destinationLeaderboard?.addArgument("token", argumentToken)
                 destinationLeaderboard?.addArgument("organizationId", argumentOrganizationId)
 

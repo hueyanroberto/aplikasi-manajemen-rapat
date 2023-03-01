@@ -42,7 +42,7 @@
     <string name="meetings">Meetings</string>
     <string name="members">Members</string>
     <string name="leaderboard">Leaderboard</string>
-    <string name="send_email">send email</string>
+    <string name="send_email">Send email</string>
     <string name="meeting_not_started">Not yet started</string>
     <string name="meeting_started">Started</string>
     <string name="meeting_ended">Ended</string>
@@ -65,7 +65,11 @@
     <string name="tab_detail">detail</string>
     <string name="tab_agenda">Agenda</string>
     <string name="tab_participant">Participant</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="agenda_task">%1$s. %2$s</string>
+    <string name="set_as_admin">Set as admin</string>
+    <string name="set_as_member">Set as member</string>
+    <string name="agenda_detail">Agenda Detail</string>
+    <string name="more">More</string>
+    <string name="write_a_suggestion">Write a suggestion</string>
+    <string name="add_suggestion">Add Suggestion</string>
 </resources>

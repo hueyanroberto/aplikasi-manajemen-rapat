@@ -2,10 +2,7 @@ package ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.datasource
 
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.network.ApiResponse
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.network.ApiService
-import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.AgendaResponse
-import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.MeetingDetailResponse
-import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.MeetingResponse
-import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.UserListResponse
+import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.*
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -127,6 +124,38 @@ class MeetingRemoteDataSource @Inject constructor(private val apiService: ApiSer
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
                 Log.e("MeetingRDataSource", "addAgenda: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun getListSuggestion(token: String, agendaId: Int): Flow<ApiResponse<SuggestionListResponse>> {
+        return flow {
+            try {
+                val suggestionListResponse = apiService.getListSuggestion("Bearer $token", agendaId)
+                if (suggestionListResponse.suggestionItemList.isNotEmpty()) {
+                    emit(ApiResponse.Success(suggestionListResponse))
+                }else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("MeetingRDataSource", "getListSuggestion: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun addSuggestion(token: String, agendaId: Int, suggestion: String): Flow<ApiResponse<SuggestionResponse>> {
+        return flow {
+            try {
+                val suggestionResponse = apiService.addSuggestion("Bearer $token", agendaId, suggestion)
+                if (suggestionResponse.suggestionItem != null) {
+                    emit(ApiResponse.Success(suggestionResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("MeetingRDataSource", "addSuggestion: $e")
             }
         }.flowOn(Dispatchers.IO)
     }

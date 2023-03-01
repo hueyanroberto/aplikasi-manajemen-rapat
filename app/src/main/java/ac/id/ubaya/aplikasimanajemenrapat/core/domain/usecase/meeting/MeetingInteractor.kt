@@ -4,6 +4,7 @@ import ac.id.ubaya.aplikasimanajemenrapat.core.data.Resource
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.repository.MeetingRepository
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Agenda
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Meeting
+import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Suggestion
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.User
 import kotlinx.coroutines.flow.Flow
 import java.util.*
@@ -40,5 +41,17 @@ class MeetingInteractor @Inject constructor(
         agendas: ArrayList<String>
     ): Flow<Resource<List<Agenda>>> {
         return meetingRepository.addAgenda(token, meetingId, agendas)
+    }
+
+    override fun getListSuggestion(token: String, agendaId: Int): Flow<Resource<List<Suggestion>>> {
+        return meetingRepository.getListSuggestion(token, agendaId)
+    }
+
+    override fun addSuggestion(
+        token: String,
+        agendaId: Int,
+        suggestion: String
+    ): Flow<Resource<Suggestion>> {
+        return meetingRepository.addSuggestion(token, agendaId, suggestion)
     }
 }

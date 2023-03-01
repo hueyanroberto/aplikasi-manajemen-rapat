@@ -4,6 +4,7 @@ import ac.id.ubaya.aplikasimanajemenrapat.R
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.User
 import ac.id.ubaya.aplikasimanajemenrapat.databinding.ItemPersonBinding
 import ac.id.ubaya.aplikasimanajemenrapat.utils.BASE_ASSET_URL
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
@@ -13,6 +14,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
 class MemberListAdapter(private val members: List<User>): RecyclerView.Adapter<MemberListAdapter.ViewHolder>() {
+
+    private lateinit var onItemClickCallback: OnItemClickCallBack
+
+    fun setOnItemLongClickCallback(onItemClickCallback: OnItemClickCallBack) {
+        this.onItemClickCallback = onItemClickCallback
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_person, parent, false)
@@ -24,6 +31,12 @@ class MemberListAdapter(private val members: List<User>): RecyclerView.Adapter<M
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = members[position]
         holder.bind(data)
+
+        holder.itemView.setOnLongClickListener {
+            onItemClickCallback.onItemLongClickCallback(data, holder.adapterPosition)
+            true
+        }
+
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -45,5 +58,9 @@ class MemberListAdapter(private val members: List<User>): RecyclerView.Adapter<M
                 itemView.context.startActivity(intent)
             }
         }
+    }
+
+    interface OnItemClickCallBack {
+        fun onItemLongClickCallback(user: User, position: Int)
     }
 }

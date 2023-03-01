@@ -5,6 +5,7 @@ import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.datasource.Mee
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.network.ApiResponse
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Agenda
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Meeting
+import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Suggestion
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.User
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.repository.IMeetingRepository
 import ac.id.ubaya.aplikasimanajemenrapat.core.utils.DataMapper
@@ -118,6 +119,46 @@ class MeetingRepository @Inject constructor(
                 }
                 is ApiResponse.Empty -> {
                     emit(Resource.Success(listOf<Agenda>()))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.errorMessage))
+                }
+            }
+        }
+    }
+
+    override fun getListSuggestion(token: String, agendaId: Int): Flow<Resource<List<Suggestion>>> {
+        return flow {
+            emit(Resource.Loading())
+            when (val apiResponse = meetingRemoteDataSource.getListSuggestion(token, agendaId).first()) {
+                is ApiResponse.Success -> {
+                    val suggestionList = apiResponse.data.suggestionItemList
+                    emit(Resource.Success(DataMapper.suggestionResponseToModel(suggestionList)))
+                }
+                is ApiResponse.Empty -> {
+                    emit(Resource.Success(listOf<Suggestion>()))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.errorMessage))
+                }
+            }
+        }
+    }
+
+    override fun addSuggestion(
+        token: String,
+        agendaId: Int,
+        suggestion: String
+    ): Flow<Resource<Suggestion>> {
+        return flow {
+            emit(Resource.Loading())
+            when (val apiResponse = meetingRemoteDataSource.addSuggestion(token, agendaId, suggestion).first()) {
+                is ApiResponse.Success -> {
+                    val suggestionItem = apiResponse.data.suggestionItem!!
+                    emit(Resource.Success(DataMapper.suggestionResponseToModel(suggestionItem)))
+                }
+                is ApiResponse.Empty -> {
+                    emit(Resource.Error("Unauthorized"))
                 }
                 is ApiResponse.Error -> {
                     emit(Resource.Error(apiResponse.errorMessage))

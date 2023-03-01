@@ -92,11 +92,11 @@ class MainActivity : AppCompatActivity() {
                         binding.progressBarMain.visibility = View.GONE
                         binding.refreshMain.isRefreshing = false
 
-                        val organization = organizationResponse.data
-                        if (organization != null) {
-                            val adapter = OrganizationAdapter(organization)
-                            binding.recyclerOrganizations.adapter = adapter
-                        }
+//                        val organization = organizationResponse.data
+//                        if (organization != null) {
+//                            val adapter = OrganizationAdapter(organization)
+//                            binding.recyclerOrganizations.adapter = adapter
+//                        }
                         Snackbar.make(binding.fabAddOrganization, resources.getString(R.string.internal_error_message), Snackbar.LENGTH_LONG)
                             .setBackgroundTint(resources.getColor(R.color.secondary_dark, theme))
                             .setTextColor(resources.getColor(R.color.white, theme))

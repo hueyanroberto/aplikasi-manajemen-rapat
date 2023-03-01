@@ -82,6 +82,16 @@ interface ApiService {
         @Path("organization_id") organizationId: Int
     ): UserListResponse
 
+    @FormUrlEncoded
+    @PUT("organization/role")
+    @Headers("Accept: application/json")
+    suspend fun updateRole(
+        @Header("Authorization") token: String,
+        @Field("organization_id") organizationId: Int,
+        @Field("user_id") userId: Int,
+        @Field("role_id") roleId: Int
+    ): UserResponse
+
     @GET("meeting/create/member")
     @Headers("Accept: application/json")
     suspend fun getMemberToBeChosen(
@@ -109,4 +119,19 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Body body: RequestBody
     ): AgendaResponse
+
+    @GET("agenda/suggestion")
+    suspend fun getListSuggestion(
+        @Header("Authorization") token: String,
+        @Query("agenda_id") agendaId: Int
+    ): SuggestionListResponse
+
+    @FormUrlEncoded
+    @POST("agenda/suggestion")
+    @Headers("Accept: application/json")
+    suspend fun addSuggestion(
+        @Header("Authorization") token: String,
+        @Field("agenda_id") agendaId: Int,
+        @Field("suggestion") suggestion: String
+    ): SuggestionResponse
 }

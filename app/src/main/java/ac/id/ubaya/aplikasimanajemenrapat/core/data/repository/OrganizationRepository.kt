@@ -27,20 +27,22 @@ class OrganizationRepository @Inject constructor(
             when (val apiResponse = organizationRemoteDataSource.getListOrganization(token).first()) {
                 is ApiResponse.Success -> {
                     val organizationList = apiResponse.data.organizationData
-                    Log.d("OrganizationRepository", organizationList.toString())
-                    organizationLocalDataSource.deleteAll()
-                    organizationLocalDataSource.insert(DataMapper.organizationResponseToEntity(organizationList))
-
-                    val organization = organizationLocalDataSource.getOrganizations().first()
-                    emit(Resource.Success(DataMapper.organizationEntityToModel(organization)))
+//                    Log.d("OrganizationRepository", organizationList.toString())
+//                    organizationLocalDataSource.deleteAll()
+//                    organizationLocalDataSource.insert(DataMapper.organizationResponseToEntity(organizationList))
+//
+//                    val organization = organizationLocalDataSource.getOrganizations().first()
+//                    emit(Resource.Success(DataMapper.organizationEntityToModel(organization)))
+                    emit(Resource.Success(DataMapper.organizationResponseToModel(organizationList)))
                 }
                 is ApiResponse.Empty -> {
                     organizationLocalDataSource.deleteAll()
                     emit(Resource.Success(listOf<Organization>()))
                 }
                 is ApiResponse.Error -> {
-                    val organization = organizationLocalDataSource.getOrganizations().first()
-                    emit(Resource.Error(apiResponse.errorMessage, DataMapper.organizationEntityToModel(organization)))
+//                    val organization = organizationLocalDataSource.getOrganizations().first()
+//                    emit(Resource.Error(apiResponse.errorMessage, DataMapper.organizationEntityToModel(organization)))
+                    emit(Resource.Error(apiResponse.errorMessage))
                 }
             }
         }
@@ -111,6 +113,31 @@ class OrganizationRepository @Inject constructor(
                 }
                 is ApiResponse.Empty -> {
                     emit(Resource.Success(listOf<User>()))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.errorMessage))
+                }
+            }
+        }
+    }
+
+    override fun updateRole(
+        token: String,
+        organizationId: Int,
+        userId: Int,
+        roleId: Int
+    ): Flow<Resource<User>> {
+        return flow {
+            Log.d("OrgRepository", "Line 131")
+            emit(Resource.Loading())
+            when (val apiResponse = organizationRemoteDataSource.updateRole(token, organizationId, userId, roleId).first()) {
+                is ApiResponse.Success -> {
+                    Log.d("OrgRepository", "Line 135")
+                    val user = apiResponse.data.userData!!
+                    emit(Resource.Success(DataMapper.userResponseToModel(listOf(user))[0]))
+                }
+                is ApiResponse.Empty -> {
+                    emit(Resource.Error("Unauthenticated"))
                 }
                 is ApiResponse.Error -> {
                     emit(Resource.Error(apiResponse.errorMessage))

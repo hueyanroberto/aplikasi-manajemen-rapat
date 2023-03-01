@@ -60,7 +60,8 @@ object DataMapper {
                 description = it.description,
                 profilePicture = it.profilePicture,
                 leaderboardStart = it.leaderboardStart?.let { date -> format.format(date) },
-                leaderboardEnd = it.leaderboardEnd?.let { date -> format.format(date) }
+                leaderboardEnd = it.leaderboardEnd?.let { date -> format.format(date) },
+                role = it.role?.let { roleResponse -> roleResponseToModel(roleResponse) }
             )
         }
     }
@@ -133,4 +134,26 @@ object DataMapper {
                 role = it.role
             )
         }
+
+    fun suggestionResponseToModel(listSuggestion: List<SuggestionItem>): List<Suggestion> =
+        listSuggestion.map {
+            Suggestion(
+                id = it.id,
+                userId = it.userId,
+                agendaId = it.agendaId,
+                accepted = it.accepted,
+                suggestion = it.suggestion,
+                user = it.user
+            )
+        }
+
+    fun suggestionResponseToModel(suggestion: SuggestionItem): Suggestion =
+        Suggestion(
+            id = suggestion.id,
+            userId = suggestion.userId,
+            agendaId = suggestion.agendaId,
+            accepted = suggestion.accepted,
+            suggestion = suggestion.suggestion,
+            user = suggestion.user
+        )
 }

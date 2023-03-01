@@ -10,7 +10,8 @@ import ac.id.ubaya.aplikasimanajemenrapat.databinding.FragmentMeetingAgendaBindi
 import androidx.recyclerview.widget.LinearLayoutManager
 
 class MeetingAgendaFragment (
-    private val agendas: List<Agenda>
+    private val agendas: List<Agenda>,
+    private val token: String
 ) : Fragment() {
 
     private var _binding: FragmentMeetingAgendaBinding? = null
@@ -29,7 +30,7 @@ class MeetingAgendaFragment (
 
         with(binding.recyclerMeetingAgenda) {
             layoutManager = LinearLayoutManager(context)
-            val adapter = MeetingAgendaAdapter(agendas)
+            val adapter = MeetingAgendaAdapter(agendas, token)
             this.adapter = adapter
         }
     }

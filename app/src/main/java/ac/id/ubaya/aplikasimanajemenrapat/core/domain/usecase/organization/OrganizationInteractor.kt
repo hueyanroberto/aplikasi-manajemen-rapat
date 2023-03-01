@@ -36,4 +36,13 @@ class OrganizationInteractor @Inject constructor(
     ): Flow<Resource<List<User>>> {
         return organizationRepository.getOrganizationMembers(token, organizationId)
     }
+
+    override fun updateRole(
+        token: String,
+        organizationId: Int,
+        userId: Int,
+        roleId: Int
+    ): Flow<Resource<User>> {
+        return organizationRepository.updateRole(token, organizationId, userId, roleId)
+    }
 }

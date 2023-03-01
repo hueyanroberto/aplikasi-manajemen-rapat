@@ -4,6 +4,7 @@ import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.network.ApiRes
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.network.ApiService
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.OrganizationResponse
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.UserListResponse
+import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.UserResponse
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -83,6 +84,27 @@ class OrganizationRemoteDataSource @Inject constructor(private val apiService: A
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
                 Log.e("OrganizationRDataSource", "getOrganizationMembers: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun updateRole(
+        token: String,
+        organizationId: Int,
+        userId: Int,
+        roleId: Int
+    ): Flow<ApiResponse<UserResponse>> {
+        return flow {
+            try {
+                val userResponse = apiService.updateRole("Bearer $token", organizationId, userId, roleId)
+                if (userResponse.userData != null) {
+                    emit(ApiResponse.Success(userResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("OrganizationRDataSource", "updateRole: $e")
             }
         }.flowOn(Dispatchers.IO)
     }

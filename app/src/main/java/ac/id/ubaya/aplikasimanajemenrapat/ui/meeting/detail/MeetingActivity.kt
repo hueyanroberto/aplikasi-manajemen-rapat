@@ -65,7 +65,7 @@ class MeetingActivity : AppCompatActivity() {
     }
 
     private fun initTabLayout(meeting: Meeting) {
-        val adapter = MeetingSectionPagerAdapter(this, meeting)
+        val adapter = MeetingSectionPagerAdapter(this, meeting, user.token.toString())
         binding.viewPagerMeeting.adapter = adapter
         TabLayoutMediator(binding.tabMeeting, binding.viewPagerMeeting) {tab, position ->
             tab.text = resources.getString(TAB_TITLES[position])

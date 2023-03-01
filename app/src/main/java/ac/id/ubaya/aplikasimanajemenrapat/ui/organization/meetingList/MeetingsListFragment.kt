@@ -25,6 +25,7 @@ class MeetingsListFragment : Fragment() {
 
     private var token = ""
     private var organizationId = -1
+    private var roleId = -1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,10 +40,12 @@ class MeetingsListFragment : Fragment() {
 
         token = requireArguments().getString("token", "")
         organizationId = requireArguments().getInt("organizationId", -1)
+        roleId = requireArguments().getInt("roleId", -1)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.fabCreateMeeting.hide()
 
         if (token.isEmpty() || organizationId == -1) return
 
@@ -50,10 +53,14 @@ class MeetingsListFragment : Fragment() {
 
         getMeetingList(token, organizationId)
 
-        binding.fabCreateMeeting.setOnClickListener {
-            val intent = Intent(context, CreateMeetingActivity::class.java)
-            intent.putExtra(CreateMeetingActivity.EXTRA_ORGANIZATION_ID, organizationId)
-            context?.startActivity(intent)
+        if (roleId != 3) {
+            binding.fabCreateMeeting.show()
+
+            binding.fabCreateMeeting.setOnClickListener {
+                val intent = Intent(context, CreateMeetingActivity::class.java)
+                intent.putExtra(CreateMeetingActivity.EXTRA_ORGANIZATION_ID, organizationId)
+                context?.startActivity(intent)
+            }
         }
     }
 

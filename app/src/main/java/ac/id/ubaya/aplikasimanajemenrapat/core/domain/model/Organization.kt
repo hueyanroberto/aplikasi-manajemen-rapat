@@ -11,5 +11,6 @@ data class Organization(
     val description: String,
     val profilePicture: String,
     val leaderboardStart: String?,
-    val leaderboardEnd: String?
+    val leaderboardEnd: String?,
+    val role: Role? = null
 ): Parcelable

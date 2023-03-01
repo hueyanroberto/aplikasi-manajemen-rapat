@@ -3,11 +3,15 @@ package ac.id.ubaya.aplikasimanajemenrapat.ui.meeting.detail.agenda
 import ac.id.ubaya.aplikasimanajemenrapat.R
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Agenda
 import ac.id.ubaya.aplikasimanajemenrapat.databinding.ItemAgendaBinding
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class MeetingAgendaAdapter(private val listAgenda: List<Agenda>): RecyclerView.Adapter<MeetingAgendaAdapter.ViewHolder>() {
+class MeetingAgendaAdapter(
+    private val listAgenda: List<Agenda>,
+    private val token: String
+): RecyclerView.Adapter<MeetingAgendaAdapter.ViewHolder>() {
     class ViewHolder(val binding: ItemAgendaBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -23,7 +27,10 @@ class MeetingAgendaAdapter(private val listAgenda: List<Agenda>): RecyclerView.A
             binding.textAgendaTask.text = itemView.context.getString(R.string.agenda_task, (position + 1).toString(), data.task)
 
             itemView.setOnClickListener {
-
+                val intent = Intent(itemView.context, DetailAgendaActivity::class.java)
+                intent.putExtra(DetailAgendaActivity.EXTRA_AGENDA, data)
+                intent.putExtra(DetailAgendaActivity.EXTRA_TOKEN, token)
+                itemView.context.startActivity(intent)
             }
         }
     }
