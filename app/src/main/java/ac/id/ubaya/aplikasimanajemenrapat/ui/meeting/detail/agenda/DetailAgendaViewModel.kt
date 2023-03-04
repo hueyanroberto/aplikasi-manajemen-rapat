@@ -21,4 +21,8 @@ class DetailAgendaViewModel @Inject constructor(
     fun addSuggestion(token: String, agendaId: Int, suggestion: String): Flow<Resource<Suggestion>> {
         return meetingUseCase.addSuggestion(token, agendaId, suggestion)
     }
+
+    fun acceptSuggestion(token: String, suggestionId: Int): Flow<Resource<Suggestion>> {
+        return meetingUseCase.acceptSuggestion(token, suggestionId)
+    }
 }

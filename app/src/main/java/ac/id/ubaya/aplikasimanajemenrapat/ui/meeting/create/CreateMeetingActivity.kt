@@ -58,6 +58,8 @@ class CreateMeetingActivity : AppCompatActivity(), View.OnClickListener {
 
         binding.textAddAgendaCount.text = resources.getString(R.string.agenda_count, "0")
         binding.textAddParticipantCount.text = resources.getString(R.string.participant_count, "0")
+
+        binding.imageCreateMeetingBack.setOnClickListener { finish() }
     }
 
     private fun init() {

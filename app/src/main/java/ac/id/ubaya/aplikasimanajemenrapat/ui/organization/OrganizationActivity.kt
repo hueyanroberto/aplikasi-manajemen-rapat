@@ -6,12 +6,18 @@ import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.User
 import ac.id.ubaya.aplikasimanajemenrapat.databinding.ActivityOrganizationBinding
 import ac.id.ubaya.aplikasimanajemenrapat.ui.UserViewModel
 import ac.id.ubaya.aplikasimanajemenrapat.ui.login.LoginActivity
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.os.Build.VERSION
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.navigation.NavArgument
 import androidx.navigation.findNavController
@@ -41,6 +47,33 @@ class OrganizationActivity : AppCompatActivity() {
             intent.getParcelableExtra(EXTRA_ORGANIZATION, Organization::class.java)
         } else {
             intent.getParcelableExtra(EXTRA_ORGANIZATION)
+        }
+
+        organization?.let {
+            if (it.role?.id != 3) {
+                binding.imageOrganizationMore.visibility = View.VISIBLE
+                binding.imageOrganizationMore.setOnClickListener {
+                    val popupMenu = PopupMenu(this, it)
+                    popupMenu.inflate(R.menu.menu_show_code)
+                    popupMenu.setOnMenuItemClickListener { menuItem ->
+                        when (menuItem.itemId) {
+                            R.id.item_show_code -> {
+                                AlertDialog.Builder(this)
+                                    .setMessage(resources.getString(R.string.organization_code_data, organization?.code))
+                                    .setPositiveButton(resources.getString(R.string.copy_to_clipboard)) { _, _ ->
+                                        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                                        val clip = ClipData.newPlainText("Code", organization?.code)
+                                        clipboard.setPrimaryClip(clip)
+                                        Toast.makeText(this, resources.getString(R.string.copied_to_clipboard), Toast.LENGTH_SHORT).show()
+                                    }
+                                    .show()
+                            }
+                        }
+                        true
+                    }
+                    popupMenu.show()
+                }
+            }
         }
 
         init()

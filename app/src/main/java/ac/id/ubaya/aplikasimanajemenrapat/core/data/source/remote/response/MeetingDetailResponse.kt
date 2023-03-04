@@ -46,7 +46,10 @@ data class MeetingDetailData(
 	val status: Int,
 
 	@field:SerializedName("user_status")
-	val userStatus: Int
+	val userStatus: Int,
+
+	@field:SerializedName("user_role")
+	val userRole: Int
 ) : Parcelable
 
 @Parcelize

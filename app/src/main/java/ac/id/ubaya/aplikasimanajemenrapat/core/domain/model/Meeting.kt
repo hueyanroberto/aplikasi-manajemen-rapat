@@ -15,6 +15,7 @@ data class Meeting(
     val title: String,
     val status: Int,
     val userStatus: Int = -1,
+    val userRole: Int = -1,
     val agenda: List<Agenda> = listOf(),
     val participant: List<Participant> = listOf()
 ): Parcelable

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Aplikasi Manajemen Rapat</string>
+    <string name="app_name">Manara</string>
 
     <!--  MESSAGES  -->
     <string name="internal_error_message">Something went wrong. Please try again or check your connection</string>
@@ -16,6 +16,8 @@
     <string name="organization_code_length">Organization code is 7 digit long</string>
     <string name="agenda_empty">Please fill the agenda</string>
     <string name="participant_empty">Please select participant</string>
+    <string name="accept_suggestion_question">Do you want to accept this suggestion?</string>
+    <string name="cancel_accept_suggestion_question">Do you want to cancel accepting this suggestion?</string>
 
     <string name="username">Username</string>
     <string name="password">Password</string>
@@ -30,6 +32,7 @@
     <string name="take_photo">Take a Photo</string>
     <string name="choose_from_gallery">Choose from Gallery</string>
     <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
     <string name="choose_profile_picture">Choose Profile Picture</string>
     <string name="refresh">Refresh</string>
     <string name="add_profile_picture">Add Profile Picture</string>
@@ -72,4 +75,16 @@
     <string name="more">More</string>
     <string name="write_a_suggestion">Write a suggestion</string>
     <string name="add_suggestion">Add Suggestion</string>
+    <string name="start_meeting">Start Meeting</string>
+    <string name="end_meeting">End Meeting</string>
+    <string name="join_meeting">Join Meeting</string>
+    <string name="meeting_joined">Meeting Joined</string>
+    <string name="show_code">Show code</string>
+    <string name="meeting_code_data">Meeting code: %1$s</string>
+    <string name="organization_code_data">Organization code: %1$s</string>
+    <string name="copy_to_clipboard">Copy to clipboard</string>
+    <string name="copied_to_clipboard">Copied to clipboard</string>
+    <string name="accept">Accept</string>
+    <string name="accepted">Accepted</string>
+    <string name="please_wait">Please Wait</string>
 </resources>

@@ -166,4 +166,22 @@ class MeetingRepository @Inject constructor(
             }
         }
     }
+
+    override fun acceptSuggestion(token: String, suggestionId: Int): Flow<Resource<Suggestion>> {
+        return flow {
+            emit(Resource.Loading())
+            when (val apiResponse = meetingRemoteDataSource.acceptSuggestion(token, suggestionId).first()) {
+                is ApiResponse.Success -> {
+                    val suggestionItem = apiResponse.data.suggestionItem!!
+                    emit(Resource.Success(DataMapper.suggestionResponseToModel(suggestionItem)))
+                }
+                is ApiResponse.Empty -> {
+                    emit(Resource.Error("Unauthorized"))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.errorMessage))
+                }
+            }
+        }
+    }
 }

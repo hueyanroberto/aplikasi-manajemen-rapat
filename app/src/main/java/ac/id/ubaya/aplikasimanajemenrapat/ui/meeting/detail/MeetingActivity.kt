@@ -9,12 +9,17 @@ import ac.id.ubaya.aplikasimanajemenrapat.ui.UserViewModel
 import ac.id.ubaya.aplikasimanajemenrapat.ui.login.LoginActivity
 import ac.id.ubaya.aplikasimanajemenrapat.ui.meeting.detail.agenda.MeetingAddAgendaActivity
 import ac.id.ubaya.aplikasimanajemenrapat.utils.convertDateFormat
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.view.View
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -38,7 +43,10 @@ class MeetingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMeetingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         binding.fabMeeting.hide()
+        binding.buttonStartMeeting.visibility = View.GONE
+        binding.imageMeetingBack.setOnClickListener { finish() }
 
         init()
     }
@@ -73,7 +81,7 @@ class MeetingActivity : AppCompatActivity() {
 
         binding.tabMeeting.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                if (meeting.userStatus == 1) {
+                if (meeting.userRole == 1) {
                     when (binding.tabMeeting.selectedTabPosition) {
                         0 -> {
                             binding.fabMeeting.hide()
@@ -121,6 +129,7 @@ class MeetingActivity : AppCompatActivity() {
                         binding.textMeetingDetailTime.text = time
 
                         initTabLayout(meeting)
+                        setUpButtonMeeting(meeting)
                     }
                 }
                 is Resource.Error -> {
@@ -131,6 +140,54 @@ class MeetingActivity : AppCompatActivity() {
                             meetingViewModel.getMeetingDetail(user.token.toString(), meetingId)
                         }
                         .show()
+                }
+            }
+        }
+    }
+
+    private fun setUpButtonMeeting(meeting: Meeting) {
+        when (meeting.userRole) {
+            1 -> {
+                if (meeting.status == 0) {
+                    binding.buttonStartMeeting.text = resources.getString(R.string.start_meeting)
+                } else if (meeting.status == 1) {
+                    binding.buttonStartMeeting.text = resources.getString(R.string.end_meeting)
+                }
+                binding.buttonStartMeeting.visibility = View.VISIBLE
+
+                binding.imageMeetingMore.visibility = View.VISIBLE
+
+                binding.imageMeetingMore.setOnClickListener {
+                    val popupMenu = PopupMenu(this, it)
+                    popupMenu.inflate(R.menu.menu_show_code)
+                    popupMenu.setOnMenuItemClickListener { menuItem ->
+                        when (menuItem.itemId) {
+                            R.id.item_show_code -> {
+                                AlertDialog.Builder(this)
+                                    .setMessage(resources.getString(R.string.meeting_code_data, meeting.code))
+                                    .setPositiveButton(resources.getString(R.string.copy_to_clipboard)) { _, _ ->
+                                        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                                        val clip = ClipData.newPlainText("Code", meeting.code)
+                                        clipboard.setPrimaryClip(clip)
+                                        Toast.makeText(this, resources.getString(R.string.copied_to_clipboard), Toast.LENGTH_SHORT).show()
+                                    }
+                                    .show()
+                            }
+                        }
+                        true
+                    }
+                    popupMenu.show()
+                }
+            }
+            2 -> {
+                if (meeting.status == 0 || meeting.status == 1) {
+                    if (meeting.userStatus == 0) {
+                        binding.buttonStartMeeting.text = resources.getString(R.string.join_meeting)
+                    } else if (meeting.userStatus == 1){
+                        binding.buttonStartMeeting.text = resources.getString(R.string.meeting_joined)
+                        binding.buttonStartMeeting.setBackgroundResource(R.drawable.button_disable)
+                    }
+                    binding.buttonStartMeeting.visibility = View.VISIBLE
                 }
             }
         }

@@ -134,4 +134,12 @@ interface ApiService {
         @Field("agenda_id") agendaId: Int,
         @Field("suggestion") suggestion: String
     ): SuggestionResponse
+
+    @FormUrlEncoded
+    @PUT("agenda/suggestion/accept")
+    @Headers("Accept: application/json")
+    suspend fun acceptSuggestion(
+        @Header("Authorization") token: String,
+        @Field("suggestion_id") suggestionId: Int
+    ): SuggestionResponse
 }

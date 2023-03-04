@@ -21,4 +21,5 @@ interface IMeetingRepository {
     fun addAgenda(token: String, meetingId: Int, agendas: ArrayList<String>): Flow<Resource<List<Agenda>>>
     fun getListSuggestion(token: String, agendaId: Int): Flow<Resource<List<Suggestion>>>
     fun addSuggestion(token: String, agendaId: Int, suggestion: String): Flow<Resource<Suggestion>>
+    fun acceptSuggestion(token: String, suggestionId: Int): Flow<Resource<Suggestion>>
 }

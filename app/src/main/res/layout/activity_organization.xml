@@ -52,6 +52,18 @@
                         app:layout_constraintBottom_toBottomOf="@+id/image_organization_back"
                         app:layout_constraintStart_toEndOf="@+id/image_organization_back"
                         app:layout_constraintTop_toTopOf="@+id/image_organization_back" />
+
+                    <ImageView
+                        android:id="@+id/image_organization_more"
+                        android:layout_width="@dimen/backIconSize"
+                        android:layout_height="@dimen/backIconSize"
+                        android:layout_marginEnd="16dp"
+                        android:visibility="gone"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/baseline_more_vert_24" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.appcompat.widget.Toolbar>

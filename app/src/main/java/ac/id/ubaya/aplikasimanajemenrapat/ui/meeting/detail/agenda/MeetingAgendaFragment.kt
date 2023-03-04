@@ -6,21 +6,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Agenda
+import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Meeting
 import ac.id.ubaya.aplikasimanajemenrapat.databinding.FragmentMeetingAgendaBinding
+import android.content.Intent
 import androidx.recyclerview.widget.LinearLayoutManager
 
 class MeetingAgendaFragment (
-    private val agendas: List<Agenda>,
+    private val meeting: Meeting,
     private val token: String
 ) : Fragment() {
 
     private var _binding: FragmentMeetingAgendaBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var agendas: List<Agenda>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        agendas = meeting.agenda
         _binding = FragmentMeetingAgendaBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -30,7 +35,16 @@ class MeetingAgendaFragment (
 
         with(binding.recyclerMeetingAgenda) {
             layoutManager = LinearLayoutManager(context)
-            val adapter = MeetingAgendaAdapter(agendas, token)
+            val adapter = MeetingAgendaAdapter(agendas)
+            adapter.setOnItemClickedCallback(object: MeetingAgendaAdapter.OnItemClickedCallback {
+                override fun onItemClickedCallback(data: Agenda) {
+                    val intent = Intent(context, DetailAgendaActivity::class.java)
+                    intent.putExtra(DetailAgendaActivity.EXTRA_AGENDA, data)
+                    intent.putExtra(DetailAgendaActivity.EXTRA_TOKEN, token)
+                    intent.putExtra(DetailAgendaActivity.EXTRA_ROLE, meeting.userRole)
+                    activity?.startActivity(intent)
+                }
+            })
             this.adapter = adapter
         }
     }

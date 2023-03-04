@@ -104,9 +104,10 @@ object DataMapper {
                 endTime = it.endTime,
                 location = it.location,
                 description = it.description,
-                code = it.description,
+                code = it.code,
                 status = it.status,
                 userStatus = it.userStatus,
+                userRole = it.userRole,
                 agenda = agendaResponseToModel(it.agenda),
                 participant = participantResponseToModel(it.participant)
             )

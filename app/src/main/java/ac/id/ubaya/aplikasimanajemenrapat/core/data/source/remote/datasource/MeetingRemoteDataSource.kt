@@ -159,4 +159,20 @@ class MeetingRemoteDataSource @Inject constructor(private val apiService: ApiSer
             }
         }.flowOn(Dispatchers.IO)
     }
+
+    suspend fun acceptSuggestion(token: String, suggestionId: Int) : Flow<ApiResponse<SuggestionResponse>> {
+        return flow {
+            try {
+                val suggestionResponse = apiService.acceptSuggestion("Bearer $token", suggestionId)
+                if (suggestionResponse.suggestionItem != null) {
+                    emit(ApiResponse.Success(suggestionResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("MeetingRDataSource", "acceptSuggestion: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
 }
