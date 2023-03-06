@@ -190,4 +190,10 @@ interface ApiService {
         @Field("date") date: Date
     ): MeetingDetailResponse
 
+    @GET("meeting/minutes")
+    @Headers("Accept: application/json")
+    suspend fun getMinutes(
+        @Header("Authorization") token: String,
+        @Query("meeting_id") meetingId: Int
+    ): AgendaResponse
 }

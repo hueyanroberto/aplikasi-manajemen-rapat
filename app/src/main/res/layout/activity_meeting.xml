@@ -29,11 +29,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-
                     <ImageView
                         android:id="@+id/image_meeting_back"
                         android:layout_width="@dimen/backIconSize"
                         android:layout_height="@dimen/backIconSize"
+                        android:foreground="?android:attr/selectableItemBackground"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -114,7 +114,9 @@
                     android:id="@+id/button_start_meeting"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginBottom="16dp"
                     android:background="@drawable/button_secondary"
                     android:gravity="center"
@@ -123,8 +125,28 @@
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/text_meeting_detail_time"
+                    app:layout_constraintEnd_toStartOf="@+id/button_show_minutes"
                     app:layout_constraintStart_toStartOf="@+id/text_meeting_detail_time"
+                    app:layout_constraintTop_toBottomOf="@+id/text_meeting_detail_time" />
+
+                <TextView
+                    android:id="@+id/button_show_minutes"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/button_secondary"
+                    android:gravity="center"
+                    android:text="@string/show_minutes"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/text_meeting_detail_time"
+                    app:layout_constraintStart_toEndOf="@+id/button_start_meeting"
                     app:layout_constraintTop_toBottomOf="@+id/text_meeting_detail_time" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 

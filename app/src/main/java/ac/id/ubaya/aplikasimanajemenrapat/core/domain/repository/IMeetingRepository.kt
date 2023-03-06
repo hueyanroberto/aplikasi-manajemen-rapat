@@ -25,4 +25,5 @@ interface IMeetingRepository {
     fun startMeeting(token: String, meetingId: Int, date: Date): Flow<Resource<Meeting>>
     fun joinMeeting(token: String, meetingId: Int, meetingCode: String, date: Date): Flow<Resource<Meeting>>
     fun endMeeting(token: String, meetingId: Int, date: Date): Flow<Resource<Meeting>>
+    fun getMinutes(token: String, meetingId: Int): Flow<Resource<List<Agenda>>>
 }

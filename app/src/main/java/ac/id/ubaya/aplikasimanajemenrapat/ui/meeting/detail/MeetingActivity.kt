@@ -9,6 +9,7 @@ import ac.id.ubaya.aplikasimanajemenrapat.databinding.AlertJoinMeetngBinding
 import ac.id.ubaya.aplikasimanajemenrapat.ui.UserViewModel
 import ac.id.ubaya.aplikasimanajemenrapat.ui.login.LoginActivity
 import ac.id.ubaya.aplikasimanajemenrapat.ui.meeting.detail.agenda.MeetingAddAgendaActivity
+import ac.id.ubaya.aplikasimanajemenrapat.ui.meeting.detail.minutes.MinutesActivity
 import ac.id.ubaya.aplikasimanajemenrapat.utils.convertDateFormat
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -157,6 +158,7 @@ class MeetingActivity : AppCompatActivity() {
     }
 
     private fun setUpButtonMeeting(meeting: Meeting) {
+        binding.buttonShowMinutes.visibility = View.GONE
         when (meeting.userRole) {
             1 -> {
                 when (meeting.status) {
@@ -188,6 +190,14 @@ class MeetingActivity : AppCompatActivity() {
                         binding.buttonStartMeeting.text = resources.getString(R.string.meeting_ended)
                         binding.buttonStartMeeting.setBackgroundResource(R.drawable.button_disable)
                         binding.buttonStartMeeting.setOnClickListener(null)
+
+                        binding.buttonShowMinutes.visibility = View.VISIBLE
+                        binding.buttonShowMinutes.setOnClickListener {
+                            val intent = Intent(this, MinutesActivity::class.java)
+                            intent.putExtra(MinutesActivity.EXTRA_MEETING_ID, meeting.id)
+                            intent.putExtra(MinutesActivity.EXTRA_TOKEN, user.token.toString())
+                            startActivity(intent)
+                        }
                     }
                 }
                 binding.buttonStartMeeting.visibility = View.VISIBLE
@@ -248,6 +258,14 @@ class MeetingActivity : AppCompatActivity() {
                     binding.buttonStartMeeting.text = resources.getString(R.string.meeting_ended)
                     binding.buttonStartMeeting.setBackgroundResource(R.drawable.button_disable)
                     binding.buttonStartMeeting.setOnClickListener(null)
+
+                    binding.buttonShowMinutes.visibility = View.VISIBLE
+                    binding.buttonShowMinutes.setOnClickListener {
+                        val intent = Intent(this, MinutesActivity::class.java)
+                        intent.putExtra(MinutesActivity.EXTRA_MEETING_ID, meeting.id)
+                        intent.putExtra(MinutesActivity.EXTRA_TOKEN, user.token.toString())
+                        startActivity(intent)
+                    }
                 }
             }
         }

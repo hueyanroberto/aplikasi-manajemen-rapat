@@ -238,4 +238,22 @@ class MeetingRepository @Inject constructor(
             }
         }
     }
+
+    override fun getMinutes(token: String, meetingId: Int): Flow<Resource<List<Agenda>>> {
+        return flow {
+            emit(Resource.Loading())
+            when (val apiResponse = meetingRemoteDataSource.getMinutes(token, meetingId).first()) {
+                is ApiResponse.Success -> {
+                    val agendaData = apiResponse.data.agendaData
+                    emit(Resource.Success(DataMapper.agendaResponseToModel(agendaData)))
+                }
+                is ApiResponse.Empty -> {
+                    emit(Resource.Success(listOf<Agenda>()))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.errorMessage))
+                }
+            }
+        }
+    }
 }

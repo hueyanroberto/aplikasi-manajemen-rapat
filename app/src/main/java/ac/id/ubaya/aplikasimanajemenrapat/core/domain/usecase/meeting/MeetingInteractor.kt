@@ -75,4 +75,8 @@ class MeetingInteractor @Inject constructor(
     override fun endMeeting(token: String, meetingId: Int, date: Date): Flow<Resource<Meeting>> {
         return meetingRepository.endMeeting(token, meetingId, date)
     }
+
+    override fun getMinutes(token: String, meetingId: Int): Flow<Resource<List<Agenda>>> {
+        return meetingRepository.getMinutes(token, meetingId)
+    }
 }

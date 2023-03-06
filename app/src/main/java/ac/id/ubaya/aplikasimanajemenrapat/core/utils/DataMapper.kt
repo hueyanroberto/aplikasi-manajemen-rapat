@@ -120,7 +120,8 @@ object DataMapper {
                 id = it.id,
                 meetingId = it.meetingId,
                 task = it.task,
-                completed = it.completed
+                completed = it.completed,
+                suggestions = it.suggestions?.let { suggestions -> suggestionResponseToModel(suggestions) }
             )
         }
 

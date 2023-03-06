@@ -223,4 +223,20 @@ class MeetingRemoteDataSource @Inject constructor(private val apiService: ApiSer
             }
         }.flowOn(Dispatchers.IO)
     }
+
+    suspend fun getMinutes(token: String, meetingId: Int): Flow<ApiResponse<AgendaResponse>> {
+        return flow {
+            try {
+                val meetingDetailResponse = apiService.getMinutes("Bearer $token", meetingId)
+                if (meetingDetailResponse.agendaData.isNotEmpty()) {
+                    emit(ApiResponse.Success(meetingDetailResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("MeetingRDataSource", "getMinutes: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
 }

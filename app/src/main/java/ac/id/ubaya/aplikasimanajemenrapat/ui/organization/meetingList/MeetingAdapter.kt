@@ -38,9 +38,18 @@ class MeetingAdapter (private val meetings: List<Meeting>): RecyclerView.Adapter
             binding.textMeetingTime.text = time
 
             when (data.status) {
-                0 -> binding.textMeetingStatus.text = itemView.context.getText(R.string.meeting_not_started)
-                1 -> binding.textMeetingStatus.text = itemView.context.getText(R.string.meeting_started)
-                2 -> binding.textMeetingStatus.text = itemView.context.getText(R.string.meeting_ended)
+                0 -> {
+                    binding.textMeetingStatus.setBackgroundResource(R.drawable.rounded_pill_secondary)
+                    binding.textMeetingStatus.text = itemView.context.getText(R.string.meeting_not_started)
+                }
+                1 -> {
+                    binding.textMeetingStatus.setBackgroundResource(R.drawable.rounded_pill_secondary)
+                    binding.textMeetingStatus.text = itemView.context.getText(R.string.meeting_started)
+                }
+                2 -> {
+                    binding.textMeetingStatus.setBackgroundResource(R.drawable.rounded_pill_grey)
+                    binding.textMeetingStatus.text = itemView.context.getText(R.string.meeting_ended)
+                }
             }
 
             itemView.setOnClickListener {

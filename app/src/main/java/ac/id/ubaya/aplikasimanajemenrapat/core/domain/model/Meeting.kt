@@ -25,7 +25,8 @@ data class Agenda(
     val task: String,
     val meetingId: Int,
     val id: Int,
-    val completed: Int
+    val completed: Int,
+    val suggestions: List<Suggestion>? = null
 ): Parcelable
 
 @Parcelize

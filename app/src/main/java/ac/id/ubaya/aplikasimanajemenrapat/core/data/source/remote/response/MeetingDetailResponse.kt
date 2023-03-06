@@ -65,7 +65,10 @@ data class AgendaItem(
 	val id: Int,
 
 	@field:SerializedName("completed")
-	val completed: Int
+	val completed: Int,
+
+	@field:SerializedName("suggestions")
+	val suggestions: List<SuggestionItem>? = null
 ) : Parcelable
 
 @Parcelize

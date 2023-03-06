@@ -98,4 +98,8 @@
     <string name="meeting_code">Meeting Code</string>
     <string name="suggestion_status">Status: %1$s</string>
     <string name="edit">Edit</string>
+    <string name="minutes">Minutes</string>
+    <string name="suggested_by">Suggested by : %1$s</string>
+    <string name="show_minutes">Show Minutes</string>
+    <string name="no_suggestion">No suggestion</string>
 </resources>
