@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/item_edit_organization"
+        android:title="@string/edit" />
+    <item
+        android:id="@+id/item_show_code_organization"
+        android:title="@string/show_code" />
+</menu>

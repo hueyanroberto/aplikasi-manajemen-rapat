@@ -2,7 +2,6 @@ package ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.network
 
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.*
 import okhttp3.RequestBody
-import org.json.JSONObject
 import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -13,6 +12,7 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
+import java.util.Date
 
 interface ApiService {
 
@@ -66,6 +66,25 @@ interface ApiService {
     suspend fun joinOrganization(
         @Header("Authorization") token: String,
         @Field("code") organizationCode: String
+    ): OrganizationResponse
+
+    @FormUrlEncoded
+    @PUT("organization/profile")
+    @Headers("Accept: application/json")
+    suspend fun updateOrganizationProfilePic(
+        @Header("Authorization") token: String,
+        @Field("organization_id") organizationId: Int,
+        @Field("profile_pic") profilePic: String
+    ): OrganizationResponse
+
+    @FormUrlEncoded
+    @PUT("organization")
+    @Headers("Accept: application/json")
+    suspend fun editOrganization(
+        @Header("Authorization") token: String,
+        @Field("organization_id") organizationId: Int,
+        @Field("name") name: String,
+        @Field("description") desc: String
     ): OrganizationResponse
 
     @GET("organization/meetings/{organization_id}")
@@ -142,4 +161,33 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Field("suggestion_id") suggestionId: Int
     ): SuggestionResponse
+
+    @FormUrlEncoded
+    @POST("meeting/start")
+    @Headers("Accept: application/json")
+    suspend fun startMeeting(
+        @Header("Authorization") token: String,
+        @Field("meeting_id") meetingId: Int,
+        @Field("date") date: Date
+    ): MeetingDetailResponse
+
+    @FormUrlEncoded
+    @POST("meeting/join")
+    @Headers("Accept: application/json")
+    suspend fun joinMeeting(
+        @Header("Authorization") token: String,
+        @Field("meeting_id") meetingId: Int,
+        @Field("meeting_code") meetingCode: String,
+        @Field("date") date: Date
+    ): MeetingDetailResponse
+
+    @FormUrlEncoded
+    @POST("meeting/end")
+    @Headers("Accept: application/json")
+    suspend fun endMeeting(
+        @Header("Authorization") token: String,
+        @Field("meeting_id") meetingId: Int,
+        @Field("date") date: Date
+    ): MeetingDetailResponse
+
 }

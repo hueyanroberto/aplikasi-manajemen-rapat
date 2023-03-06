@@ -21,4 +21,7 @@ interface MeetingUseCase {
     fun getListSuggestion(token: String, agendaId: Int): Flow<Resource<List<Suggestion>>>
     fun addSuggestion(token: String, agendaId: Int, suggestion: String): Flow<Resource<Suggestion>>
     fun acceptSuggestion(token: String, suggestionId: Int): Flow<Resource<Suggestion>>
+    fun startMeeting(token: String, meetingId: Int, date: Date): Flow<Resource<Meeting>>
+    fun joinMeeting(token: String, meetingId: Int, meetingCode: String, date: Date): Flow<Resource<Meeting>>
+    fun endMeeting(token: String, meetingId: Int, date: Date): Flow<Resource<Meeting>>
 }

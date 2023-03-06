@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 class SuggestionAdapter(
     private val listSuggestion: List<Suggestion>,
-    private val role: Int
+    private val role: Int,
+    private val meetingStatus: Int
 ): RecyclerView.Adapter<SuggestionAdapter.ViewHolder>() {
 
     private lateinit var onItemClickedCallback: OnItemClickedCallback
@@ -34,9 +35,12 @@ class SuggestionAdapter(
             binding.textSuggestorName.text = data.user
             binding.textSuggestion.text = data.suggestion
 
-            binding.textAcceptSuggestion.visibility = View.GONE
+            val status = if (data.accepted == 0) itemView.context.getString(R.string.not_yet_accepted)
+                            else itemView.context.getString(R.string.accepted)
+            binding.textSuggestionStatus.text = itemView.context.getString(R.string.suggestion_status, status)
 
-            if (role == 1) {
+            binding.textAcceptSuggestion.visibility = View.GONE
+            if (role == 1 && meetingStatus != 2) {
                 binding.textAcceptSuggestion.visibility = View.VISIBLE
                 if (data.accepted == 0) {
                     binding.textAcceptSuggestion.setBackgroundResource(R.drawable.rounded_pill_primary)

@@ -175,4 +175,52 @@ class MeetingRemoteDataSource @Inject constructor(private val apiService: ApiSer
             }
         }.flowOn(Dispatchers.IO)
     }
+
+    suspend fun startMeeting(token: String, meetingId: Int, date: Date) : Flow<ApiResponse<MeetingDetailResponse>> {
+        return flow {
+            try {
+                val meetingDetailResponse = apiService.startMeeting("Bearer $token", meetingId, date)
+                if (meetingDetailResponse.meetingDetailData != null) {
+                    emit(ApiResponse.Success(meetingDetailResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("MeetingRDataSource", "startMeeting: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun joinMeeting(token: String, meetingId: Int, meetingCode: String, date: Date) : Flow<ApiResponse<MeetingDetailResponse>> {
+        return flow {
+            try {
+                val meetingDetailResponse = apiService.joinMeeting("Bearer $token", meetingId, meetingCode, date)
+                if (meetingDetailResponse.meetingDetailData != null) {
+                    emit(ApiResponse.Success(meetingDetailResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("MeetingRDataSource", "joinMeeting: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun endMeeting(token: String, meetingId: Int, date: Date) : Flow<ApiResponse<MeetingDetailResponse>> {
+        return flow {
+            try {
+                val meetingDetailResponse = apiService.endMeeting("Bearer $token", meetingId, date)
+                if (meetingDetailResponse.meetingDetailData != null) {
+                    emit(ApiResponse.Success(meetingDetailResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("MeetingRDataSource", "endMeeting: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
 }

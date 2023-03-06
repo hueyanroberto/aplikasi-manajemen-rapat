@@ -16,6 +16,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
@@ -54,10 +55,10 @@ class OrganizationActivity : AppCompatActivity() {
                 binding.imageOrganizationMore.visibility = View.VISIBLE
                 binding.imageOrganizationMore.setOnClickListener {
                     val popupMenu = PopupMenu(this, it)
-                    popupMenu.inflate(R.menu.menu_show_code)
+                    popupMenu.inflate(R.menu.menu_organization)
                     popupMenu.setOnMenuItemClickListener { menuItem ->
                         when (menuItem.itemId) {
-                            R.id.item_show_code -> {
+                            R.id.item_show_code_organization -> {
                                 AlertDialog.Builder(this)
                                     .setMessage(resources.getString(R.string.organization_code_data, organization?.code))
                                     .setPositiveButton(resources.getString(R.string.copy_to_clipboard)) { _, _ ->
@@ -67,6 +68,15 @@ class OrganizationActivity : AppCompatActivity() {
                                         Toast.makeText(this, resources.getString(R.string.copied_to_clipboard), Toast.LENGTH_SHORT).show()
                                     }
                                     .show()
+                            }
+                            R.id.item_edit_organization -> {
+                                val intent = Intent(this, EditOrganizationActivity::class.java)
+                                intent.putExtra(EditOrganizationActivity.EXTRA_TOKEN, user?.token.toString())
+                                intent.putExtra(EditOrganizationActivity.EXTRA_ORGANIZATION_NAME, organization?.name)
+                                intent.putExtra(EditOrganizationActivity.EXTRA_ORGANIZATION_ID, organization?.id)
+                                intent.putExtra(EditOrganizationActivity.EXTRA_ORGANIZATION_DESC, organization?.description)
+                                intent.putExtra(EditOrganizationActivity.EXTRA_ORGANIZATION_PIC, organization?.profilePicture)
+                                launcherIntent.launch(intent)
                             }
                         }
                         true
@@ -125,6 +135,20 @@ class OrganizationActivity : AppCompatActivity() {
                 Toast.makeText(this, resources.getString(R.string.user_not_login_error), Toast.LENGTH_SHORT).show()
                 startActivity(Intent(this, LoginActivity::class.java))
                 finishAffinity()
+            }
+        }
+    }
+
+    private val launcherIntent = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.data != null) {
+            if (result.resultCode == EditOrganizationActivity.RESULT_CODE) {
+                val orgName = result.data?.getStringExtra(EditOrganizationActivity.EXTRA_ORGANIZATION_NAME).toString()
+                val orgDesc = result.data?.getStringExtra(EditOrganizationActivity.EXTRA_ORGANIZATION_DESC).toString()
+
+                organization?.name = orgName
+                organization?.description = orgDesc
+
+                binding.textOrganizationTitle.text = organization?.name.toString()
             }
         }
     }

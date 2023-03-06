@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 class OrganizationAdapter(private val organizations: List<Organization>): RecyclerView.Adapter<OrganizationAdapter.ViewHolder>() {
 
@@ -34,6 +35,8 @@ class OrganizationAdapter(private val organizations: List<Organization>): Recycl
             Glide.with(itemView.context)
                 .load("$BASE_ASSET_URL/Profile/Organization/${data.profilePicture}")
                 .error(R.drawable.blank_profile)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .into(binding.imageOrganization)
 
             itemView.setOnClickListener {

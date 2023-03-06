@@ -24,12 +24,21 @@
         style="@style/textStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        tools:text="suggestion text"
-        app:layout_constraintBottom_toTopOf="@+id/text_accept_suggestion"
         app:layout_constraintEnd_toEndOf="@+id/text_suggestor_name"
         app:layout_constraintStart_toStartOf="@+id/text_suggestor_name"
-        app:layout_constraintTop_toBottomOf="@+id/text_suggestor_name" />
+        app:layout_constraintTop_toBottomOf="@+id/text_suggestor_name"
+        tools:text="suggestion text" />
+
+    <TextView
+        android:id="@+id/text_suggestion_status"
+        style="@style/textStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/suggestion_status"
+        app:layout_constraintBottom_toTopOf="@+id/text_accept_suggestion"
+        app:layout_constraintStart_toStartOf="@+id/text_suggestion"
+        app:layout_constraintTop_toBottomOf="@+id/text_suggestion" />
 
     <TextView
         android:id="@+id/text_accept_suggestion"

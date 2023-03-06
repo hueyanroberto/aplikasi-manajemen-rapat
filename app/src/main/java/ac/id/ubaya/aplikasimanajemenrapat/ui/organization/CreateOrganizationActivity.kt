@@ -70,10 +70,13 @@ class CreateOrganizationActivity : AppCompatActivity(), View.OnClickListener {
             }
             binding.buttonCreateOrganization.id -> {
                 binding.textInputCreateOrganizationName.error = null
+                binding.textInputCreateOrganizationDescription.error = null
                 val name = binding.editCreateOrganizationName.text.toString().trim()
                 val description = binding.editCreateOrganizationDescription.text.toString().trim()
                 if (name.isEmpty()) {
                     binding.textInputCreateOrganizationName.error = resources.getString(R.string.required_field)
+                } else if (description.isEmpty()) {
+                    binding.textInputCreateOrganizationDescription.error = resources.getString(R.string.required_field)
                 } else {
                     createOrganization(name, description, profilePic)
                 }

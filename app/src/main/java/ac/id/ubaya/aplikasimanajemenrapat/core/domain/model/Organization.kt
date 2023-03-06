@@ -6,9 +6,9 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Organization(
     val id: Int,
-    val name: String,
+    var name: String,
     val code: String,
-    val description: String,
+    var description: String,
     val profilePicture: String,
     val leaderboardStart: String?,
     val leaderboardEnd: String?,

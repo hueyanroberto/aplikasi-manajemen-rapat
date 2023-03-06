@@ -4,7 +4,6 @@ import ac.id.ubaya.aplikasimanajemenrapat.R
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.User
 import ac.id.ubaya.aplikasimanajemenrapat.databinding.ItemPersonBinding
 import ac.id.ubaya.aplikasimanajemenrapat.utils.BASE_ASSET_URL
-import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
@@ -12,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 class MemberListAdapter(private val members: List<User>): RecyclerView.Adapter<MemberListAdapter.ViewHolder>() {
 
@@ -47,6 +47,8 @@ class MemberListAdapter(private val members: List<User>): RecyclerView.Adapter<M
 
             Glide.with(itemView.context)
                 .load("$BASE_ASSET_URL/Profile/user/${data.profilePic}")
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .error(R.drawable.blank_profile)
                 .into(binding.imagePersonProfile)
 

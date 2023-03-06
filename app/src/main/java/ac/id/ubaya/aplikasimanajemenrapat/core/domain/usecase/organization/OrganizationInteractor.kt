@@ -45,4 +45,21 @@ class OrganizationInteractor @Inject constructor(
     ): Flow<Resource<User>> {
         return organizationRepository.updateRole(token, organizationId, userId, roleId)
     }
+
+    override fun editOrganization(
+        token: String,
+        organizationId: Int,
+        name: String,
+        description: String
+    ): Flow<Resource<Organization>> {
+        return organizationRepository.editOrganization(token, organizationId, name, description)
+    }
+
+    override fun updateOrganizationProfile(
+        token: String,
+        organizationId: Int,
+        profilePic: String
+    ): Flow<Resource<Organization>> {
+        return organizationRepository.updateOrganizationProfile(token, organizationId, profilePic)
+    }
 }

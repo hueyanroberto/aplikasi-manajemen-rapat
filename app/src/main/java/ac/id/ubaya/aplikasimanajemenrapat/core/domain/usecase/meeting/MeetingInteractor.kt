@@ -58,4 +58,21 @@ class MeetingInteractor @Inject constructor(
     override fun acceptSuggestion(token: String, suggestionId: Int): Flow<Resource<Suggestion>> {
         return meetingRepository.acceptSuggestion(token, suggestionId)
     }
+
+    override fun startMeeting(token: String, meetingId: Int, date: Date): Flow<Resource<Meeting>> {
+        return meetingRepository.startMeeting(token, meetingId, date)
+    }
+
+    override fun joinMeeting(
+        token: String,
+        meetingId: Int,
+        meetingCode: String,
+        date: Date
+    ): Flow<Resource<Meeting>> {
+        return meetingRepository.joinMeeting(token, meetingId, meetingCode, date)
+    }
+
+    override fun endMeeting(token: String, meetingId: Int, date: Date): Flow<Resource<Meeting>> {
+        return meetingRepository.endMeeting(token, meetingId, date)
+    }
 }

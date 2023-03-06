@@ -42,6 +42,7 @@ class MeetingAgendaFragment (
                     intent.putExtra(DetailAgendaActivity.EXTRA_AGENDA, data)
                     intent.putExtra(DetailAgendaActivity.EXTRA_TOKEN, token)
                     intent.putExtra(DetailAgendaActivity.EXTRA_ROLE, meeting.userRole)
+                    intent.putExtra(DetailAgendaActivity.EXTRA_MEETING_STATUS, meeting.status)
                     activity?.startActivity(intent)
                 }
             })

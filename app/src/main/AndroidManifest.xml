@@ -40,6 +40,9 @@
             android:name=".ui.meeting.create.CreateMeetingActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.organization.EditOrganizationActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.organization.JoinOrganizationActivity"
             android:exported="false" />
         <activity

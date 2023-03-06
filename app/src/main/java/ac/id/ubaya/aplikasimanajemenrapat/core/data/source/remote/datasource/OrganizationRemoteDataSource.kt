@@ -108,4 +108,36 @@ class OrganizationRemoteDataSource @Inject constructor(private val apiService: A
             }
         }.flowOn(Dispatchers.IO)
     }
+
+    suspend fun updateOrganizationProfilePic(token: String, organizationId: Int, profilePic: String): Flow<ApiResponse<OrganizationResponse>> {
+        return flow {
+            try {
+                val organizationResponse = apiService.updateOrganizationProfilePic("Bearer $token", organizationId, profilePic)
+                if (organizationResponse.organizationData.isNotEmpty()) {
+                    emit(ApiResponse.Success(organizationResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("OrganizationRDataSource", "updateOrganizationProfilePic: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun editOrganization(token: String, organizationId: Int, name: String, description: String): Flow<ApiResponse<OrganizationResponse>> {
+        return flow {
+            try {
+                val organizationResponse = apiService.editOrganization("Bearer $token", organizationId, name, description)
+                if (organizationResponse.organizationData.isNotEmpty()) {
+                    emit(ApiResponse.Success(organizationResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("OrganizationRDataSource", "editOrganization: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
 }

@@ -12,4 +12,6 @@ interface OrganizationUseCase {
     fun joinOrganization(token: String, organizationCode: String): Flow<Resource<Organization?>>
     fun getOrganizationMembers(token: String, organizationId: Int): Flow<Resource<List<User>>>
     fun updateRole(token: String, organizationId: Int, userId: Int, roleId: Int): Flow<Resource<User>>
+    fun editOrganization(token: String, organizationId: Int, name: String, description: String): Flow<Resource<Organization>>
+    fun updateOrganizationProfile(token: String, organizationId: Int, profilePic: String): Flow<Resource<Organization>>
 }

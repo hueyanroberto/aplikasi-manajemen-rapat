@@ -7,6 +7,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -15,5 +17,17 @@ class MeetingViewModel @Inject constructor(
 ): ViewModel() {
     fun getMeetingDetail(token: String, meetingId: Int): LiveData<Resource<Meeting?>> {
         return meetingUseCase.getMeetingDetail(token, meetingId).asLiveData()
+    }
+
+    fun startMeeting(token: String, meetingId: Int, date: Date): Flow<Resource<Meeting>> {
+        return meetingUseCase.startMeeting(token, meetingId, date)
+    }
+
+    fun joinMeeting(token: String, meetingId: Int, meetingCode: String, date: Date): Flow<Resource<Meeting>> {
+        return meetingUseCase.joinMeeting(token, meetingId, meetingCode, date)
+    }
+
+    fun endMeeting(token: String, meetingId: Int, date: Date): Flow<Resource<Meeting>> {
+        return meetingUseCase.endMeeting(token, meetingId, date)
     }
 }

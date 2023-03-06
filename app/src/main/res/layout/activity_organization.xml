@@ -29,37 +29,51 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:paddingEnd="8dp">
 
                     <ImageView
                         android:id="@+id/image_organization_back"
                         android:layout_width="@dimen/backIconSize"
                         android:layout_height="@dimen/backIconSize"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        app:srcCompat="@drawable/baseline_arrow_back_24"
                         android:contentDescription="@string/back"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
+                        app:srcCompat="@drawable/baseline_arrow_back_24" />
 
                     <TextView
                         android:id="@+id/text_organization_title"
                         style="@style/textStyle.subtitle"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
                         android:text="@string/create_organization"
                         app:layout_constraintBottom_toBottomOf="@+id/image_organization_back"
+                        app:layout_constraintEnd_toStartOf="@+id/image_organization_info"
                         app:layout_constraintStart_toEndOf="@+id/image_organization_back"
                         app:layout_constraintTop_toTopOf="@+id/image_organization_back" />
+
+                    <ImageView
+                        android:id="@+id/image_organization_info"
+                        android:layout_width="@dimen/backIconSize"
+                        android:layout_height="@dimen/backIconSize"
+                        android:layout_marginEnd="8dp"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/image_organization_more"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/baseline_info_24" />
 
                     <ImageView
                         android:id="@+id/image_organization_more"
                         android:layout_width="@dimen/backIconSize"
                         android:layout_height="@dimen/backIconSize"
-                        android:layout_marginEnd="16dp"
-                        android:visibility="gone"
+                        android:layout_marginEnd="8dp"
                         android:foreground="?android:attr/selectableItemBackground"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -85,8 +99,8 @@
             app:layout_constraintBottom_toTopOf="@id/bottom_nav_organization"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-<!--            app:navGraph="@navigation/organization_navigation"-->
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout="@layout/fragment_meetings_list" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_nav_organization"

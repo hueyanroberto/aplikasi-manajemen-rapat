@@ -48,7 +48,7 @@ class UserRemoteDataSource @Inject constructor(private val apiService: ApiServic
     }
 
     suspend fun logout (token: String) {
-        apiService.logout(token)
+        apiService.logout("Bearer $token")
     }
 
     suspend fun registerNameAndProfilePic(

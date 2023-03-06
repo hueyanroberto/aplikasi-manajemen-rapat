@@ -145,4 +145,53 @@ class OrganizationRepository @Inject constructor(
             }
         }
     }
+
+    override fun editOrganization(
+        token: String,
+        organizationId: Int,
+        name: String,
+        description: String
+    ): Flow<Resource<Organization>> {
+        return flow {
+            emit(Resource.Loading())
+            when (val apiResponse = organizationRemoteDataSource.editOrganization(token, organizationId, name, description).first()) {
+                is ApiResponse.Success -> {
+                    val organizationList = apiResponse.data.organizationData
+                    organizationLocalDataSource.insert(DataMapper.organizationResponseToEntity(organizationList))
+
+                    emit(Resource.Success(DataMapper.organizationResponseToModel(organizationList)[0]))
+                }
+                is ApiResponse.Empty -> {
+                    emit(Resource.Error("unauthenticated"))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.errorMessage))
+                }
+            }
+        }
+    }
+
+    override fun updateOrganizationProfile(
+        token: String,
+        organizationId: Int,
+        profilePic: String
+    ): Flow<Resource<Organization>> {
+        return flow {
+            emit(Resource.Loading())
+            when (val apiResponse = organizationRemoteDataSource.updateOrganizationProfilePic(token, organizationId, profilePic).first()) {
+                is ApiResponse.Success -> {
+                    val organizationList = apiResponse.data.organizationData
+                    organizationLocalDataSource.insert(DataMapper.organizationResponseToEntity(organizationList))
+
+                    emit(Resource.Success(DataMapper.organizationResponseToModel(organizationList)[0]))
+                }
+                is ApiResponse.Empty -> {
+                    emit(Resource.Error("unauthenticated"))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.errorMessage))
+                }
+            }
+        }
+    }
 }

@@ -18,6 +18,9 @@
     <string name="participant_empty">Please select participant</string>
     <string name="accept_suggestion_question">Do you want to accept this suggestion?</string>
     <string name="cancel_accept_suggestion_question">Do you want to cancel accepting this suggestion?</string>
+    <string name="wrong_meeting_code">The code you entered is incorrect, please try again</string>
+    <string name="start_meeting_question">Do you want to start this meeting?</string>
+    <string name="end_meeting_question">Do you want to end this meeting?</string>
 
     <string name="username">Username</string>
     <string name="password">Password</string>
@@ -36,10 +39,12 @@
     <string name="choose_profile_picture">Choose Profile Picture</string>
     <string name="refresh">Refresh</string>
     <string name="add_profile_picture">Add Profile Picture</string>
+    <string name="edit_profile_picture">Edit Profile Picture</string>
     <string name="add">Add</string>
     <string name="organization_name">Organization Name</string>
     <string name="description">Description</string>
     <string name="create_organization">Create Organization</string>
+    <string name="edit_organization">Edit Organization</string>
     <string name="join_organization">Join Organization</string>
     <string name="organization_code">Organization Code</string>
     <string name="meetings">Meetings</string>
@@ -62,6 +67,8 @@
     <string name="add_agenda">Add Agenda</string>
     <string name="agenda_count">%1$s list(s)</string>
     <string name="finish">Finish</string>
+    <string name="start">Start</string>
+    <string name="end">End</string>
     <string name="add_agenda_plus">+ Add Agenda</string>
     <string name="no_data">No Data</string>
     <string name="search">Search</string>
@@ -86,5 +93,9 @@
     <string name="copied_to_clipboard">Copied to clipboard</string>
     <string name="accept">Accept</string>
     <string name="accepted">Accepted</string>
+    <string name="not_yet_accepted">Not yet accepted</string>
     <string name="please_wait">Please Wait</string>
+    <string name="meeting_code">Meeting Code</string>
+    <string name="suggestion_status">Status: %1$s</string>
+    <string name="edit">Edit</string>
 </resources>

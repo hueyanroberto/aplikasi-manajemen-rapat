@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 class MeetingParticipantAdapter(
     private val listParticipant: List<Participant>
@@ -32,6 +33,8 @@ class MeetingParticipantAdapter(
 
             Glide.with(itemView.context)
                 .load("$BASE_ASSET_URL/Profile/user/${data.profilePic}")
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .error(R.drawable.blank_profile)
                 .into(binding.imagePersonProfile)
 

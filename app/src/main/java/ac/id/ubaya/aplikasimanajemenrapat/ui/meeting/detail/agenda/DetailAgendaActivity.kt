@@ -26,6 +26,7 @@ class DetailAgendaActivity : AppCompatActivity(), View.OnClickListener {
         const val EXTRA_AGENDA = "extra_agenda"
         const val EXTRA_TOKEN = "extra_token"
         const val EXTRA_ROLE = "extra_role"
+        const val EXTRA_MEETING_STATUS = "extra_meeting_status"
     }
 
     private lateinit var binding: ActivityDetailAgendaBinding
@@ -34,6 +35,7 @@ class DetailAgendaActivity : AppCompatActivity(), View.OnClickListener {
     private var agenda: Agenda? = null
     private var token: String = ""
     private var role: Int = -1
+    private var meetingStatus: Int = -1
 
     private lateinit var adapter: SuggestionAdapter
     private val listSuggestion = arrayListOf<Suggestion>()
@@ -51,12 +53,13 @@ class DetailAgendaActivity : AppCompatActivity(), View.OnClickListener {
         }
         token = intent.getStringExtra(EXTRA_TOKEN).toString()
         role = intent.getIntExtra(EXTRA_ROLE, -1)
+        meetingStatus = intent.getIntExtra(EXTRA_MEETING_STATUS, -1)
 
         binding.textAgendaTitle.text = agenda?.task.toString()
         binding.recyclerSuggestions.layoutManager = LinearLayoutManager(this)
-        adapter = SuggestionAdapter(listSuggestion, role)
+        adapter = SuggestionAdapter(listSuggestion, role, meetingStatus)
 
-        if (role == 1) {
+        if (role == 1 && meetingStatus != 2) {
             adapter.setOnItemClickedCallback(object: SuggestionAdapter.OnItemClickedCallback {
                 override fun onItemClickedCallback(data: Suggestion, position: Int) {
                     val message = if (data.accepted == 0) {
@@ -74,6 +77,10 @@ class DetailAgendaActivity : AppCompatActivity(), View.OnClickListener {
                         .show()
                 }
             })
+        }
+
+        if (meetingStatus == 2) {
+            binding.constraintSuggestionAdd.visibility = View.GONE
         }
 
         binding.recyclerSuggestions.adapter = adapter
