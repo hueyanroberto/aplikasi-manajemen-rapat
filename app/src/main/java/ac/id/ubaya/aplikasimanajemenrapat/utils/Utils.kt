@@ -1,11 +1,17 @@
 package ac.id.ubaya.aplikasimanajemenrapat.utils
 
 import android.content.Context
+import android.database.Cursor
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Environment
+import android.provider.OpenableColumns
 import android.util.Base64
+import android.util.Log
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -55,4 +61,52 @@ fun convertDateFormatWithoutTime(date: Date): String {
 fun convertTimeFormat(date: Date): String {
     val format = SimpleDateFormat("HH:mm", Locale.getDefault())
     return format.format(date)
+}
+
+fun getFile(context: Context, uri: Uri): File {
+    val destinationFilename = File(
+        (context.filesDir.path + File.separatorChar) + queryName(
+            context,
+            uri
+        )
+    )
+    try {
+        context.contentResolver.openInputStream(uri).use { ins ->
+            if (ins != null) {
+                createFileFromStream(
+                    ins,
+                    destinationFilename
+                )
+            }
+        }
+    } catch (ex: Exception) {
+        Log.e("Save File", ex.message.toString())
+        ex.printStackTrace()
+    }
+    return destinationFilename
+}
+
+fun createFileFromStream(ins: InputStream, destination: File?) {
+    try {
+        FileOutputStream(destination).use { os ->
+            val buffer = ByteArray(4096)
+            var length: Int
+            while (ins.read(buffer).also { length = it } > 0) {
+                os.write(buffer, 0, length)
+            }
+            os.flush()
+        }
+    } catch (ex: Exception) {
+        Log.e("Save File", ex.message.toString())
+        ex.printStackTrace()
+    }
+}
+
+private fun queryName(context: Context, uri: Uri): String {
+    val returnCursor: Cursor = context.contentResolver.query(uri, null, null, null, null)!!
+    val nameIndex: Int = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+    returnCursor.moveToFirst()
+    val name: String = returnCursor.getString(nameIndex)
+    returnCursor.close()
+    return name
 }

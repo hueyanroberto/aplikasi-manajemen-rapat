@@ -118,6 +118,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="16dp"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:background="@drawable/button_secondary"
                     android:gravity="center"
                     android:text="@string/join_meeting"
@@ -137,6 +138,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="16dp"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:background="@drawable/button_secondary"
                     android:gravity="center"
                     android:text="@string/show_minutes"
@@ -148,6 +150,17 @@
                     app:layout_constraintEnd_toEndOf="@+id/text_meeting_detail_time"
                     app:layout_constraintStart_toEndOf="@+id/button_start_meeting"
                     app:layout_constraintTop_toBottomOf="@+id/text_meeting_detail_time" />
+
+                <ProgressBar
+                    android:id="@+id/progress_bar_meeting"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.tabs.TabLayout

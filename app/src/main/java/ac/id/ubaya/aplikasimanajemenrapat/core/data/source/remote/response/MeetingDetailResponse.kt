@@ -49,7 +49,10 @@ data class MeetingDetailData(
 	val userStatus: Int,
 
 	@field:SerializedName("user_role")
-	val userRole: Int
+	val userRole: Int,
+
+	@field:SerializedName("attachments")
+	val attachments: List<AttachmentItem>
 ) : Parcelable
 
 @Parcelize

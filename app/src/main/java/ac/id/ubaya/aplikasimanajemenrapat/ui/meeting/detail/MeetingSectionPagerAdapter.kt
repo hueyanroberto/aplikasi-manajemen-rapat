@@ -18,7 +18,7 @@ class MeetingSectionPagerAdapter(
     override fun createFragment(position: Int): Fragment {
         var fragment: Fragment? = null
         when (position) {
-            0 -> fragment = MeetingDetailFragment(meeting)
+            0 -> fragment = MeetingDetailFragment(meeting, token)
             1 -> fragment = MeetingAgendaFragment(meeting, token)
             2 -> fragment = MeetingParticipantFragment(meeting.participant)
         }

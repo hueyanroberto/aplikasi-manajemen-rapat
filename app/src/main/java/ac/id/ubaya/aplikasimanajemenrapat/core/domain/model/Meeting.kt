@@ -17,12 +17,13 @@ data class Meeting(
     var userStatus: Int = -1,
     val userRole: Int = -1,
     val agenda: List<Agenda> = listOf(),
-    val participant: List<Participant> = listOf()
+    val participant: List<Participant> = listOf(),
+    val attachments: List<Attachment> = listOf()
 ): Parcelable
 
 @Parcelize
 data class Agenda(
-    val task: String,
+    var task: String,
     val meetingId: Int,
     val id: Int,
     val completed: Int,

@@ -10,6 +10,7 @@ import ac.id.ubaya.aplikasimanajemenrapat.ui.UserViewModel
 import ac.id.ubaya.aplikasimanajemenrapat.ui.login.LoginActivity
 import ac.id.ubaya.aplikasimanajemenrapat.ui.meeting.detail.agenda.MeetingAddAgendaActivity
 import ac.id.ubaya.aplikasimanajemenrapat.ui.meeting.detail.minutes.MinutesActivity
+import ac.id.ubaya.aplikasimanajemenrapat.ui.meeting.update.EditMeetingActivity
 import ac.id.ubaya.aplikasimanajemenrapat.utils.convertDateFormat
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -21,6 +22,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
@@ -86,45 +88,16 @@ class MeetingActivity : AppCompatActivity() {
         TabLayoutMediator(binding.tabMeeting, binding.viewPagerMeeting) {tab, position ->
             tab.text = resources.getString(TAB_TITLES[position])
         }.attach()
-
-        binding.tabMeeting.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                if (meeting.userRole == 1) {
-                    when (binding.tabMeeting.selectedTabPosition) {
-                        0 -> {
-                            binding.fabMeeting.hide()
-                        }
-                        1 -> {
-                            binding.fabMeeting.setImageResource(R.drawable.baseline_add_24)
-                            binding.fabMeeting.show()
-
-                            binding.fabMeeting.setOnClickListener {
-                                val intent = Intent(this@MeetingActivity, MeetingAddAgendaActivity::class.java)
-                                intent.putExtra(MeetingAddAgendaActivity.EXTRA_TOKEN, user.token.toString())
-                                intent.putExtra(MeetingAddAgendaActivity.EXTRA_MEETING_ID, meetingId)
-                                startActivity(intent)
-                            }
-                        }
-                        2 -> {
-                            binding.fabMeeting.setImageResource(R.drawable.baseline_edit_24)
-                            binding.fabMeeting.show()
-
-                            binding.fabMeeting.setOnClickListener(null)
-                        }
-                    }
-                }
-            }
-            override fun onTabUnselected(tab: TabLayout.Tab?) { }
-            override fun onTabReselected(tab: TabLayout.Tab?) { }
-        })
     }
 
     private fun observeMeetingDetail(token: String, meetingId: Int) {
         meetingViewModel.getMeetingDetail(token, meetingId).observe(this) { meetingResource ->
             when (meetingResource) {
                 is Resource.Loading -> {
+                    binding.progressBarMeeting.visibility = View.VISIBLE
                 }
                 is Resource.Success -> {
+                    binding.progressBarMeeting.visibility = View.GONE
                     if (meetingResource.data != null) {
                         meeting = meetingResource.data
 
@@ -145,6 +118,7 @@ class MeetingActivity : AppCompatActivity() {
                     }
                 }
                 is Resource.Error -> {
+                    binding.progressBarMeeting.visibility = View.GONE
                     Snackbar.make(binding.viewPagerMeeting, resources.getString(R.string.internal_error_message), Snackbar.LENGTH_LONG)
                         .setBackgroundTint(resources.getColor(R.color.secondary_dark, theme))
                         .setTextColor(resources.getColor(R.color.white, theme))
@@ -206,6 +180,8 @@ class MeetingActivity : AppCompatActivity() {
                 binding.imageMeetingMore.setOnClickListener {
                     val popupMenu = PopupMenu(this, it)
                     popupMenu.inflate(R.menu.menu_show_code)
+                    val editItem = popupMenu.menu.findItem(R.id.item_edit_meeting)
+                    if (meeting.status != 0) editItem.isVisible = false
                     popupMenu.setOnMenuItemClickListener { menuItem ->
                         when (menuItem.itemId) {
                             R.id.item_show_code_organization -> {
@@ -218,6 +194,15 @@ class MeetingActivity : AppCompatActivity() {
                                         Toast.makeText(this, resources.getString(R.string.copied_to_clipboard), Toast.LENGTH_SHORT).show()
                                     }
                                     .show()
+                            }
+                            R.id.item_edit_meeting -> {
+                                if (meeting.status == 0) {
+                                    val extraMeeting = Meeting(meeting.startTime, meeting.code, meeting.endTime, meeting.description, meeting.location, meeting.id, meeting.title, meeting.status)
+                                    val intent = Intent(this, EditMeetingActivity::class.java)
+                                    intent.putExtra(EditMeetingActivity.EXTRA_MEETING, extraMeeting)
+                                    intent.putExtra(EditMeetingActivity.EXTRA_TOKEN, user.token.toString())
+                                    resultLauncher.launch(intent)
+                                }
                             }
                         }
                         true
@@ -269,6 +254,37 @@ class MeetingActivity : AppCompatActivity() {
                 }
             }
         }
+
+        binding.tabMeeting.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                if (meeting.userRole == 1 && meeting.status == 0) {
+                    when (binding.tabMeeting.selectedTabPosition) {
+                        0 -> {
+                            binding.fabMeeting.hide()
+                        }
+                        1 -> {
+                            binding.fabMeeting.setImageResource(R.drawable.baseline_add_24)
+                            binding.fabMeeting.show()
+
+                            binding.fabMeeting.setOnClickListener {
+                                val intent = Intent(this@MeetingActivity, MeetingAddAgendaActivity::class.java)
+                                intent.putExtra(MeetingAddAgendaActivity.EXTRA_TOKEN, user.token.toString())
+                                intent.putExtra(MeetingAddAgendaActivity.EXTRA_MEETING_ID, meetingId)
+                                startActivity(intent)
+                            }
+                        }
+                        2 -> {
+                            binding.fabMeeting.setImageResource(R.drawable.baseline_edit_24)
+                            binding.fabMeeting.show()
+
+                            binding.fabMeeting.setOnClickListener(null)
+                        }
+                    }
+                }
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab?) { }
+            override fun onTabReselected(tab: TabLayout.Tab?) { }
+        })
     }
 
     private fun startMeeting(token: String, meetingId: Int) {
@@ -359,6 +375,12 @@ class MeetingActivity : AppCompatActivity() {
                     }
                 }
             }
+        }
+    }
+
+    private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == EditMeetingActivity.RESULT_CODE_DELETE) {
+            finish()
         }
     }
 }

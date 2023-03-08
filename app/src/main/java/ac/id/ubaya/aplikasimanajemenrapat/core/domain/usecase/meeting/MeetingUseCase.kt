@@ -1,11 +1,10 @@
 package ac.id.ubaya.aplikasimanajemenrapat.core.domain.usecase.meeting
 
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.Resource
-import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Agenda
-import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Meeting
-import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Suggestion
-import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.User
+import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.*
 import kotlinx.coroutines.flow.Flow
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import java.util.*
 
 interface MeetingUseCase {
@@ -25,4 +24,9 @@ interface MeetingUseCase {
     fun joinMeeting(token: String, meetingId: Int, meetingCode: String, date: Date): Flow<Resource<Meeting>>
     fun endMeeting(token: String, meetingId: Int, date: Date): Flow<Resource<Meeting>>
     fun getMinutes(token: String, meetingId: Int): Flow<Resource<List<Agenda>>>
+    fun editAgenda(token: String, agendaId: Int, task: String): Flow<Resource<Agenda>>
+    fun deleteAgenda(token: String, agendaId: Int): Flow<Resource<Agenda>>
+    fun editMeeting(token: String, title: String, startTime: Date, endTime: Date, location: String, description: String, meetingId: Int): Flow<Resource<Meeting>>
+    fun deleteMeeting(token: String, meetingId: Int): Flow<Resource<Meeting>>
+    fun uploadFile(token: String, files: List<MultipartBody.Part>, meetingId: RequestBody):Flow<Resource<List<Attachment>>>
 }

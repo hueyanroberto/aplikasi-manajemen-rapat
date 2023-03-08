@@ -13,6 +13,12 @@ data class MeetingResponse(
 ) : Parcelable
 
 @Parcelize
+data class UpdateMeetingResponse(
+	@field:SerializedName("data")
+	val meeting: MeetingItem
+): Parcelable
+
+@Parcelize
 data class MeetingItem(
 
 	@field:SerializedName("start_time")

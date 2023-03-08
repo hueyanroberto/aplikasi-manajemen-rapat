@@ -1,17 +1,9 @@
 package ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.network
 
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.*
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.http.Body
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Headers
-import retrofit2.http.POST
-import retrofit2.http.PUT
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 import java.util.Date
 
 interface ApiService {
@@ -125,6 +117,21 @@ interface ApiService {
         @Body body: RequestBody
     ): MeetingResponse
 
+    @PUT("meeting")
+    @Headers("Accept: application/json")
+    suspend fun editMeeting(
+        @Header("Authorization") token: String,
+        @Body body: RequestBody
+    ): MeetingResponse
+
+    @FormUrlEncoded
+    @HTTP(method = "DELETE", path = "meeting", hasBody = true)
+    @Headers("Accept: application/json")
+    suspend fun deleteMeeting(
+        @Header("Authorization") token: String,
+        @Field("meeting_id") meetingId: Int
+    ): MeetingResponse
+
     @GET("meeting")
     @Headers("Accept: application/json")
     suspend fun getMeetingDetail(
@@ -196,4 +203,29 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Query("meeting_id") meetingId: Int
     ): AgendaResponse
+
+    @FormUrlEncoded
+    @PUT("agenda")
+    @Headers("Accept: application/json")
+    suspend fun editAgenda(
+        @Header("Authorization") token: String,
+        @Field("agenda_id") agendaId: Int,
+        @Field("task") task: String
+    ): AgendaResponse
+
+    @FormUrlEncoded
+    @HTTP(method = "DELETE", path = "agenda", hasBody = true)
+    @Headers("Accept: application/json")
+    suspend fun deleteAgenda(
+        @Header("Authorization") token: String,
+        @Field("agenda_id") agendaId: Int
+    ): AgendaResponse
+
+    @Multipart
+    @POST("meeting/attachment")
+    suspend fun uploadAttachment(
+        @Header("Authorization") token: String,
+        @Part files: List<MultipartBody.Part>,
+        @Part("meeting_id") meetingId: RequestBody
+    ): AttachmentResponse
 }

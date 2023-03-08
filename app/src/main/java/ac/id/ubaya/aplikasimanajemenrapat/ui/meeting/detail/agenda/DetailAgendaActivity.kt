@@ -6,11 +6,14 @@ import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Agenda
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Suggestion
 import ac.id.ubaya.aplikasimanajemenrapat.databinding.ActivityDetailAgendaBinding
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
@@ -45,6 +48,8 @@ class DetailAgendaActivity : AppCompatActivity(), View.OnClickListener {
         binding = ActivityDetailAgendaBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.imageAddAgendaMore.visibility = View.GONE
+
         @Suppress("DEPRECATION")
         agenda = if (Build.VERSION.SDK_INT > 33) {
             intent.getParcelableExtra(EXTRA_AGENDA, Agenda::class.java)
@@ -77,6 +82,27 @@ class DetailAgendaActivity : AppCompatActivity(), View.OnClickListener {
                         .show()
                 }
             })
+
+            if (meetingStatus == 0) {
+                binding.imageAddAgendaMore.visibility = View.VISIBLE
+                binding.imageAddAgendaMore.setOnClickListener {
+                    val popupMenu = PopupMenu(this, it)
+                    popupMenu.inflate(R.menu.menu_agenda)
+                    popupMenu.setOnMenuItemClickListener { menuItem ->
+                        when (menuItem.itemId) {
+                            R.id.item_agenda_edit -> {
+                                val intent = Intent(this, EditAgendaActivity::class.java)
+                                intent.putExtra(EditAgendaActivity.EXTRA_TOKEN, token)
+                                intent.putExtra(EditAgendaActivity.EXTRA_AGENDA_ID, agenda?.id)
+                                intent.putExtra(EditAgendaActivity.EXTRA_AGENDA_TASK, agenda?.task)
+                                resultLauncher.launch(intent)
+                            }
+                        }
+                        true
+                    }
+                    popupMenu.show()
+                }
+            }
         }
 
         if (meetingStatus == 2) {
@@ -196,6 +222,19 @@ class DetailAgendaActivity : AppCompatActivity(), View.OnClickListener {
                 if (suggestion.isNotEmpty()) {
                     addSuggestion(token, agenda?.id!!, suggestion)
                 }
+            }
+        }
+    }
+
+    private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        when (it.resultCode){
+            EditAgendaActivity.RESULT_CODE_EDITED -> {
+                val task = it.data?.getStringExtra(EditAgendaActivity.EXTRA_AGENDA_TASK).toString()
+                agenda?.task = task
+                binding.textAgendaTitle.text = agenda?.task
+            }
+            EditAgendaActivity.RESULT_CODE_DELETED -> {
+                finish()
             }
         }
     }

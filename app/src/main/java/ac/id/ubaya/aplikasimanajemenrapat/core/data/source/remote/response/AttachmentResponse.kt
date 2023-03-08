@@ -5,20 +5,21 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
 @Parcelize
-data class LevelResponse(
+data class AttachmentResponse(
 
-	@field:SerializedName("badge_url")
-	val badgeUrl: String,
+	@field:SerializedName("data")
+	val listAttachment: List<AttachmentItem>
+) : Parcelable
 
-	@field:SerializedName("level")
-	val level: Int,
+@Parcelize
+data class AttachmentItem(
 
-	@field:SerializedName("name")
-	val name: String,
+	@field:SerializedName("meeting_id")
+	val meetingId: Int,
 
 	@field:SerializedName("id")
 	val id: Int,
 
-	@field:SerializedName("exp")
-	val exp: Int = 0
+	@field:SerializedName("url")
+	val url: String
 ) : Parcelable

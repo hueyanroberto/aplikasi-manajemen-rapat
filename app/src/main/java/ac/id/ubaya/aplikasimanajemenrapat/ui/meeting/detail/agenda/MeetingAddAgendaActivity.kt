@@ -43,6 +43,7 @@ class MeetingAddAgendaActivity : AppCompatActivity(), View.OnClickListener {
 
         binding.buttonAddAgenda.setOnClickListener(this)
         binding.imageAddAgendaFinish.setOnClickListener(this)
+        binding.imageAddAgendaBack.setOnClickListener(this)
     }
 
     private fun createEditText(isRequestFocus: Boolean) {
@@ -82,6 +83,7 @@ class MeetingAddAgendaActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View) {
         when (v.id) {
+            binding.imageAddAgendaBack.id -> finish()
             binding.buttonAddAgenda.id -> {
                 val text = listEditText[listEditText.size - 1].text.toString().trim()
                 if (text.isEmpty()) {

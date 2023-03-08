@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONArray
 import org.json.JSONObject
@@ -236,6 +238,101 @@ class MeetingRemoteDataSource @Inject constructor(private val apiService: ApiSer
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
                 Log.e("MeetingRDataSource", "getMinutes: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun editAgenda(token: String, agendaId: Int, task: String): Flow<ApiResponse<AgendaResponse>> {
+        return flow {
+            try {
+                val meetingDetailResponse = apiService.editAgenda("Bearer $token", agendaId, task)
+                if (meetingDetailResponse.agendaData.isNotEmpty()) {
+                    emit(ApiResponse.Success(meetingDetailResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("MeetingRDataSource", "editAgenda: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun deleteAgenda(token: String, agendaId: Int): Flow<ApiResponse<AgendaResponse>> {
+        return flow {
+            try {
+                val meetingDetailResponse = apiService.deleteAgenda("Bearer $token", agendaId)
+                if (meetingDetailResponse.agendaData.isNotEmpty()) {
+                    emit(ApiResponse.Success(meetingDetailResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("MeetingRDataSource", "deleteAgenda: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun editMeeting(
+        token: String, title: String, startTime: Date, endTime: Date,
+        location: String, description: String, meetingId: Int
+    ): Flow<ApiResponse<MeetingResponse>> {
+
+        val jsonObject = JSONObject()
+        jsonObject.put("title", title)
+        jsonObject.put("start_time", startTime)
+        jsonObject.put("end_time", endTime)
+        jsonObject.put("location", location)
+        jsonObject.put("description", description)
+        jsonObject.put("meeting_id", meetingId)
+        val body = jsonObject.toString().toRequestBody("application/json".toMediaTypeOrNull())
+
+        return flow {
+            try {
+                val meetingResponse = apiService.editMeeting("Bearer $token", body)
+                if (meetingResponse.dataMeeting.isNotEmpty()) {
+                    emit(ApiResponse.Success(meetingResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("MeetingRDataSource", "editMeeting: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun deleteMeeting(
+        token: String, meetingId: Int
+    ): Flow<ApiResponse<MeetingResponse>> {
+        return flow {
+            try {
+                val meetingResponse = apiService.deleteMeeting("Bearer $token", meetingId)
+                if (meetingResponse.dataMeeting.isNotEmpty()) {
+                    emit(ApiResponse.Success(meetingResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("MeetingRDataSource", "deleteMeeting: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun uploadFile(token: String, files: List<MultipartBody.Part>, meetingId: RequestBody): Flow<ApiResponse<AttachmentResponse>> {
+        return flow {
+            try {
+                val attachmentResponse = apiService.uploadAttachment("Bearer $token", files, meetingId)
+                if (attachmentResponse.listAttachment.isNotEmpty()) {
+                    emit(ApiResponse.Success(attachmentResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("MeetingRDataSource", "uploadFile: $e")
             }
         }.flowOn(Dispatchers.IO)
     }

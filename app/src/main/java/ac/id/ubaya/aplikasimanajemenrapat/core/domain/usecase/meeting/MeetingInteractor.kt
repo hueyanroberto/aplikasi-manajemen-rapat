@@ -2,11 +2,10 @@ package ac.id.ubaya.aplikasimanajemenrapat.core.domain.usecase.meeting
 
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.Resource
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.repository.MeetingRepository
-import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Agenda
-import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Meeting
-import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Suggestion
-import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.User
+import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.*
 import kotlinx.coroutines.flow.Flow
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import java.util.*
 import javax.inject.Inject
 
@@ -78,5 +77,32 @@ class MeetingInteractor @Inject constructor(
 
     override fun getMinutes(token: String, meetingId: Int): Flow<Resource<List<Agenda>>> {
         return meetingRepository.getMinutes(token, meetingId)
+    }
+
+    override fun editAgenda(token: String, agendaId: Int, task: String): Flow<Resource<Agenda>> {
+        return meetingRepository.editAgenda(token, agendaId, task)
+    }
+
+    override fun deleteAgenda(token: String, agendaId: Int): Flow<Resource<Agenda>> {
+        return meetingRepository.deleteAgenda(token, agendaId)
+    }
+
+    override fun editMeeting(
+        token: String, title: String, startTime: Date, endTime: Date,
+        location: String, description: String, meetingId: Int
+    ): Flow<Resource<Meeting>> {
+        return meetingRepository.editMeeting(token, title, startTime, endTime, location, description, meetingId)
+    }
+
+    override fun deleteMeeting(token: String, meetingId: Int): Flow<Resource<Meeting>> {
+        return meetingRepository.deleteMeeting(token, meetingId)
+    }
+
+    override fun uploadFile(
+        token: String,
+        files: List<MultipartBody.Part>,
+        meetingId: RequestBody
+    ): Flow<Resource<List<Attachment>>> {
+        return meetingRepository.uploadFile(token, files, meetingId)
     }
 }

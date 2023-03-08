@@ -40,7 +40,7 @@ class SuggestionAdapter(
             binding.textSuggestionStatus.text = itemView.context.getString(R.string.suggestion_status, status)
 
             binding.textAcceptSuggestion.visibility = View.GONE
-            if (role == 1 && meetingStatus != 2) {
+            if (role == 1 && meetingStatus == 1) {
                 binding.textAcceptSuggestion.visibility = View.VISIBLE
                 if (data.accepted == 0) {
                     binding.textAcceptSuggestion.setBackgroundResource(R.drawable.rounded_pill_primary)

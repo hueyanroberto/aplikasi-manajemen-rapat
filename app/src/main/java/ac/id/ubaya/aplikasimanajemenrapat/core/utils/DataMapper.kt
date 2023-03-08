@@ -109,7 +109,8 @@ object DataMapper {
                 userStatus = it.userStatus,
                 userRole = it.userRole,
                 agenda = agendaResponseToModel(it.agenda),
-                participant = participantResponseToModel(it.participant)
+                participant = participantResponseToModel(it.participant),
+                attachments = attachmentResponseToModel(it.attachments)
             )
         }
 
@@ -158,4 +159,14 @@ object DataMapper {
             suggestion = suggestion.suggestion,
             user = suggestion.user
         )
+
+    fun attachmentResponseToModel(listAttachment: List<AttachmentItem>): List<Attachment> =
+        listAttachment.map {
+            Attachment(
+                id = it.id,
+                meetingId = it.meetingId,
+                url = it.url
+            )
+        }
+
 }
