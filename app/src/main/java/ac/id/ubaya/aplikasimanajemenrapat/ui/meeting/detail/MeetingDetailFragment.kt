@@ -60,8 +60,13 @@ class MeetingDetailFragment(
             adapter = adapterAttachment
         }
 
-        binding.textAttachmentAdd.setOnClickListener {
-            getFile()
+        binding.textAttachmentAdd.visibility = View.GONE
+
+        if (meeting.userRole == 1) {
+            binding.textAttachmentAdd.visibility = View.VISIBLE
+            binding.textAttachmentAdd.setOnClickListener {
+                getFile()
+            }
         }
     }
 

@@ -49,7 +49,8 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Field("name") name: String,
         @Field("description") description: String,
-        @Field("profile_pic") profilePic: String
+        @Field("profile_pic") profilePic: String,
+        @Field("duration") duration: Int
     ): OrganizationResponse
 
     @FormUrlEncoded

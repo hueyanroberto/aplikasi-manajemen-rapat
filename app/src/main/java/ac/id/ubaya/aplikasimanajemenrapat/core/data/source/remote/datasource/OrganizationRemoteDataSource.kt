@@ -35,11 +35,12 @@ class OrganizationRemoteDataSource @Inject constructor(private val apiService: A
         name: String,
         description: String,
         profilePic: String,
-        token: String
+        token: String,
+        duration: Int
     ): Flow<ApiResponse<OrganizationResponse>> {
         return flow {
             try {
-                val organizationResponse = apiService.createOrganization("Bearer $token", name, description, profilePic)
+                val organizationResponse = apiService.createOrganization("Bearer $token", name, description, profilePic, duration)
                 if (organizationResponse.organizationData.isNotEmpty()) {
                     emit(ApiResponse.Success(organizationResponse))
                 } else {

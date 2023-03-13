@@ -18,9 +18,10 @@ class OrganizationInteractor @Inject constructor(
         name: String,
         description: String,
         profilePic: String,
-        token: String
+        token: String,
+        duration: Int
     ): Flow<Resource<Organization?>> {
-        return organizationRepository.createOrganization(name, description, profilePic, token)
+        return organizationRepository.createOrganization(name, description, profilePic, token, duration)
     }
 
     override fun joinOrganization(

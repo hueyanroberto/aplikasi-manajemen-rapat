@@ -22,8 +22,9 @@ class CreateOrganizationViewModel @Inject constructor(
         name: String,
         description: String,
         profilePic: String,
-        token: String
+        token: String,
+        duration: Int
     ): LiveData<Resource<Organization?>> {
-        return organizationUseCase.createOrganization(name, description, profilePic, token).asLiveData()
+        return organizationUseCase.createOrganization(name, description, profilePic, token, duration).asLiveData()
     }
 }

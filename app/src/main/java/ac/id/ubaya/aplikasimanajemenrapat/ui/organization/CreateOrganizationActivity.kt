@@ -72,22 +72,38 @@ class CreateOrganizationActivity : AppCompatActivity(), View.OnClickListener {
                 binding.textInputCreateOrganizationName.error = null
                 binding.textInputCreateOrganizationDescription.error = null
                 val name = binding.editCreateOrganizationName.text.toString().trim()
+                val leaderboardDuration = getSpinnerValue()
                 val description = binding.editCreateOrganizationDescription.text.toString().trim()
                 if (name.isEmpty()) {
                     binding.textInputCreateOrganizationName.error = resources.getString(R.string.required_field)
                 } else if (description.isEmpty()) {
                     binding.textInputCreateOrganizationDescription.error = resources.getString(R.string.required_field)
                 } else {
-                    createOrganization(name, description, profilePic)
+                    createOrganization(name, description, profilePic, leaderboardDuration)
                 }
             }
         }
     }
 
-    private fun createOrganization(name: String, description: String, profilePic: String) {
+    private fun getSpinnerValue(): Int {
+        return when (binding.spinnerLeaderboaedPeriod.selectedItemPosition) {
+            0 -> 1
+            1 -> 3
+            2 -> 6
+            3 -> 12
+            else -> 0
+        }
+    }
+
+    private fun createOrganization(
+        name: String,
+        description: String,
+        profilePic: String,
+        leaderboardDuration: Int
+    ) {
         viewModel.getUser().observe(this) {
             if (it.id != -1) {
-                viewModel.createOrganization(name, description, profilePic, it.token.toString()).observe(this) { organizationResource ->
+                viewModel.createOrganization(name, description, profilePic, it.token.toString(), leaderboardDuration).observe(this) { organizationResource ->
                     when (organizationResource) {
                         is Resource.Loading -> {
                             binding.progressBarCreateOrganization.visibility = View.VISIBLE

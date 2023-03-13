@@ -143,7 +143,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/text_input_create_organization_description"
             app:layout_constraintStart_toStartOf="@+id/text_input_create_organization_description"
-            app:layout_constraintTop_toBottomOf="@+id/text_input_create_organization_description" />
+            app:layout_constraintTop_toBottomOf="@+id/spinner_leaderboaed_period" />
 
         <ProgressBar
             android:id="@+id/progressBar_create_organization"
@@ -155,6 +155,25 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_leaderboard_period_title"
+            style="@style/textStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/leaderboard_period"
+            app:layout_constraintStart_toStartOf="@+id/text_input_create_organization_description"
+            app:layout_constraintTop_toBottomOf="@+id/text_input_create_organization_description" />
+
+        <Spinner
+            android:id="@+id/spinner_leaderboaed_period"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:entries="@array/leaderboard_periods"
+            app:layout_constraintEnd_toEndOf="@+id/text_input_create_organization_description"
+            app:layout_constraintStart_toStartOf="@+id/text_leaderboard_period_title"
+            app:layout_constraintTop_toBottomOf="@+id/text_leaderboard_period_title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

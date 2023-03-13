@@ -56,11 +56,12 @@ class OrganizationRepository @Inject constructor(
         name: String,
         description: String,
         profilePic: String,
-        token: String
+        token: String,
+        duration: Int
     ): Flow<Resource<Organization?>> {
         return flow {
             emit(Resource.Loading())
-            when (val apiResponse = organizationRemoteDataSource.createOrganization(name, description, profilePic, token).first()) {
+            when (val apiResponse = organizationRemoteDataSource.createOrganization(name, description, profilePic, token, duration).first()) {
                 is ApiResponse.Success -> {
                     val organizationList = apiResponse.data.organizationData
                     organizationLocalDataSource.insert(DataMapper.organizationResponseToEntity(organizationList))
