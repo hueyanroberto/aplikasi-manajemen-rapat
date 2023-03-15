@@ -125,4 +125,9 @@
     <string name="attachment">Attachment</string>
     <string name="file_uploaded">File Uploaded</string>
     <string name="leaderboard_period">Leaderboard Period :</string>
+    <string name="profile">Profile</string>
+    <string name="settings">Settings</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="reward">Reward: %1$s XP</string>
+    <string name="achievement">Achievement</string>
 </resources>

@@ -3,6 +3,8 @@ package ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.datasource
 import ac.id.ubaya.aplikasimanajemenrapat.BuildConfig
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.network.ApiResponse
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.network.ApiService
+import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.AchievementListResponse
+import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.ProfileResponse
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.UserResponse
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
@@ -68,6 +70,38 @@ class UserRemoteDataSource @Inject constructor(private val apiService: ApiServic
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
                 Log.e("UserRDataSource", "registerNameAndProfile: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun getProfile(token: String): Flow<ApiResponse<ProfileResponse>> {
+        return flow {
+            try {
+                val userResponse = apiService.getProfile("Bearer $token")
+                if (userResponse.profileData != null) {
+                    emit(ApiResponse.Success(userResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("UserRDataSource", "getProfile: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun getAchievements(token: String): Flow<ApiResponse<AchievementListResponse>> {
+        return flow {
+            try {
+                val userResponse = apiService.getAchievements("Bearer $token")
+                if (userResponse.data.isNotEmpty()) {
+                    emit(ApiResponse.Success(userResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("UserRDataSource", "getAchievements: $e")
             }
         }.flowOn(Dispatchers.IO)
     }

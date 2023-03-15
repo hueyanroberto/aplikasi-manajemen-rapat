@@ -12,5 +12,7 @@ data class User(
     var profilePic: String?,
     var levelId: Int,
     var token: String? = null,
-    var role: Role? = null
+    var role: Role? = null,
+    var achievement: List<Achievement> = listOf(),
+    var level: Level? = null
 ): Parcelable

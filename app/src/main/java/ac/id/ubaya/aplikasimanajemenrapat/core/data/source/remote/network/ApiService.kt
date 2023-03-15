@@ -229,4 +229,14 @@ interface ApiService {
         @Part files: List<MultipartBody.Part>,
         @Part("meeting_id") meetingId: RequestBody
     ): AttachmentResponse
+
+    @GET("profile")
+    suspend fun getProfile(
+        @Header("Authorization") token: String,
+    ): ProfileResponse
+
+    @GET("profile/achievements")
+    suspend fun getAchievements(
+        @Header("Authorization") token: String,
+    ): AchievementListResponse
 }

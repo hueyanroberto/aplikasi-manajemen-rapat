@@ -19,6 +19,9 @@ data class LevelResponse(
 	@field:SerializedName("id")
 	val id: Int,
 
-	@field:SerializedName("exp")
-	val exp: Int = 0
+	@field:SerializedName("min_exp")
+	val minExp: Int = 0,
+
+	@field:SerializedName("max_exp")
+	val maxExp: Int = 0,
 ) : Parcelable

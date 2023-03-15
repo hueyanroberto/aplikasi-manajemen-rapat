@@ -29,27 +29,16 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:id="@+id/image_main_menu"
-                        android:layout_width="@dimen/backIconSize"
-                        android:layout_height="@dimen/backIconSize"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/baseline_menu_24" />
-
-                    <ImageView
                         android:id="@+id/image_logo_main"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_marginTop="4dp"
-                        android:layout_marginEnd="16dp"
                         android:layout_marginBottom="4dp"
                         android:contentDescription="@string/app_name"
                         android:scaleType="centerInside"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintDimensionRatio="4:1"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintDimensionRatio="8:3"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/logo_text_black" />

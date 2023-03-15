@@ -32,6 +32,44 @@ object DataMapper {
             )
         }
 
+    fun userProfileToModel(userProfileData: ProfileData): User {
+        return User(
+            id = userProfileData.id,
+            email = userProfileData.email,
+            name = userProfileData.name,
+            profilePic = userProfileData.profilePic,
+            exp = userProfileData.exp,
+            levelId = userProfileData.levelId,
+            level = levelResponseToModel(userProfileData.level),
+            achievement = achievementResponseToModel(userProfileData.achievement)
+        )
+    }
+
+    fun levelResponseToModel(levelResponse: LevelResponse): Level {
+        return Level(
+            id = levelResponse.id,
+            name = levelResponse.name,
+            level = levelResponse.level,
+            badgeUrl = levelResponse.badgeUrl,
+            minExp = levelResponse.minExp,
+            maxExp = levelResponse.maxExp
+        )
+    }
+
+    fun achievementResponseToModel(achievement: List<AchievementItem>): List<Achievement> =
+        achievement.map {
+            Achievement(
+                id = it.id,
+                name = it.name,
+                description = it.description ?: "",
+                badgeUrl = it.badgeUrl,
+                milestone = it.milestone,
+                progress = it.progress ?: 0,
+                status = it.status ?: 0,
+                rewardExp = it.rewardExp
+            )
+        }
+
     fun roleResponseToModel(roleResponse: RoleResponse): Role =
         Role(roleResponse.name, roleResponse.id)
 
