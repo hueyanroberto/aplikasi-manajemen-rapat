@@ -24,6 +24,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -64,6 +66,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 binding.mainActivity.imageLogOut.setOnClickListener {
+                    Firebase.auth.signOut()
                     mainViewModel.logOut(user?.token.toString())
                 }
 
@@ -88,7 +91,7 @@ class MainActivity : AppCompatActivity() {
         navBinding.textDrawerEmail.text = user?.email
         navBinding.textDrawerName.text = user?.name
         Glide.with(this)
-            .load("$BASE_ASSET_URL/Asset/Profile/User/${user?.profilePic}")
+            .load("$BASE_ASSET_URL/Profile/User/${user?.profilePic}")
             .error(R.drawable.blank_profile)
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .skipMemoryCache(true)

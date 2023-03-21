@@ -39,7 +39,7 @@ class AchievementAdapter(
                     split[1]
 
             Glide.with(itemView.context)
-                .load("$BASE_ASSET_URL/Asset/Achievement/${data.badgeUrl}")
+                .load("$BASE_ASSET_URL/Achievement/${data.badgeUrl}")
                 .error(R.drawable.logo_color)
                 .into(binding.imageAchievement)
 

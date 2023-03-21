@@ -5,6 +5,7 @@ import ac.id.ubaya.aplikasimanajemenrapat.core.data.Resource
 import ac.id.ubaya.aplikasimanajemenrapat.databinding.ActivityMinutesBinding
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -29,10 +30,11 @@ class MinutesActivity : AppCompatActivity() {
         binding = ActivityMinutesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         val meetingId = intent.getIntExtra(EXTRA_MEETING_ID, -1)
         val token = intent.getStringExtra(EXTRA_TOKEN).toString()
-
-        binding.imageMinutesBack.setOnClickListener { finish() }
 
         getMinutes(token, meetingId)
     }
@@ -70,5 +72,13 @@ class MinutesActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            android.R.id.home -> finish()
+        }
+
+        return true
     }
 }

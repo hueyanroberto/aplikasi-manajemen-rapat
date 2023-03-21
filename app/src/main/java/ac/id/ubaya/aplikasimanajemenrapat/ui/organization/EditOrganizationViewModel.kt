@@ -17,7 +17,7 @@ class EditOrganizationViewModel @Inject constructor(
         return organizationUseCase.updateOrganizationProfile(token, organizationId, profilePic)
     }
 
-    fun editOrganization(token: String, organizationId: Int, name: String, desc: String): Flow<Resource<Organization>> {
-        return organizationUseCase.editOrganization(token, organizationId, name, desc)
+    fun editOrganization(token: String, organizationId: Int, name: String, desc: String, duration: Int): Flow<Resource<Organization>> {
+        return organizationUseCase.editOrganization(token, organizationId, name, desc, duration)
     }
 }

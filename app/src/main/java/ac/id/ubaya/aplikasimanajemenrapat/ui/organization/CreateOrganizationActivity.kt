@@ -16,6 +16,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -51,7 +52,9 @@ class CreateOrganizationActivity : AppCompatActivity(), View.OnClickListener {
         binding = ActivityCreateOrganizationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.imageCreateOrganizationBack.setOnClickListener(this)
+        setSupportActionBar(binding.toolbarCreateOrganization)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         binding.buttonAddProfileOrganization.setOnClickListener(this)
         binding.buttonCreateOrganization.setOnClickListener(this)
 
@@ -60,7 +63,6 @@ class CreateOrganizationActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View) {
         when (v.id) {
-            binding.imageCreateOrganizationBack.id -> finish()
             binding.buttonAddProfileOrganization.id -> {
                 if (allPermissionGranted()) {
                     alertDialogChooser()
@@ -229,5 +231,13 @@ class CreateOrganizationActivity : AppCompatActivity(), View.OnClickListener {
             profilePic = bitmapToBase64(imageBitmap)
             binding.imageAddProfileOrganization.setImageBitmap(imageBitmap)
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            android.R.id.home -> finish()
+        }
+
+        return true
     }
 }

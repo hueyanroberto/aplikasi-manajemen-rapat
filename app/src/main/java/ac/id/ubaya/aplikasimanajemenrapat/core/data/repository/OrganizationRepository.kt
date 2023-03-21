@@ -4,6 +4,7 @@ import ac.id.ubaya.aplikasimanajemenrapat.core.data.Resource
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.local.datasource.OrganizationLocalDataSource
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.datasource.OrganizationRemoteDataSource
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.network.ApiResponse
+import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.LeaderboardDetail
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Organization
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.User
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.repository.IOrganizationRepository
@@ -151,11 +152,12 @@ class OrganizationRepository @Inject constructor(
         token: String,
         organizationId: Int,
         name: String,
-        description: String
+        description: String,
+        duration: Int
     ): Flow<Resource<Organization>> {
         return flow {
             emit(Resource.Loading())
-            when (val apiResponse = organizationRemoteDataSource.editOrganization(token, organizationId, name, description).first()) {
+            when (val apiResponse = organizationRemoteDataSource.editOrganization(token, organizationId, name, description, duration).first()) {
                 is ApiResponse.Success -> {
                     val organizationList = apiResponse.data.organizationData
                     organizationLocalDataSource.insert(DataMapper.organizationResponseToEntity(organizationList))
@@ -182,9 +184,29 @@ class OrganizationRepository @Inject constructor(
             when (val apiResponse = organizationRemoteDataSource.updateOrganizationProfilePic(token, organizationId, profilePic).first()) {
                 is ApiResponse.Success -> {
                     val organizationList = apiResponse.data.organizationData
-                    organizationLocalDataSource.insert(DataMapper.organizationResponseToEntity(organizationList))
-
+//                    organizationLocalDataSource.insert(DataMapper.organizationResponseToEntity(organizationList))
                     emit(Resource.Success(DataMapper.organizationResponseToModel(organizationList)[0]))
+                }
+                is ApiResponse.Empty -> {
+                    emit(Resource.Error("unauthenticated"))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.errorMessage))
+                }
+            }
+        }
+    }
+
+    override fun getLeaderboard(
+        token: String,
+        organizationId: Int
+    ): Flow<Resource<LeaderboardDetail>> {
+        return flow {
+            emit(Resource.Loading())
+            when (val apiResponse = organizationRemoteDataSource.getLeaderboard(token, organizationId).first()) {
+                is ApiResponse.Success -> {
+                    val leaderboardData = apiResponse.data.leaderboardData
+                    emit(Resource.Success(DataMapper.leaderboardResponseToEntity(leaderboardData)))
                 }
                 is ApiResponse.Empty -> {
                     emit(Resource.Error("unauthenticated"))

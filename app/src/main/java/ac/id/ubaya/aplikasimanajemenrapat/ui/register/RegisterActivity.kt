@@ -11,6 +11,9 @@ import android.util.Patterns
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,10 +22,13 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityRegisterBinding
     private val registerViewModel: RegisterViewModel by viewModels()
 
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        auth = Firebase.auth
 
         binding.imageRegisterBack.setOnClickListener(this)
         binding.buttonSignUp.setOnClickListener(this)
@@ -62,6 +68,15 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    private fun registerFirebase(email: String, password: String) {
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    register(email, password)
+                }
+            }
+    }
+
     override fun onClick(v: View) {
         when (v.id) {
             binding.imageRegisterBack.id -> finish()
@@ -78,7 +93,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                 } else if (confirmPassword != password) {
                     binding.textInputRegisterConfirmPassword.error = resources.getString(R.string.password_confirm_error)
                 } else {
-                    register(email, password)
+                    registerFirebase(email, password)
                 }
             }
         }

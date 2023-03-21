@@ -13,6 +13,7 @@ import android.content.Intent
 import android.os.Build.VERSION
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
@@ -50,11 +51,14 @@ class OrganizationActivity : AppCompatActivity() {
             intent.getParcelableExtra(EXTRA_ORGANIZATION)
         }
 
+        setSupportActionBar(binding.toolbarCreateMeeting)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         organization?.let {
             if (it.role?.id != 3) {
                 binding.imageOrganizationMore.visibility = View.VISIBLE
-                binding.imageOrganizationMore.setOnClickListener {
-                    val popupMenu = PopupMenu(this, it)
+                binding.imageOrganizationMore.setOnClickListener { view ->
+                    val popupMenu = PopupMenu(this, view)
                     popupMenu.inflate(R.menu.menu_organization)
                     popupMenu.setOnMenuItemClickListener { menuItem ->
                         when (menuItem.itemId) {
@@ -76,6 +80,7 @@ class OrganizationActivity : AppCompatActivity() {
                                 intent.putExtra(EditOrganizationActivity.EXTRA_ORGANIZATION_ID, organization?.id)
                                 intent.putExtra(EditOrganizationActivity.EXTRA_ORGANIZATION_DESC, organization?.description)
                                 intent.putExtra(EditOrganizationActivity.EXTRA_ORGANIZATION_PIC, organization?.profilePicture)
+                                intent.putExtra(EditOrganizationActivity.EXTRA_ORGANIZATION_DURATION, organization?.leaderboardDuration)
                                 launcherIntent.launch(intent)
                             }
                         }
@@ -91,7 +96,6 @@ class OrganizationActivity : AppCompatActivity() {
 
     private fun init() {
         binding.textOrganizationTitle.text = organization?.name
-        binding.imageOrganizationBack.setOnClickListener { finish() }
         viewModel.isUserGet.observe(this) {userGet ->
             if (userGet) {
                 val bundle = bundleOf("token" to user?.token)
@@ -137,6 +141,17 @@ class OrganizationActivity : AppCompatActivity() {
                 finishAffinity()
             }
         }
+
+        binding.imageOrganizationInfo.setOnClickListener {
+            val intent = Intent(this, DetailOrganizationActivity::class.java)
+            intent.putExtra(DetailOrganizationActivity.EXTRA_ORGANIZATION_NAME, organization?.name)
+            intent.putExtra(DetailOrganizationActivity.EXTRA_ORGANIZATION_ID, organization?.id)
+            intent.putExtra(DetailOrganizationActivity.EXTRA_ORGANIZATION_DESC, organization?.description)
+            intent.putExtra(DetailOrganizationActivity.EXTRA_ORGANIZATION_PIC, organization?.profilePicture)
+            intent.putExtra(DetailOrganizationActivity.EXTRA_ORGANIZATION_DURATION, organization?.leaderboardDuration)
+            intent.putExtra(DetailOrganizationActivity.EXTRA_ORGANIZATION_PERIOD, organization?.leaderboardPeriod)
+            startActivity(intent)
+        }
     }
 
     private val launcherIntent = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -144,12 +159,24 @@ class OrganizationActivity : AppCompatActivity() {
             if (result.resultCode == EditOrganizationActivity.RESULT_CODE) {
                 val orgName = result.data?.getStringExtra(EditOrganizationActivity.EXTRA_ORGANIZATION_NAME).toString()
                 val orgDesc = result.data?.getStringExtra(EditOrganizationActivity.EXTRA_ORGANIZATION_DESC).toString()
+                val leaderboardDuration = result.data?.getIntExtra(EditOrganizationActivity.EXTRA_ORGANIZATION_DURATION, 0)
 
                 organization?.name = orgName
                 organization?.description = orgDesc
+                if (leaderboardDuration != null) {
+                    organization?.leaderboardDuration = leaderboardDuration
+                }
 
                 binding.textOrganizationTitle.text = organization?.name.toString()
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            android.R.id.home -> finish()
+        }
+
+        return true
     }
 }

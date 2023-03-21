@@ -28,27 +28,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <ImageView
-                        android:id="@+id/image_achievement_back"
-                        android:layout_width="@dimen/backIconSize"
-                        android:layout_height="@dimen/backIconSize"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        app:srcCompat="@drawable/baseline_arrow_back_24"
-                        android:contentDescription="@string/back"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
-
                     <TextView
                         android:id="@+id/text_achievement_title"
                         style="@style/textStyle.subtitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
                         android:text="@string/achievement"
-                        app:layout_constraintBottom_toBottomOf="@+id/image_achievement_back"
-                        app:layout_constraintStart_toEndOf="@+id/image_achievement_back"
-                        app:layout_constraintTop_toTopOf="@+id/image_achievement_back" />
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.CollapsingToolbarLayout>

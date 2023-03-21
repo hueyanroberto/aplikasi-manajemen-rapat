@@ -19,6 +19,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
@@ -45,7 +46,7 @@ class MeetingActivity : AppCompatActivity() {
     private var selectedTab = 0
 
     companion object {
-        private val TAB_TITLES = intArrayOf(R.string.tab_detail, R.string.tab_agenda, R.string.tab_participant)
+        private val TAB_TITLES = intArrayOf(R.string.tab_detail, R.string.tab_agenda, R.string.members, R.string.task)
         const val EXTRA_MEETING_ID = "extra_meeting_id"
     }
 
@@ -54,9 +55,11 @@ class MeetingActivity : AppCompatActivity() {
         binding = ActivityMeetingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         binding.fabMeeting.hide()
         binding.buttonStartMeeting.visibility = View.GONE
-        binding.imageMeetingBack.setOnClickListener { finish() }
 
         init()
     }
@@ -382,5 +385,13 @@ class MeetingActivity : AppCompatActivity() {
         if (it.resultCode == EditMeetingActivity.RESULT_CODE_DELETE) {
             finish()
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            android.R.id.home -> finish()
+        }
+
+        return true
     }
 }

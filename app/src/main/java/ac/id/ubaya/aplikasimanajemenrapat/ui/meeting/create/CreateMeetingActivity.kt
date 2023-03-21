@@ -15,6 +15,7 @@ import android.content.Intent
 import android.icu.util.Calendar
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -52,14 +53,15 @@ class CreateMeetingActivity : AppCompatActivity(), View.OnClickListener {
         binding = ActivityCreateMeetingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setSupportActionBar(binding.toolbarCreateMeeting)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         organizationId = intent.getIntExtra(EXTRA_ORGANIZATION_ID, -1)
 
         init()
 
         binding.textAddAgendaCount.text = resources.getString(R.string.agenda_count, "0")
         binding.textAddParticipantCount.text = resources.getString(R.string.participant_count, "0")
-
-        binding.imageCreateMeetingBack.setOnClickListener { finish() }
     }
 
     private fun init() {
@@ -245,5 +247,13 @@ class CreateMeetingActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            android.R.id.home -> finish()
+        }
+
+        return true
     }
 }

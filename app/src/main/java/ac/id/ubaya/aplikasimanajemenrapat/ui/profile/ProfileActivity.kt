@@ -12,6 +12,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -36,7 +37,8 @@ class ProfileActivity : AppCompatActivity() {
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.imageProfileBack.setOnClickListener { finish() }
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         init()
     }
@@ -86,7 +88,7 @@ class ProfileActivity : AppCompatActivity() {
                             binding.progressBarLevel.progress = progress.toInt()
 
                             Glide.with(this@ProfileActivity)
-                                .load("$BASE_ASSET_URL/Asset/Profile/User/${it.profilePic}")
+                                .load("$BASE_ASSET_URL/Profile/User/${it.profilePic}")
                                 .error(R.drawable.blank_profile)
                                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                                 .skipMemoryCache(true)
@@ -109,5 +111,13 @@ class ProfileActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            android.R.id.home -> finish()
+        }
+
+        return true
     }
 }

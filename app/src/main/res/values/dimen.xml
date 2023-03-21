@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="backIconSize">35dp</dimen>
+    <dimen name="backIconSize">25dp</dimen>
     <dimen name="cardRadius">18dp</dimen>
     <dimen name="cardElevation">5dp</dimen>
 </resources>

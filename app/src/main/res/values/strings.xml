@@ -23,7 +23,7 @@
     <string name="end_meeting_question">Do you want to end this meeting?</string>
     <string name="agenda_delete_question">Do you want to delete this agenda?</string>
     <string name="agenda_meeting_question">Do you want to delete this meeting?</string>
-
+    <string name="leaderboard_period_update_message">* Changes to the leaderboard period will take affect after the next period</string>
 
     <string-array name="leaderboard_periods">
         <item>Every 1 month</item>
@@ -130,4 +130,13 @@
     <string name="sign_out">Sign Out</string>
     <string name="reward">Reward: %1$s XP</string>
     <string name="achievement">Achievement</string>
+    <string name="points">%1$s points</string>
+    <string name="leaderboard_period_date">Period: %1$s - %2$s</string>
+    <string name="lorem50">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut ex congue, fringilla metus non, blandit quam. Suspendisse porttitor justo quis porta mattis. Donec pretium nec tortor quis vulputate. Nullam vehicula efficitur magna nec molestie. Duis ornare tortor sit amet risus vestibulum dignissim. Maecenas ut nibh velit. Aenean augue enim.</string>
+    <string name="leaderboard_period_duration">Leaderboard Period Duration: Every %1$s month(s)</string>
+    <string name="leaderboard_current_period">Leaderboard Current Period: %1$s period</string>
+    <string name="organization_detail">Organization Detail</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="task">Task</string>
 </resources>

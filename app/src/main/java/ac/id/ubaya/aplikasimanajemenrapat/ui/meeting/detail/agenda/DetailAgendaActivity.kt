@@ -10,6 +10,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
@@ -47,6 +48,9 @@ class DetailAgendaActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailAgendaBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.imageAddAgendaMore.visibility = View.GONE
 
@@ -113,7 +117,6 @@ class DetailAgendaActivity : AppCompatActivity(), View.OnClickListener {
 
         agenda?.id?.let {
             getListSuggestion(token, it)
-            binding.imageAgendaDetailBack.setOnClickListener(this)
 
             binding.imageSuggestionSend.setOnClickListener {
                 Toast.makeText(this, "Please wait", Toast.LENGTH_SHORT).show()
@@ -216,7 +219,6 @@ class DetailAgendaActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View) {
         when (v.id) {
-            binding.imageAgendaDetailBack.id -> finish()
             binding.imageSuggestionSend.id -> {
                 val suggestion = binding.editSuggestion.text.toString().trim()
                 if (suggestion.isNotEmpty()) {
@@ -237,5 +239,13 @@ class DetailAgendaActivity : AppCompatActivity(), View.OnClickListener {
                 finish()
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            android.R.id.home -> finish()
+        }
+
+        return true
     }
 }

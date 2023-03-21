@@ -77,7 +77,8 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Field("organization_id") organizationId: Int,
         @Field("name") name: String,
-        @Field("description") desc: String
+        @Field("description") desc: String,
+        @Field("leaderboard_duration") duration: Int
     ): OrganizationResponse
 
     @GET("organization/meetings/{organization_id}")
@@ -103,6 +104,13 @@ interface ApiService {
         @Field("user_id") userId: Int,
         @Field("role_id") roleId: Int
     ): UserResponse
+
+    @GET("organization/leaderboard")
+    @Headers("Accept: application/json")
+    suspend fun getLeaderboard(
+        @Header("Authorization") token: String,
+        @Query("organization_id") organizationId: Int
+    ): LeaderboardResponse
 
     @GET("meeting/create/member")
     @Headers("Accept: application/json")

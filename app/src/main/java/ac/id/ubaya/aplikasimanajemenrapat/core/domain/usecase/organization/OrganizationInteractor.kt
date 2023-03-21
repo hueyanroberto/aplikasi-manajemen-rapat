@@ -2,6 +2,7 @@ package ac.id.ubaya.aplikasimanajemenrapat.core.domain.usecase.organization
 
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.Resource
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.repository.OrganizationRepository
+import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.LeaderboardDetail
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Organization
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.User
 import kotlinx.coroutines.flow.Flow
@@ -51,9 +52,10 @@ class OrganizationInteractor @Inject constructor(
         token: String,
         organizationId: Int,
         name: String,
-        description: String
+        description: String,
+        duration: Int
     ): Flow<Resource<Organization>> {
-        return organizationRepository.editOrganization(token, organizationId, name, description)
+        return organizationRepository.editOrganization(token, organizationId, name, description, duration)
     }
 
     override fun updateOrganizationProfile(
@@ -62,5 +64,12 @@ class OrganizationInteractor @Inject constructor(
         profilePic: String
     ): Flow<Resource<Organization>> {
         return organizationRepository.updateOrganizationProfile(token, organizationId, profilePic)
+    }
+
+    override fun getLeaderboard(
+        token: String,
+        organizationId: Int
+    ): Flow<Resource<LeaderboardDetail>> {
+        return organizationRepository.getLeaderboard(token, organizationId)
     }
 }

@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -37,14 +38,15 @@ class ChooseParticipantActivity : AppCompatActivity() {
         binding = ActivityChooseParticipantBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         token = intent.getStringExtra(EXTRA_TOKEN).toString()
         organizationId = intent.getIntExtra(EXTRA_ORGANIZATION, -1)
         intent.getIntegerArrayListExtra(EXTRA_PARTICIPANT)?.let { listParticipant.addAll(it) }
 
         getUserToBeChosen(token, organizationId)
         observeListUser()
-
-        binding.imageChooseParticipantBack.setOnClickListener { finish() }
 
         binding.searchParticipant.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
@@ -99,5 +101,13 @@ class ChooseParticipantActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            android.R.id.home -> finish()
+        }
+
+        return true
     }
 }

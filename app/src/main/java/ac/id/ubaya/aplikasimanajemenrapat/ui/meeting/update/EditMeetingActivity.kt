@@ -11,6 +11,7 @@ import android.app.TimePickerDialog
 import android.icu.util.Calendar
 import android.os.Build
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -50,6 +51,9 @@ class EditMeetingActivity: AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivityEditMeetingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setSupportActionBar(binding.toolbarCreateMeeting)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         token = intent.getStringExtra(EXTRA_TOKEN).toString()
         meeting = if (Build.VERSION.SDK_INT > 33) {
@@ -96,14 +100,12 @@ class EditMeetingActivity: AppCompatActivity(), View.OnClickListener {
         binding.btnStartTime.setOnClickListener(this)
         binding.btnEndTime.setOnClickListener(this)
         binding.editMeetingDate.setOnClickListener(this)
-        binding.imageEditMeetingBack.setOnClickListener(this)
         binding.buttonEditMeeting.setOnClickListener(this)
         binding.buttonDeleteMeeting.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
         when (v.id) {
-            binding.imageEditMeetingBack.id -> finish()
             binding.editMeetingDate.id -> {
                 val datePicker = DatePickerDialog(this, { _, y, m, d ->
                     val calendarGet = Calendar.getInstance()
@@ -250,4 +252,11 @@ class EditMeetingActivity: AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            android.R.id.home -> finish()
+        }
+
+        return true
+    }
 }

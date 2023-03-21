@@ -6,6 +6,7 @@ import ac.id.ubaya.aplikasimanajemenrapat.databinding.ActivityEditAgendaBinding
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -38,6 +39,9 @@ class EditAgendaActivity : AppCompatActivity(), View.OnClickListener {
         binding = ActivityEditAgendaBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         token = intent.getStringExtra(EXTRA_TOKEN).toString()
         agendaId = intent.getIntExtra(EXTRA_AGENDA_ID, -1)
         val task = intent.getStringExtra(EXTRA_AGENDA_TASK).toString()
@@ -46,12 +50,10 @@ class EditAgendaActivity : AppCompatActivity(), View.OnClickListener {
 
         binding.buttonEditAgenda.setOnClickListener(this)
         binding.buttonDeleteAgenda.setOnClickListener(this)
-        binding.imageAgendaDetailBack.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
         when (v.id) {
-            binding.imageAgendaDetailBack.id -> finish()
             binding.buttonEditAgenda.id -> {
                 binding.textInputEditAgenda.error = null
                 val task = binding.editEditAgenda.text.toString().trim()
@@ -136,5 +138,13 @@ class EditAgendaActivity : AppCompatActivity(), View.OnClickListener {
             binding.buttonEditAgenda.setOnClickListener(null)
             binding.buttonDeleteAgenda.setOnClickListener(null)
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            android.R.id.home -> finish()
+        }
+
+        return true
     }
 }

@@ -43,5 +43,11 @@ data class OrganizationData(
 	val leaderboardStart: Date?,
 
 	@field:SerializedName("role")
-	val role: RoleResponse?
+	val role: RoleResponse?,
+
+	@field:SerializedName("leaderboard_period")
+	val leaderboardPeriod: Int,
+
+	@field:SerializedName("leaderboard_duration")
+	val leaderboardDuration: Int
 ) : Parcelable

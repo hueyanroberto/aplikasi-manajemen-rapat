@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
+import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.RelativeLayout
@@ -28,6 +29,9 @@ class AddAgendaActivity : AppCompatActivity() {
         binding = ActivityAddAgendaBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         val listAgenda = intent.getStringArrayListExtra(EXTRA_AGENDA)
         if (listAgenda?.size == 0) {
             createEditText(false)
@@ -36,8 +40,6 @@ class AddAgendaActivity : AppCompatActivity() {
                 createEditText(it)
             }
         }
-
-        binding.imageAddAgendaBack.setOnClickListener { finish() }
 
         binding.buttonAddAgenda.setOnClickListener {
             val text = listEditText[listEditText.size - 1].text.toString().trim()
@@ -95,5 +97,13 @@ class AddAgendaActivity : AppCompatActivity() {
         editText.setText(text)
         binding.relativeAgendaContainer.addView(editText)
         listEditText.add(editText)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            android.R.id.home -> finish()
+        }
+
+        return true
     }
 }

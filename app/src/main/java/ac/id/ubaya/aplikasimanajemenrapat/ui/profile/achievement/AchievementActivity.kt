@@ -8,6 +8,7 @@ import ac.id.ubaya.aplikasimanajemenrapat.utils.BASE_ASSET_URL
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,11 +35,13 @@ class AchievementActivity : AppCompatActivity() {
         binding = ActivityAchievementBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         token = intent.getStringExtra(EXTRA_TOKEN).toString()
         getAchievements()
 
         binding.swipeAchievement.setOnRefreshListener { getAchievements() }
-        binding.imageAchievementBack.setOnClickListener { finish() }
     }
 
     private fun getAchievements() {
@@ -69,5 +72,13 @@ class AchievementActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            android.R.id.home -> finish()
+        }
+
+        return true
     }
 }

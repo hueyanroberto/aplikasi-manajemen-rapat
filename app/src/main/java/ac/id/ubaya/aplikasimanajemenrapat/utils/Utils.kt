@@ -110,3 +110,30 @@ private fun queryName(context: Context, uri: Uri): String {
     returnCursor.close()
     return name
 }
+
+fun convertNumber(number: Int): String {
+    val numberText = number.toString()
+    val numberSize = numberText.length
+
+    if (numberSize >= 2) {
+        return if (numberText[numberSize - 1].toString() == "1" && numberText[numberSize - 2].toString() != "1") {
+            numberText + "st"
+        } else if (numberText[numberSize - 1].toString() == "2" && numberText[numberSize - 2].toString() != "1") {
+            numberText + "nd"
+        } else if (numberText[numberSize - 1].toString() == "3" && numberText[numberSize - 2].toString() != "1") {
+            numberText + "rd"
+        } else {
+            numberText + "th"
+        }
+    } else {
+        return if (numberText[numberSize - 1].toString() == "1") {
+            numberText + "st"
+        } else if (numberText[0].toString() == "2") {
+            numberText + "nd"
+        } else if (numberText[0].toString() == "3") {
+            numberText + "rd"
+        } else {
+            numberText + "th"
+        }
+    }
+}

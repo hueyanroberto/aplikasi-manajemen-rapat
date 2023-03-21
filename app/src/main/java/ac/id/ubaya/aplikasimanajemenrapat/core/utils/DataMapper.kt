@@ -88,6 +88,29 @@ object DataMapper {
         }
     }
 
+    fun leaderboardResponseToEntity(listLeaderboard: List<LeaderboardItem>): List<Leaderboard> =
+        listLeaderboard.map {
+            Leaderboard(
+                id = it.id,
+                name = it.name,
+                profilePic = it.profilePic,
+                pointsGet = it.pointsGet,
+                levelId = it.levelId
+            )
+        }
+
+    fun leaderboardResponseToEntity(leaderboardData: LeaderboardData): LeaderboardDetail {
+        return leaderboardData.let {
+            LeaderboardDetail(
+                startDate = it.startDate,
+                endDate = it.endDate,
+                period = it.period,
+                duration = it.duration,
+                leaderboards = leaderboardResponseToEntity(it.leaderboard)
+            )
+        }
+    }
+
     fun organizationResponseToModel(listOrganizationData: List<OrganizationData>): List<Organization> {
         return listOrganizationData.map {
             val format = SimpleDateFormat("dd MMM yyyy HH:mm", Locale.getDefault())
@@ -99,7 +122,9 @@ object DataMapper {
                 profilePicture = it.profilePicture,
                 leaderboardStart = it.leaderboardStart?.let { date -> format.format(date) },
                 leaderboardEnd = it.leaderboardEnd?.let { date -> format.format(date) },
-                role = it.role?.let { roleResponse -> roleResponseToModel(roleResponse) }
+                role = it.role?.let { roleResponse -> roleResponseToModel(roleResponse) },
+                leaderboardDuration = it.leaderboardDuration,
+                leaderboardPeriod = it.leaderboardPeriod
             )
         }
     }
@@ -113,7 +138,9 @@ object DataMapper {
                 description = it.description,
                 profilePicture = it.profilePic,
                 leaderboardStart = it.leaderboardStart,
-                leaderboardEnd = it.leaderboardEnd
+                leaderboardEnd = it.leaderboardEnd,
+                leaderboardPeriod = 0,
+                leaderboardDuration = 0
             )
         }
     }

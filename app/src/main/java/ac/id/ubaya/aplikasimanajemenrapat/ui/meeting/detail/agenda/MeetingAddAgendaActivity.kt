@@ -6,6 +6,7 @@ import ac.id.ubaya.aplikasimanajemenrapat.databinding.ActivityAddAgendaBinding
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
@@ -36,6 +37,9 @@ class MeetingAddAgendaActivity : AppCompatActivity(), View.OnClickListener {
         binding = ActivityAddAgendaBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         meetingId = intent.getIntExtra(EXTRA_MEETING_ID, -1)
         token = intent.getStringExtra(EXTRA_TOKEN).toString()
 
@@ -43,7 +47,6 @@ class MeetingAddAgendaActivity : AppCompatActivity(), View.OnClickListener {
 
         binding.buttonAddAgenda.setOnClickListener(this)
         binding.imageAddAgendaFinish.setOnClickListener(this)
-        binding.imageAddAgendaBack.setOnClickListener(this)
     }
 
     private fun createEditText(isRequestFocus: Boolean) {
@@ -83,7 +86,6 @@ class MeetingAddAgendaActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View) {
         when (v.id) {
-            binding.imageAddAgendaBack.id -> finish()
             binding.buttonAddAgenda.id -> {
                 val text = listEditText[listEditText.size - 1].text.toString().trim()
                 if (text.isEmpty()) {
@@ -117,5 +119,12 @@ class MeetingAddAgendaActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            android.R.id.home -> finish()
+        }
+
+        return true
+    }
 
 }

@@ -2,6 +2,7 @@ package ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.datasource
 
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.network.ApiResponse
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.network.ApiService
+import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.LeaderboardResponse
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.OrganizationResponse
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.UserListResponse
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.source.remote.response.UserResponse
@@ -126,10 +127,10 @@ class OrganizationRemoteDataSource @Inject constructor(private val apiService: A
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun editOrganization(token: String, organizationId: Int, name: String, description: String): Flow<ApiResponse<OrganizationResponse>> {
+    suspend fun editOrganization(token: String, organizationId: Int, name: String, description: String, duration: Int): Flow<ApiResponse<OrganizationResponse>> {
         return flow {
             try {
-                val organizationResponse = apiService.editOrganization("Bearer $token", organizationId, name, description)
+                val organizationResponse = apiService.editOrganization("Bearer $token", organizationId, name, description, duration)
                 if (organizationResponse.organizationData.isNotEmpty()) {
                     emit(ApiResponse.Success(organizationResponse))
                 } else {
@@ -138,6 +139,22 @@ class OrganizationRemoteDataSource @Inject constructor(private val apiService: A
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
                 Log.e("OrganizationRDataSource", "editOrganization: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun getLeaderboard(token: String, organizationId: Int): Flow<ApiResponse<LeaderboardResponse>> {
+        return flow {
+            try {
+                val leaderboardResponse = apiService.getLeaderboard("Bearer $token", organizationId)
+                if (leaderboardResponse.leaderboardData.leaderboard.isNotEmpty()) {
+                    emit(ApiResponse.Success(leaderboardResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("OrganizationRDataSource", "getLeaderboard: $e")
             }
         }.flowOn(Dispatchers.IO)
     }

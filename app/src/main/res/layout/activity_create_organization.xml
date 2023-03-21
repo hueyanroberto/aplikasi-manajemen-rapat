@@ -27,27 +27,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <ImageView
-                        android:id="@+id/image_create_organization_back"
-                        android:layout_width="@dimen/backIconSize"
-                        android:layout_height="@dimen/backIconSize"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        app:srcCompat="@drawable/baseline_arrow_back_24"
-                        android:contentDescription="@string/back"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
-
                     <TextView
                         android:id="@+id/text_create_organization_title"
                         style="@style/textStyle.subtitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
                         android:text="@string/create_organization"
-                        app:layout_constraintBottom_toBottomOf="@+id/image_create_organization_back"
-                        app:layout_constraintStart_toEndOf="@+id/image_create_organization_back"
-                        app:layout_constraintTop_toTopOf="@+id/image_create_organization_back" />
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.appcompat.widget.Toolbar>
@@ -143,7 +131,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/text_input_create_organization_description"
             app:layout_constraintStart_toStartOf="@+id/text_input_create_organization_description"
-            app:layout_constraintTop_toBottomOf="@+id/spinner_leaderboaed_period" />
+            app:layout_constraintTop_toBottomOf="@+id/text_update_leaderboard_period" />
 
         <ProgressBar
             android:id="@+id/progressBar_create_organization"
@@ -174,6 +162,19 @@
             app:layout_constraintEnd_toEndOf="@+id/text_input_create_organization_description"
             app:layout_constraintStart_toStartOf="@+id/text_leaderboard_period_title"
             app:layout_constraintTop_toBottomOf="@+id/text_leaderboard_period_title" />
+
+        <TextView
+            android:id="@+id/text_update_leaderboard_period"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/leaderboard_period_update_message"
+            android:textColor="@color/secondary"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/spinner_leaderboaed_period"
+            app:layout_constraintStart_toStartOf="@+id/spinner_leaderboaed_period"
+            app:layout_constraintTop_toBottomOf="@+id/spinner_leaderboaed_period" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
