@@ -53,6 +53,10 @@ class UserRemoteDataSource @Inject constructor(private val apiService: ApiServic
         apiService.logout("Bearer $token")
     }
 
+    suspend fun insertFirebaseToken(token: String, firebaseToken: String) {
+        apiService.insertFirebaseToken("Bearer $token", firebaseToken)
+    }
+
     suspend fun registerNameAndProfilePic(
         token: String,
         userId: Int,
@@ -86,6 +90,22 @@ class UserRemoteDataSource @Inject constructor(private val apiService: ApiServic
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
                 Log.e("UserRDataSource", "getProfile: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun getOtherProfile(token: String, userId: Int): Flow<ApiResponse<ProfileResponse>> {
+        return flow {
+            try {
+                val userResponse = apiService.getOtherProfile("Bearer $token", userId)
+                if (userResponse.profileData != null) {
+                    emit(ApiResponse.Success(userResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("UserRDataSource", "getOtherProfile: $e")
             }
         }.flowOn(Dispatchers.IO)
     }

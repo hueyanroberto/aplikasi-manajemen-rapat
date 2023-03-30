@@ -234,4 +234,31 @@ object DataMapper {
             )
         }
 
+    fun taskResponseToModel(listTaskResponse: List<TaskItem>): List<Task> {
+        return listTaskResponse.map {
+            Task(
+                id = it.id,
+                meetingId = it.meetingId,
+                assignedTo = it.assignedTo,
+                title = it.title,
+                description = it.description,
+                status = it.status,
+                deadline = it.deadline,
+                user = it.user
+            )
+        }
+    }
+
+    fun taskResponseToModel(taskResponse: TaskItem): Task {
+        return Task(
+            id = taskResponse.id,
+            meetingId = taskResponse.meetingId,
+            assignedTo = taskResponse.assignedTo,
+            title = taskResponse.title,
+            description = taskResponse.description,
+            status = taskResponse.status,
+            deadline = taskResponse.deadline,
+            user = taskResponse.user
+        )
+    }
 }

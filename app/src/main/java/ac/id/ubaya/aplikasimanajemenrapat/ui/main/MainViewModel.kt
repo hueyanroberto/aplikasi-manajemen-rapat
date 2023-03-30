@@ -32,6 +32,12 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun addFirebaseToken(token: String, firebaseToken: String) {
+        viewModelScope.launch {
+            userUseCase.addFirebaseToken(token, firebaseToken)
+        }
+    }
+
     fun getUser(): LiveData<User> = userPreferenceUseCase.getUser().asLiveData()
 
     fun getListOrganization(token: String): LiveData<Resource<List<Organization>>> =

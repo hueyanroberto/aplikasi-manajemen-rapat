@@ -336,4 +336,36 @@ class MeetingRemoteDataSource @Inject constructor(private val apiService: ApiSer
             }
         }.flowOn(Dispatchers.IO)
     }
+
+    suspend fun getListTask(token: String, meetingId: Int): Flow<ApiResponse<TaskListResponse>> {
+        return flow {
+            try {
+                val taskResponse = apiService.getListTask("Bearer $token", meetingId)
+                if (taskResponse.listTask.isNotEmpty()) {
+                    emit(ApiResponse.Success(taskResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("MeetingRDataSource", "getListTask: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun addTask(token: String, meetingId: Int, userId: Int, title: String, description: String, deadline: Date): Flow<ApiResponse<TaskResponse>> {
+        return flow {
+            try {
+                val taskResponse = apiService.addTask("Bearer $token", meetingId, userId, title, description, deadline)
+                if (taskResponse.task != null) {
+                    emit(ApiResponse.Success(taskResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("MeetingRDataSource", "getListTask: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
 }

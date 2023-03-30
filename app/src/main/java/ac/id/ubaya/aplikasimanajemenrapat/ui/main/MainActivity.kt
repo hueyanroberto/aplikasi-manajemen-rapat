@@ -26,6 +26,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -79,6 +80,13 @@ class MainActivity : AppCompatActivity() {
                 user = it
                 Log.d("MainActivity", user.toString())
                 mainViewModel.changeGetUserStatus()
+
+                FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d("FirebaseToken", task.result)
+                        mainViewModel.addFirebaseToken(it.token.toString(), task.result)
+                    }
+                }
             } else {
                 Toast.makeText(this, resources.getString(R.string.user_not_login_error), Toast.LENGTH_SHORT).show()
                 startActivity(Intent(this, LoginActivity::class.java))

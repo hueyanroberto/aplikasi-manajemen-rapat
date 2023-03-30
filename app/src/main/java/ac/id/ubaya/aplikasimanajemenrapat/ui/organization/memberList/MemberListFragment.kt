@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ac.id.ubaya.aplikasimanajemenrapat.databinding.FragmentMemberListBinding
+import ac.id.ubaya.aplikasimanajemenrapat.ui.profile.OtherProfileActivity
 import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
@@ -63,9 +64,16 @@ class MemberListFragment : Fragment() {
                 is Resource.Success -> {
                     if (userResource.data != null) {
                         adapter = MemberListAdapter(userResource.data)
-                        adapter.setOnItemLongClickCallback(object : MemberListAdapter.OnItemClickCallBack {
+                        adapter.setOnItemClickCallback(object : MemberListAdapter.OnItemClickCallBack {
                             override fun onItemLongClickCallback(user: User, position: Int) {
                                 showAlertDialogChooser(user, position, token, organizationId, roleId)
+                            }
+
+                            override fun onItemClickCallback(user: User) {
+                                val intent = Intent(context, OtherProfileActivity::class.java)
+                                intent.putExtra(OtherProfileActivity.EXTRA_USER_ID, user.id)
+                                intent.putExtra(OtherProfileActivity.EXTRA_TOKEN, token)
+                                activity?.startActivity(intent)
                             }
                         })
                         binding.recyclerMemberList.adapter = adapter

@@ -105,4 +105,19 @@ class MeetingInteractor @Inject constructor(
     ): Flow<Resource<List<Attachment>>> {
         return meetingRepository.uploadFile(token, files, meetingId)
     }
+
+    override fun getListTask(token: String, meetingId: Int): Flow<Resource<List<Task>>> {
+        return meetingRepository.getListTask(token, meetingId)
+    }
+
+    override fun addTask(
+        token: String,
+        meetingId: Int,
+        userId: Int,
+        title: String,
+        description: String,
+        deadline: Date
+    ): Flow<Resource<Task>> {
+        return meetingRepository.addTask(token, meetingId, userId, title, description, deadline)
+    }
 }

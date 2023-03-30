@@ -31,4 +31,6 @@ interface IMeetingRepository {
     fun editMeeting(token: String, title: String, startTime: Date, endTime: Date, location: String, description: String, meetingId: Int): Flow<Resource<Meeting>>
     fun deleteMeeting(token: String, meetingId: Int): Flow<Resource<Meeting>>
     fun uploadFile(token: String, files: List<MultipartBody.Part>, meetingId: RequestBody):Flow<Resource<List<Attachment>>>
+    fun getListTask(token: String, meetingId: Int): Flow<Resource<List<Task>>>
+    fun addTask(token: String, meetingId: Int, userId: Int, title: String, description: String, deadline: Date): Flow<Resource<Task>>
 }

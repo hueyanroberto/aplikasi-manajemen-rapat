@@ -10,6 +10,7 @@ import ac.id.ubaya.aplikasimanajemenrapat.ui.UserViewModel
 import ac.id.ubaya.aplikasimanajemenrapat.ui.login.LoginActivity
 import ac.id.ubaya.aplikasimanajemenrapat.ui.meeting.detail.agenda.MeetingAddAgendaActivity
 import ac.id.ubaya.aplikasimanajemenrapat.ui.meeting.detail.minutes.MinutesActivity
+import ac.id.ubaya.aplikasimanajemenrapat.ui.meeting.detail.task.AddTaskActivity
 import ac.id.ubaya.aplikasimanajemenrapat.ui.meeting.update.EditMeetingActivity
 import ac.id.ubaya.aplikasimanajemenrapat.utils.convertDateFormat
 import android.content.ClipData
@@ -187,7 +188,7 @@ class MeetingActivity : AppCompatActivity() {
                     if (meeting.status != 0) editItem.isVisible = false
                     popupMenu.setOnMenuItemClickListener { menuItem ->
                         when (menuItem.itemId) {
-                            R.id.item_show_code_organization -> {
+                            R.id.item_show_code -> {
                                 AlertDialog.Builder(this)
                                     .setMessage(resources.getString(R.string.meeting_code_data, meeting.code))
                                     .setPositiveButton(resources.getString(R.string.copy_to_clipboard)) { _, _ ->
@@ -280,6 +281,35 @@ class MeetingActivity : AppCompatActivity() {
                             binding.fabMeeting.setImageResource(R.drawable.baseline_edit_24)
                             binding.fabMeeting.show()
 
+                            binding.fabMeeting.setOnClickListener(null)
+                        }
+                        3 -> {
+                            binding.fabMeeting.setImageResource(R.drawable.baseline_add_24)
+                            binding.fabMeeting.show()
+
+                            binding.fabMeeting.setOnClickListener {
+                                val intent = Intent(this@MeetingActivity, AddTaskActivity::class.java)
+                                intent.putExtra(AddTaskActivity.EXTRA_LIST_PARTICIPANT, meeting.participant.toTypedArray())
+                                startActivity(intent)
+                            }
+                        }
+                    }
+                } else if (meeting.userRole == 1) {
+                    when (binding.tabMeeting.selectedTabPosition) {
+                        3 -> {
+                            binding.fabMeeting.setImageResource(R.drawable.baseline_add_24)
+                            binding.fabMeeting.show()
+
+                            binding.fabMeeting.setOnClickListener {
+                                val intent = Intent(this@MeetingActivity, AddTaskActivity::class.java)
+                                intent.putExtra(AddTaskActivity.EXTRA_LIST_PARTICIPANT, meeting.participant.toTypedArray())
+                                intent.putExtra(AddTaskActivity.EXTRA_TOKEN, user.token.toString())
+                                intent.putExtra(AddTaskActivity.EXTRA_MEETING_ID, meeting.id)
+                                startActivity(intent)
+                            }
+                        }
+                        else -> {
+                            binding.fabMeeting.hide()
                             binding.fabMeeting.setOnClickListener(null)
                         }
                     }

@@ -99,6 +99,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             binding.textLoginSignup.id -> {
                 startActivity(Intent(this, RegisterActivity::class.java))
             }
+            binding.buttonSignInGoogle.id -> {
+                Toast.makeText(this, "Coming Soon", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

@@ -24,6 +24,13 @@
     <string name="agenda_delete_question">Do you want to delete this agenda?</string>
     <string name="agenda_meeting_question">Do you want to delete this meeting?</string>
     <string name="leaderboard_period_update_message">* Changes to the leaderboard period will take affect after the next period</string>
+    <string name="meeting_reminder">%1$s will be held in %2$s day(s)</string>
+    <string name="meeting_day_reminder">%1$s will be held today</string>
+    <string name="meeting_started_notification">%1$s has been started.</string>
+    <string name="meeting_ended_notification">%1$s has ended. You received %2$s XP during this meeting</string>
+    <string name="achievement_get_notification">You have completed \'%1$s\' Achievement and received %2$s XP </string>
+    <string name="level_up_notification">You have been leveled up to %1$s level</string>
+    <string name="meeting_invitation_notification">You are invited to a meeting (%1$s) from %2$s</string>
 
     <string-array name="leaderboard_periods">
         <item>Every 1 month</item>
@@ -63,8 +70,8 @@
     <string name="leaderboard">Leaderboard</string>
     <string name="send_email">Send email</string>
     <string name="meeting_not_started">Not yet started</string>
-    <string name="meeting_started">Started</string>
-    <string name="meeting_ended">Ended</string>
+    <string name="meeting_started">Meeting Started</string>
+    <string name="meeting_ended">Meeting Ended</string>
     <string name="title">Title</string>
     <string name="location_link">Location / Link</string>
     <string name="date">Date</string>
@@ -136,7 +143,19 @@
     <string name="leaderboard_period_duration">Leaderboard Period Duration: Every %1$s month(s)</string>
     <string name="leaderboard_current_period">Leaderboard Current Period: %1$s period</string>
     <string name="organization_detail">Organization Detail</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="task">Task</string>
+    <string name="sign_in_with_google">Sign In with Google</string>
+    <string name="meeting_reminder_title">Meeting Reminder</string>
+    <string name="achievement_get_title">Achievement Get</string>
+    <string name="level_up_title">Level Up</string>
+    <string name="meeting_invitation_title">Meeting Invitation</string>
+    <string name="add_task">Add Task</string>
+    <string name="deadline">Deadline</string>
+    <string name="assign_to">Assign To</string>
+    <string name="select_person">Select person</string>
+    <string name="task_added">Task added</string>
+    <string name="not_completed">Not Completed</string>
+    <string name="completed">Completed</string>
+    <string name="assign_to_someone">Assign to: %1$s</string>
+    <string name="deadline_at">Deadline: %1$s</string>
 </resources>

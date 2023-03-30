@@ -17,7 +17,7 @@ class MemberListAdapter(private val members: List<User>): RecyclerView.Adapter<M
 
     private lateinit var onItemClickCallback: OnItemClickCallBack
 
-    fun setOnItemLongClickCallback(onItemClickCallback: OnItemClickCallBack) {
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallBack) {
         this.onItemClickCallback = onItemClickCallback
     }
 
@@ -37,6 +37,9 @@ class MemberListAdapter(private val members: List<User>): RecyclerView.Adapter<M
             true
         }
 
+        holder.itemView.setOnClickListener {
+            onItemClickCallback.onItemClickCallback(data)
+        }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -64,5 +67,6 @@ class MemberListAdapter(private val members: List<User>): RecyclerView.Adapter<M
 
     interface OnItemClickCallBack {
         fun onItemLongClickCallback(user: User, position: Int)
+        fun onItemClickCallback(user: User)
     }
 }

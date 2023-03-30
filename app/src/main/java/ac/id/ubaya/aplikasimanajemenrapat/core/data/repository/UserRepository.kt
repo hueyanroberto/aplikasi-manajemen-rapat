@@ -81,10 +81,32 @@ class UserRepository @Inject constructor(
         userRemoteDataSource.logout(token)
     }
 
+    override suspend fun addFirebaseToken(token: String, firebaseToken: String) {
+        userRemoteDataSource.insertFirebaseToken(token, firebaseToken)
+    }
+
     override fun getProfile(token: String): Flow<Resource<User>> {
         return flow {
             emit(Resource.Loading())
             when (val apiResponse = userRemoteDataSource.getProfile(token).first()) {
+                is ApiResponse.Success -> {
+                    val data = DataMapper.userProfileToModel(apiResponse.data.profileData!!)
+                    emit(Resource.Success(data))
+                }
+                is ApiResponse.Empty -> {
+                    emit(Resource.Error("not found"))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.errorMessage))
+                }
+            }
+        }
+    }
+
+    override fun getOtherProfile(token: String, userId: Int): Flow<Resource<User>> {
+        return flow {
+            emit(Resource.Loading())
+            when (val apiResponse = userRemoteDataSource.getOtherProfile(token, userId).first()) {
                 is ApiResponse.Success -> {
                     val data = DataMapper.userProfileToModel(apiResponse.data.profileData!!)
                     emit(Resource.Success(data))

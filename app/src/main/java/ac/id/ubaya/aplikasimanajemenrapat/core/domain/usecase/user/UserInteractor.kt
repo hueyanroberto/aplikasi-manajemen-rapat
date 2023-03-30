@@ -16,9 +16,12 @@ class UserInteractor @Inject constructor(private val userRepository: UserReposit
 
     override suspend fun logout(token: String) = userRepository.logout(token)
 
+    override suspend fun addFirebaseToken(token: String, firebaseToken: String) = userRepository.addFirebaseToken(token, firebaseToken)
+
     override fun registerNameAndProfilePic(token: String, userId: Int, name: String, profilePic: String) =
         userRepository.registerNameAndProfile(token, userId, name, profilePic)
 
     override fun getProfile(token: String): Flow<Resource<User>> = userRepository.getProfile(token)
+    override fun getOtherProfile(token: String, userId: Int): Flow<Resource<User>> = userRepository.getOtherProfile(token, userId)
     override fun getAchievements(token: String): Flow<Resource<List<Achievement>>> = userRepository.getAchievements(token)
 }

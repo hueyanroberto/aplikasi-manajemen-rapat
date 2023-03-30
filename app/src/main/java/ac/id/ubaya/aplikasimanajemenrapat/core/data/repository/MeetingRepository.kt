@@ -359,4 +359,49 @@ class MeetingRepository @Inject constructor(
             }
         }
     }
+
+    override fun getListTask(token: String, meetingId: Int): Flow<Resource<List<Task>>> {
+        return flow {
+            emit(Resource.Loading())
+            when (
+                val apiResponse = meetingRemoteDataSource.getListTask(token, meetingId).first()) {
+                is ApiResponse.Success -> {
+                    val task = apiResponse.data.listTask
+                    emit(Resource.Success(DataMapper.taskResponseToModel(task)))
+                }
+                is ApiResponse.Empty -> {
+                    emit(Resource.Success(listOf<Task>()))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.errorMessage))
+                }
+            }
+        }
+    }
+
+    override fun addTask(
+        token: String,
+        meetingId: Int,
+        userId: Int,
+        title: String,
+        description: String,
+        deadline: Date
+    ): Flow<Resource<Task>> {
+        return flow {
+            emit(Resource.Loading())
+            when (
+                val apiResponse = meetingRemoteDataSource.addTask(token, meetingId, userId, title, description, deadline).first()) {
+                is ApiResponse.Success -> {
+                    val task = apiResponse.data.task
+                    emit(Resource.Success(DataMapper.taskResponseToModel(task!!)))
+                }
+                is ApiResponse.Empty -> {
+                    emit(Resource.Error("unauthorized"))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.errorMessage))
+                }
+            }
+        }
+    }
 }

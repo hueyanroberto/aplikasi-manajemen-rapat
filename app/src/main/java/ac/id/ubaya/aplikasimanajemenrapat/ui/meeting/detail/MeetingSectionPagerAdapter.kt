@@ -21,8 +21,8 @@ class MeetingSectionPagerAdapter(
         when (position) {
             0 -> fragment = MeetingDetailFragment(meeting, token)
             1 -> fragment = MeetingAgendaFragment(meeting, token)
-            2 -> fragment = MeetingParticipantFragment(meeting.participant)
-            3 -> fragment = MeetingTaskFragment()
+            2 -> fragment = MeetingParticipantFragment(meeting.participant, token)
+            3 -> fragment = MeetingTaskFragment(meeting, token)
         }
         return  fragment as Fragment
     }

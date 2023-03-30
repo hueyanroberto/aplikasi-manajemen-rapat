@@ -9,7 +9,9 @@ interface UserUseCase {
     fun login(email: String, password: String): Flow<Resource<User?>>
     fun register (email: String, password: String): Flow<Resource<User?>>
     suspend fun logout(token: String)
+    suspend fun addFirebaseToken(token: String, firebaseToken: String)
     fun registerNameAndProfilePic (token: String, userId: Int, name: String, profilePic: String): Flow<Resource<User?>>
     fun getProfile(token: String): Flow<Resource<User>>
+    fun getOtherProfile(token: String, userId: Int): Flow<Resource<User>>
     fun getAchievements(token: String): Flow<Resource<List<Achievement>>>
 }

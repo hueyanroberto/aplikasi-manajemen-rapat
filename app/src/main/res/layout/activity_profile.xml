@@ -29,10 +29,12 @@
                     <TextView
                         android:id="@+id/text_profile_title"
                         style="@style/textStyle.subtitle"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:maxLines="1"
                         android:text="@string/profile"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -55,18 +57,29 @@
                 android:id="@+id/image_profile"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="48dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@tools:sample/avatars" />
+
+            <ImageView
+                android:id="@+id/image_badge"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="@id/image_profile"
+                app:layout_constraintEnd_toEndOf="@id/image_profile"
+                app:layout_constraintStart_toStartOf="@id/image_profile"
+                app:layout_constraintTop_toTopOf="@id/image_profile"
+                tools:srcCompat="@drawable/badges_07" />
 
             <TextView
                 android:id="@+id/text_profile_level"
                 style="@style/whiteTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="24dp"
                 android:background="@drawable/rounded_pill_primary"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"

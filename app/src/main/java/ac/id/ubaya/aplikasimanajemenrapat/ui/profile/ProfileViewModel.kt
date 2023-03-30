@@ -13,4 +13,5 @@ class ProfileViewModel @Inject constructor(
     private val userUseCase: UserUseCase
 ): ViewModel() {
     fun getProfile(token: String): Flow<Resource<User>> = userUseCase.getProfile(token)
+    fun getOtherProfile(token: String, userId: Int): Flow<Resource<User>> = userUseCase.getOtherProfile(token, userId)
 }

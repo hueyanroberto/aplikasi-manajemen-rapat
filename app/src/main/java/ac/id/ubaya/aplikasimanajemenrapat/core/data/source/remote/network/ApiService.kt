@@ -28,6 +28,15 @@ interface ApiService {
     )
 
     @FormUrlEncoded
+    @PUT("user/token")
+    @Headers("Accept: application/json")
+    suspend fun insertFirebaseToken (
+        @Header("Authorization") token: String,
+        @Field("firebase_token") firebaseToken: String
+    )
+
+
+    @FormUrlEncoded
     @PUT("register")
     @Headers("Accept: application/json")
     suspend fun registerNameAndProfilePic(
@@ -243,8 +252,32 @@ interface ApiService {
         @Header("Authorization") token: String,
     ): ProfileResponse
 
-    @GET("profile/achievements")
+    @GET("profile/{user_id}")
+    suspend fun getOtherProfile(
+        @Header("Authorization") token: String,
+        @Path("user_id") userId: Int
+    ): ProfileResponse
+
+    @GET("user/achievements")
     suspend fun getAchievements(
         @Header("Authorization") token: String,
     ): AchievementListResponse
+
+    @GET("meeting/task/{meetingId}")
+    suspend fun getListTask(
+        @Header("Authorization") token: String,
+        @Path("meetingId") meetingId: Int
+    ): TaskListResponse
+
+    @FormUrlEncoded
+    @POST("meeting/task")
+    @Headers("Accept: application/json")
+    suspend fun addTask(
+        @Header("Authorization") token: String,
+        @Field("meeting_id") meetingId: Int,
+        @Field("assign_to") userId: Int,
+        @Field("title") title: String,
+        @Field("description") description: String,
+        @Field("deadline") deadline: Date
+    ): TaskResponse
 }
