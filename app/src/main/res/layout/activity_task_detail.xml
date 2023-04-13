@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+
+            app:toolbarId="@+id/toolbar">
+
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize">
+
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ui.meeting.detail.task.TaskDetailActivity">
+
+            <TextView
+                android:id="@+id/text_task_title"
+                style="@style/textStyle.Title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="TextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_task_assign_to"
+                style="@style/textStyle.subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/assign_to_someone"
+                app:layout_constraintEnd_toEndOf="@+id/text_task_title"
+                app:layout_constraintStart_toStartOf="@+id/text_task_title"
+                app:layout_constraintTop_toBottomOf="@+id/text_task_title" />
+
+            <TextView
+                android:id="@+id/text_task_desc"
+                style="@style/textStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="TextView"
+                app:layout_constraintEnd_toEndOf="@+id/text_task_assign_to"
+                app:layout_constraintStart_toStartOf="@+id/text_task_assign_to"
+                app:layout_constraintTop_toBottomOf="@+id/text_task_assign_to" />
+
+            <TextView
+                android:id="@+id/text_task_status"
+                style="@style/textStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/suggestion_status"
+                app:layout_constraintStart_toStartOf="@+id/text_task_desc"
+                app:layout_constraintTop_toBottomOf="@+id/text_task_desc" />
+
+            <TextView
+                android:id="@+id/text_task_deadline"
+                style="@style/textStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/deadline_at"
+                app:layout_constraintStart_toStartOf="@+id/text_task_status"
+                app:layout_constraintTop_toBottomOf="@+id/text_task_status" />
+
+            <TextView
+                android:id="@+id/button_mark_task_as_done"
+                style="@style/whiteTextStyle.subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/button_primary"
+                android:gravity="center"
+                android:text="@string/mark_as_done"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/text_task_desc"
+                app:layout_constraintStart_toStartOf="@+id/text_task_desc"
+                app:layout_constraintTop_toBottomOf="@+id/text_task_deadline" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

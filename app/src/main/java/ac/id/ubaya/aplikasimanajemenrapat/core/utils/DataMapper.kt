@@ -15,7 +15,8 @@ object DataMapper {
             profilePic = userData.profilePic,
             exp = userData.exp,
             levelId = userData.levelId,
-            token = userData.token
+            token = userData.token,
+            statusLogin = userData.statusLogin
         )
     }
 
@@ -191,7 +192,7 @@ object DataMapper {
             )
         }
 
-    fun participantResponseToModel(participantResponse: List<ParticipantItem>): kotlin.collections.List<Participant> =
+    fun participantResponseToModel(participantResponse: List<ParticipantItem>): List<Participant> =
         participantResponse.map {
             Participant(
                 id = it.id,
@@ -199,7 +200,8 @@ object DataMapper {
                 name = it.name,
                 profilePic = it.profilePic,
                 status = it.status,
-                role = it.role
+                role = it.role,
+                levelId = it.levelId
             )
         }
 

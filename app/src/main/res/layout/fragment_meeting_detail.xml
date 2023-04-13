@@ -48,6 +48,17 @@
         app:layout_constraintTop_toBottomOf="@+id/text_attachment_title"
         tools:listitem="@layout/item_attachment" />
 
+    <include
+        android:id="@+id/view_empty"
+        layout="@layout/view_empty"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_attachment_title" />
+
     <TextView
         android:id="@+id/text_attachment_add"
         android:layout_width="wrap_content"

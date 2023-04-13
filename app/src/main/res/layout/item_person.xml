@@ -27,42 +27,66 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/avatars" />
 
-        <TextView
-            android:id="@+id/text_person_name"
-            style="@style/textStyle.subtitle"
+        <ImageView
+            android:id="@+id/image_person_level_badge"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/image_person_profile"
+            app:layout_constraintEnd_toEndOf="@+id/image_person_profile"
+            app:layout_constraintStart_toStartOf="@+id/image_person_profile"
+            app:layout_constraintTop_toTopOf="@+id/image_person_profile"
+            tools:srcCompat="@drawable/badges_02" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/image_person_mail"
             app:layout_constraintStart_toEndOf="@+id/image_person_profile"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Person Name" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/text_person_role"
-            style="@style/textStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/text_person_name"
-            app:layout_constraintStart_toStartOf="@+id/text_person_name"
-            app:layout_constraintTop_toBottomOf="@+id/text_person_name"
-            tools:text="Role" />
+            <TextView
+                android:id="@+id/text_person_name"
+                style="@style/textStyle.subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Person Name" />
+
+            <TextView
+                android:id="@+id/text_person_role"
+                style="@style/textStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Role" />
+
+            <TextView
+                android:id="@+id/text_person_status"
+                style="@style/textStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/suggestion_status" />
+
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/image_person_mail"
             android:layout_width="@dimen/backIconSize"
             android:layout_height="@dimen/backIconSize"
-            android:foreground="?android:attr/selectableItemBackground"
             android:layout_marginEnd="16dp"
-            app:layout_constraintBottom_toBottomOf="@+id/text_person_role"
+            android:contentDescription="@string/send_email"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/text_person_name"
-            app:srcCompat="@drawable/baseline_email_24"
-            android:contentDescription="@string/send_email" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/baseline_email_24" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

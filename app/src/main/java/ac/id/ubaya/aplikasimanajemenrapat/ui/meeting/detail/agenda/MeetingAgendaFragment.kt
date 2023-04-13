@@ -47,6 +47,7 @@ class MeetingAgendaFragment (
                 }
             })
             this.adapter = adapter
+            binding.viewEmpty.root.visibility = if (agendas.isEmpty()) View.VISIBLE else View.GONE
         }
     }
 

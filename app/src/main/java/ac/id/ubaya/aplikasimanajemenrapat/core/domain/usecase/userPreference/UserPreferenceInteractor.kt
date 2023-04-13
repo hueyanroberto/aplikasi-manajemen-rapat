@@ -12,4 +12,5 @@ class UserPreferenceInteractor @Inject constructor(
     override suspend fun saveUser(user: User) = userPreferenceRepository.saveUser(user)
     override suspend fun logout() = userPreferenceRepository.logout()
     override suspend fun saveName(user: User) = userPreferenceRepository.saveName(user)
+    override suspend fun updateName(name: String) = userPreferenceRepository.updateName(name)
 }

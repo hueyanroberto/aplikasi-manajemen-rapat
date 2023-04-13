@@ -61,6 +61,7 @@ class MeetingDetailFragment(
         }
 
         binding.textAttachmentAdd.visibility = View.GONE
+        binding.viewEmpty.root.visibility = if (attachments.isEmpty()) View.VISIBLE else View.GONE
 
         if (meeting.userRole == 1) {
             binding.textAttachmentAdd.visibility = View.VISIBLE

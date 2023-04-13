@@ -71,6 +71,10 @@ class MeetingActivity : AppCompatActivity() {
             if (it) {
                 meetingViewModel.getMeetingDetail(user.token.toString(), meetingId)
                 observeMeetingDetail(user.token.toString(), meetingId)
+
+                binding.swipeRefreshMeetingDetail.setOnRefreshListener {
+                    observeMeetingDetail(user.token.toString(), meetingId)
+                }
             }
         }
 
@@ -99,6 +103,7 @@ class MeetingActivity : AppCompatActivity() {
             when (meetingResource) {
                 is Resource.Loading -> {
                     binding.progressBarMeeting.visibility = View.VISIBLE
+                    binding.swipeRefreshMeetingDetail.isRefreshing = false
                 }
                 is Resource.Success -> {
                     binding.progressBarMeeting.visibility = View.GONE
@@ -230,9 +235,14 @@ class MeetingActivity : AppCompatActivity() {
 
                             alertBinding.buttonJoinMeetingCancel.setOnClickListener { alertDialog.dismiss() }
                             alertBinding.buttonJoinMeeting.setOnClickListener {
+                                alertBinding.textInputJoinMeetingCode.error = null
                                 val code = alertBinding.editJoinMeetingCode.text.toString().trim()
-                                joinMeeting(user.token.toString(), meeting.id, code)
-                                alertDialog.dismiss()
+                                if (code.isEmpty()) {
+                                    alertBinding.textInputJoinMeetingCode.error = getString(R.string.required_field)
+                                } else {
+                                    joinMeeting(user.token.toString(), meeting.id, code)
+                                    alertDialog.dismiss()
+                                }
                             }
 
                             alertDialog.show()

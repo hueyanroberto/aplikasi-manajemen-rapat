@@ -120,4 +120,8 @@ class MeetingInteractor @Inject constructor(
     ): Flow<Resource<Task>> {
         return meetingRepository.addTask(token, meetingId, userId, title, description, deadline)
     }
+
+    override fun updateTaskStatus(token: String, taskId: Int, date: Date): Flow<Resource<Task>> {
+        return meetingRepository.updateTaskStatus(token, taskId, date)
+    }
 }

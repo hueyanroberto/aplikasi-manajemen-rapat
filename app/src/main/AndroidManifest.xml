@@ -24,6 +24,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.profile.update.UpdateProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.meeting.detail.task.TaskDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.meeting.detail.task.AssignTaskActivity"
             android:exported="false" />
         <activity

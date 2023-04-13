@@ -8,4 +8,5 @@ interface IUserPreferenceRepository {
     suspend fun saveUser(user: User)
     suspend fun logout()
     suspend fun saveName(user:User)
+    suspend fun updateName(name: String)
 }

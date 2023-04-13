@@ -93,7 +93,10 @@ data class ParticipantItem(
 	val status: Int,
 
 	@field:SerializedName("role")
-	val role: String
+	val role: String,
+
+	@field:SerializedName("level_id")
+	val levelId: Int
 ) : Parcelable
 
 

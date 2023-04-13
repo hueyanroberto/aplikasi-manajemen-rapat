@@ -32,4 +32,10 @@ class UserViewModel @Inject constructor(
     fun changeGetUserStatus() {
         _isUserGet.value = true
     }
+
+    fun changeName(name: String) {
+        viewModelScope.launch {
+            userPreferenceUseCase.updateName(name)
+        }
+    }
 }

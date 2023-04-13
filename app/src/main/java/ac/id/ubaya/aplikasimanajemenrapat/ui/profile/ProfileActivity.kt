@@ -7,11 +7,13 @@ import ac.id.ubaya.aplikasimanajemenrapat.databinding.ActivityProfileBinding
 import ac.id.ubaya.aplikasimanajemenrapat.ui.UserViewModel
 import ac.id.ubaya.aplikasimanajemenrapat.ui.login.LoginActivity
 import ac.id.ubaya.aplikasimanajemenrapat.ui.profile.achievement.AchievementActivity
+import ac.id.ubaya.aplikasimanajemenrapat.ui.profile.update.UpdateProfileActivity
 import ac.id.ubaya.aplikasimanajemenrapat.utils.BASE_ASSET_URL
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -63,6 +65,7 @@ class ProfileActivity : AppCompatActivity() {
                 user = it
                 Log.d("MainActivity", user.toString())
                 userViewModel.changeGetUserStatus()
+                binding.textProfileName.text = it.name
             } else {
                 Toast.makeText(this, resources.getString(R.string.user_not_login_error), Toast.LENGTH_SHORT).show()
                 startActivity(Intent(this, LoginActivity::class.java))
@@ -142,9 +145,21 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_profile, menu)
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             android.R.id.home -> finish()
+            R.id.menu_update_profile-> {
+                val intent = Intent(this, UpdateProfileActivity::class.java)
+                intent.putExtra(UpdateProfileActivity.EXTRA_TOKEN, user.token)
+                intent.putExtra(UpdateProfileActivity.EXTRA_PROFILE_PIC, user.profilePic)
+                intent.putExtra(UpdateProfileActivity.EXTRA_NAME, user.name)
+                startActivity(intent)
+            }
         }
 
         return true

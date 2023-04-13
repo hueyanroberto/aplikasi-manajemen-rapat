@@ -14,5 +14,6 @@ data class User(
     var token: String? = null,
     var role: Role? = null,
     var achievement: List<Achievement> = listOf(),
-    var level: Level? = null
+    var level: Level? = null,
+    val statusLogin: Int? = null
 ): Parcelable

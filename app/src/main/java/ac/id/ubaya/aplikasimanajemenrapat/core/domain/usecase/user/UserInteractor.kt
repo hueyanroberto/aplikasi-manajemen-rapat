@@ -11,6 +11,8 @@ class UserInteractor @Inject constructor(private val userRepository: UserReposit
     override fun login(email: String, password: String): Flow<Resource<User?>> =
         userRepository.login(email, password)
 
+    override fun loginGoogle(email: String): Flow<Resource<User>> = userRepository.loginGoogle(email)
+
     override fun register(email: String, password: String): Flow<Resource<User?>> =
         userRepository.register(email, password)
 
@@ -22,6 +24,7 @@ class UserInteractor @Inject constructor(private val userRepository: UserReposit
         userRepository.registerNameAndProfile(token, userId, name, profilePic)
 
     override fun getProfile(token: String): Flow<Resource<User>> = userRepository.getProfile(token)
+    override fun updateProfile(token: String, name: String): Flow<Resource<User>> = userRepository.updateProfile(token, name)
     override fun getOtherProfile(token: String, userId: Int): Flow<Resource<User>> = userRepository.getOtherProfile(token, userId)
     override fun getAchievements(token: String): Flow<Resource<List<Achievement>>> = userRepository.getAchievements(token)
 }

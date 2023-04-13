@@ -118,6 +118,10 @@ class DetailAgendaActivity : AppCompatActivity(), View.OnClickListener {
         agenda?.id?.let {
             getListSuggestion(token, it)
 
+            binding.swipeDetailAgenda.setOnRefreshListener {
+                getListSuggestion(token, it)
+            }
+
             binding.imageSuggestionSend.setOnClickListener {
                 Toast.makeText(this, "Please wait", Toast.LENGTH_SHORT).show()
             }
@@ -129,6 +133,7 @@ class DetailAgendaActivity : AppCompatActivity(), View.OnClickListener {
         viewModel.getListSuggestion(token, agendaId).observe(this) { suggestionResource ->
             when (suggestionResource) {
                 is Resource.Loading -> {
+                    binding.swipeDetailAgenda.isRefreshing = false
                     binding.progressBarAgendaDetail.visibility = View.VISIBLE
                     binding.imageSuggestionSend.setOnClickListener {
                         Toast.makeText(this, "Please wait", Toast.LENGTH_SHORT).show()
@@ -141,6 +146,7 @@ class DetailAgendaActivity : AppCompatActivity(), View.OnClickListener {
                     suggestionResource.data?.let {
                         listSuggestion.addAll(it)
                         adapter.notifyDataSetChanged()
+                        binding.viewEmpty.root.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
                     }
                 }
                 is Resource.Error -> {

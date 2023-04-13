@@ -63,6 +63,15 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
                 title = getString(R.string.meeting_invitation_title)
                 message = getString(R.string.meeting_invitation_notification, data["title"], data["organization"])
             }
+            "7" -> {
+                val statusTask = data["status"];
+                title = getString(R.string.task_completed_notification_title)
+                message = if (statusTask == "1") {
+                    getString(R.string.task_completed_on_time_notification, data["title"], data["exp"])
+                } else {
+                    getString(R.string.task_completed_late_notification, data["title"])
+                }
+            }
             else -> {
                 title = remoteMessage.notification?.title.toString()
                 message = remoteMessage.notification?.body.toString()

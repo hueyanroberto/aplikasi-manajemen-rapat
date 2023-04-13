@@ -33,6 +33,22 @@ class UserRemoteDataSource @Inject constructor(private val apiService: ApiServic
         }.flowOn(Dispatchers.IO)
     }
 
+    suspend fun loginGoogle (email: String): Flow<ApiResponse<UserResponse>> {
+        return flow {
+            try {
+                val userResponse = apiService.loginGoogle(email)
+                if (userResponse.userData != null) {
+                    emit(ApiResponse.Success(userResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("UserRDataSource", "loginGoogle: $e" )
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
     suspend fun register (email: String, password: String): Flow<ApiResponse<UserResponse>> {
         return flow {
             try {
@@ -90,6 +106,22 @@ class UserRemoteDataSource @Inject constructor(private val apiService: ApiServic
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
                 Log.e("UserRDataSource", "getProfile: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun updateProfile(token: String, name: String): Flow<ApiResponse<ProfileResponse>> {
+        return flow {
+            try {
+                val userResponse = apiService.updateProfile("Bearer $token", name)
+                if (userResponse.profileData != null) {
+                    emit(ApiResponse.Success(userResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("UserRDataSource", "updateProfile: $e")
             }
         }.flowOn(Dispatchers.IO)
     }

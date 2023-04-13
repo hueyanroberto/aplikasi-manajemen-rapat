@@ -35,7 +35,16 @@ class MeetingParticipantAdapter(
         val data = listParticipant[position]
         with(holder) {
             binding.textPersonName.text = data.name
-            binding.textPersonRole.text = data.role
+
+            when (data.role) {
+                "1" -> binding.textPersonRole.text = itemView.context.getString(R.string.leader)
+                "2" -> binding.textPersonRole.text = itemView.context.getString(R.string.participant)
+            }
+
+            when (data.status) {
+                0 -> binding.textPersonStatus.text = itemView.context.getString(R.string.suggestion_status, itemView.context.getString(R.string.not_yet_present))
+                1 -> binding.textPersonStatus.text = itemView.context.getString(R.string.suggestion_status, itemView.context.getString(R.string.present))
+            }
 
             Glide.with(itemView.context)
                 .load("$BASE_ASSET_URL/Profile/user/${data.profilePic}")
@@ -53,6 +62,15 @@ class MeetingParticipantAdapter(
             }
 
             itemView.setOnClickListener { onItemClickCallback.onItemClickCallback(data) }
+
+            when (data.levelId) {
+                1 -> binding.imagePersonLevelBadge.setBackgroundResource(R.drawable.badges_02)
+                2 -> binding.imagePersonLevelBadge.setBackgroundResource(R.drawable.badges_03)
+                3 -> binding.imagePersonLevelBadge.setBackgroundResource(R.drawable.badges_04)
+                4 -> binding.imagePersonLevelBadge.setBackgroundResource(R.drawable.badges_05)
+                5 -> binding.imagePersonLevelBadge.setBackgroundResource(R.drawable.badges_06)
+                6 -> binding.imagePersonLevelBadge.setBackgroundResource(R.drawable.badges_07)
+            }
         }
     }
 

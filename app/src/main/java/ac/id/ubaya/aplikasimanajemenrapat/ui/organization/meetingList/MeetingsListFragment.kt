@@ -62,18 +62,26 @@ class MeetingsListFragment : Fragment() {
                 context?.startActivity(intent)
             }
         }
+
+        binding.swipeRefreshMeeting.setOnRefreshListener {
+            getMeetingList(token, organizationId)
+        }
     }
 
     private fun getMeetingList(token: String, organizationId: Int) {
         viewModel.getListMeeting(token, organizationId).observe(viewLifecycleOwner) { meetingResource ->
             when (meetingResource) {
-                is Resource.Loading -> {}
+                is Resource.Loading -> {
+                    binding.swipeRefreshMeeting.isRefreshing = true
+                }
                 is Resource.Success -> {
+                    binding.swipeRefreshMeeting.isRefreshing = false
                     binding.recyclerMeetingList.adapter = meetingResource.data?.let {
                         MeetingAdapter(it)
                     }
                 }
                 is Resource.Error -> {
+                    binding.swipeRefreshMeeting.isRefreshing = false
                     Snackbar.make(binding.recyclerMeetingList, resources.getString(R.string.internal_error_message), Snackbar.LENGTH_LONG)
                         .setBackgroundTint(resources.getColor(R.color.secondary_dark, context?.theme))
                         .setTextColor(resources.getColor(R.color.white, context?.theme))

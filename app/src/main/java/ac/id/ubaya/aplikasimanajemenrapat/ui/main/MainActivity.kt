@@ -80,6 +80,7 @@ class MainActivity : AppCompatActivity() {
                 user = it
                 Log.d("MainActivity", user.toString())
                 mainViewModel.changeGetUserStatus()
+                navBinding.textDrawerName.text = it.name
 
                 FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -137,6 +138,7 @@ class MainActivity : AppCompatActivity() {
                         if (organization != null) {
                             val adapter = OrganizationAdapter(organization)
                             binding.mainActivity.recyclerOrganizations.adapter = adapter
+                            binding.mainActivity.viewEmpty.root.visibility = if (organization.isEmpty()) View.VISIBLE else View.GONE
                         }
                     }
                     is Resource.Error -> {

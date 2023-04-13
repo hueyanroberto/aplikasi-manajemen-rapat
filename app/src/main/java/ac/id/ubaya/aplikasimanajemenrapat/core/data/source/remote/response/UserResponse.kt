@@ -49,5 +49,8 @@ data class UserData(
 	val level: LevelResponse,
 
 	@field:SerializedName("role")
-	val role: RoleResponse? = null
+	val role: RoleResponse? = null,
+
+	@field:SerializedName("status")
+	val statusLogin: Int? = null
 ) : Parcelable

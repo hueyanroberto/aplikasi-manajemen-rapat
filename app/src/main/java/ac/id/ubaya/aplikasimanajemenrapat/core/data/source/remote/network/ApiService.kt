@@ -16,6 +16,12 @@ interface ApiService {
     ): UserResponse
 
     @FormUrlEncoded
+    @POST("login/google")
+    suspend fun loginGoogle(
+        @Field("email") email: String,
+    ): UserResponse
+
+    @FormUrlEncoded
     @POST("register")
     suspend fun register(
         @Field("email") email: String,
@@ -252,6 +258,14 @@ interface ApiService {
         @Header("Authorization") token: String,
     ): ProfileResponse
 
+    @FormUrlEncoded
+    @PATCH("profile")
+    @Headers("Accept: application/json")
+    suspend fun updateProfile(
+        @Header("Authorization") token: String,
+        @Field("name") name: String
+    ): ProfileResponse
+
     @GET("profile/{user_id}")
     suspend fun getOtherProfile(
         @Header("Authorization") token: String,
@@ -279,5 +293,14 @@ interface ApiService {
         @Field("title") title: String,
         @Field("description") description: String,
         @Field("deadline") deadline: Date
+    ): TaskResponse
+
+    @FormUrlEncoded
+    @PATCH("meeting/task/{taskId}")
+    @Headers("Accept: application/json")
+    suspend fun updateTaskStatus(
+        @Header("Authorization") token: String,
+        @Path("taskId") taskId: Int,
+        @Field("date") date: Date
     ): TaskResponse
 }

@@ -77,6 +77,7 @@ class MemberListFragment : Fragment() {
                             }
                         })
                         binding.recyclerMemberList.adapter = adapter
+                        binding.viewEmpty.root.visibility = if (userResource.data.isEmpty()) View.VISIBLE else View.GONE
                     }
                 }
                 is Resource.Error -> {

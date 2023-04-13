@@ -72,7 +72,7 @@
                 app:layout_constraintEnd_toEndOf="@id/image_profile"
                 app:layout_constraintStart_toStartOf="@id/image_profile"
                 app:layout_constraintTop_toTopOf="@id/image_profile"
-                tools:srcCompat="@drawable/badges_07" />
+                tools:srcCompat="@drawable/badges_02" />
 
             <TextView
                 android:id="@+id/text_profile_level"

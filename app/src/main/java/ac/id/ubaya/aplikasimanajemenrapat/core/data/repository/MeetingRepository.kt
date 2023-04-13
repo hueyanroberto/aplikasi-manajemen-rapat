@@ -404,4 +404,23 @@ class MeetingRepository @Inject constructor(
             }
         }
     }
+
+    override fun updateTaskStatus(token: String, taskId: Int, date: Date): Flow<Resource<Task>> {
+        return flow {
+            emit(Resource.Loading())
+            when (
+                val apiResponse = meetingRemoteDataSource.updateTaskStatus(token, taskId, date).first()) {
+                is ApiResponse.Success -> {
+                    val task = apiResponse.data.task
+                    emit(Resource.Success(DataMapper.taskResponseToModel(task!!)))
+                }
+                is ApiResponse.Empty -> {
+                    emit(Resource.Error("unauthorized"))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.errorMessage))
+                }
+            }
+        }
+    }
 }

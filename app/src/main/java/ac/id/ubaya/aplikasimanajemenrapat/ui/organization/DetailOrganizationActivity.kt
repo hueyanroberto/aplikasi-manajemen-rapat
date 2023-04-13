@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import java.util.*
 
 class DetailOrganizationActivity : AppCompatActivity() {
 
@@ -40,7 +41,11 @@ class DetailOrganizationActivity : AppCompatActivity() {
         binding.textOrganizationDetailName.text = name
         binding.textOrganizationDetailDesc.text = desc
         binding.textOrganizationDetailLeaderboardDuration.text = resources.getString(R.string.leaderboard_period_duration, duration.toString())
-        binding.textOrganizationDetailLeaderboardPeriod.text = resources.getString(R.string.leaderboard_current_period, convertNumber(period))
+        if (Locale.getDefault().language == "id") {
+            binding.textOrganizationDetailLeaderboardPeriod.text = resources.getString(R.string.leaderboard_current_period, period.toString())
+        } else {
+            binding.textOrganizationDetailLeaderboardPeriod.text = resources.getString(R.string.leaderboard_current_period, convertNumber(period))
+        }
 
         Glide.with(this)
             .load("$BASE_ASSET_URL/Profile/Organization/$pic")

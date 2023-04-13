@@ -9,6 +9,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 class TaskAdapter(private val listTask: List<Task>): RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
+
+    private lateinit var onItemClickCallback: OnItemClickCallback
+
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback
+    }
+
     class ViewHolder(val binding: ItemTaskBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -38,8 +45,12 @@ class TaskAdapter(private val listTask: List<Task>): RecyclerView.Adapter<TaskAd
             }
 
             itemView.setOnClickListener {
-
+                onItemClickCallback.onItemClickCallback(data)
             }
         }
+    }
+
+    interface OnItemClickCallback {
+        fun onItemClickCallback(task: Task)
     }
 }

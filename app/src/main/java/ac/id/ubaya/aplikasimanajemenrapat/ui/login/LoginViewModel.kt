@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,6 +21,10 @@ class LoginViewModel @Inject constructor(
 
     fun login(email: String, password: String): LiveData<Resource<User?>> {
         return userUseCase.login(email, password).asLiveData()
+    }
+
+    fun loginGoogle(email: String): Flow<Resource<User>> {
+        return userUseCase.loginGoogle(email)
     }
 
     fun saveUserData(user: User) {

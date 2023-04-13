@@ -37,5 +37,6 @@ data class Participant(
     val id: Int,
     val email: String,
     val status: Int,
-    val role: String
+    val role: String,
+    val levelId: Int
 ): Parcelable

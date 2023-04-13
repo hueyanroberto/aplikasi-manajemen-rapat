@@ -47,6 +47,7 @@ class MemberListAdapter(private val members: List<User>): RecyclerView.Adapter<M
         fun bind(data: User) {
             binding.textPersonName.text = data.name
             binding.textPersonRole.text = data.role?.name
+            binding.textPersonStatus.visibility = View.GONE
 
             Glide.with(itemView.context)
                 .load("$BASE_ASSET_URL/Profile/user/${data.profilePic}")
@@ -61,6 +62,15 @@ class MemberListAdapter(private val members: List<User>): RecyclerView.Adapter<M
                     putExtra(Intent.EXTRA_EMAIL, arrayOf(data.email))
                 }
                 itemView.context.startActivity(intent)
+            }
+
+            when (data.levelId) {
+                1 -> binding.imagePersonLevelBadge.setBackgroundResource(R.drawable.badges_02)
+                2 -> binding.imagePersonLevelBadge.setBackgroundResource(R.drawable.badges_03)
+                3 -> binding.imagePersonLevelBadge.setBackgroundResource(R.drawable.badges_04)
+                4 -> binding.imagePersonLevelBadge.setBackgroundResource(R.drawable.badges_05)
+                5 -> binding.imagePersonLevelBadge.setBackgroundResource(R.drawable.badges_06)
+                6 -> binding.imagePersonLevelBadge.setBackgroundResource(R.drawable.badges_07)
             }
         }
     }

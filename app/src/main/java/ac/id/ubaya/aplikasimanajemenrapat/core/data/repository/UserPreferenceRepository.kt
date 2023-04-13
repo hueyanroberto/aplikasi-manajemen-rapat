@@ -51,6 +51,12 @@ class UserPreferenceRepository @Inject constructor(
         }
     }
 
+    override suspend fun updateName(name: String) {
+        dataStore.edit { preference ->
+            preference[NAME_KEY] = name
+        }
+    }
+
     override suspend fun logout() {
         dataStore.edit { preference ->
             preference[ID_KEY] = -1

@@ -31,6 +31,8 @@
     <string name="achievement_get_notification">You have completed \'%1$s\' Achievement and received %2$s XP </string>
     <string name="level_up_notification">You have been leveled up to %1$s level</string>
     <string name="meeting_invitation_notification">You are invited to a meeting (%1$s) from %2$s</string>
+    <string name="task_completed_on_time_notification">You have completed %1$s task on time. You received %2$s XP</string>
+    <string name="task_completed_late_notification">You have completed %1$s task.</string>
 
     <string-array name="leaderboard_periods">
         <item>Every 1 month</item>
@@ -158,4 +160,14 @@
     <string name="completed">Completed</string>
     <string name="assign_to_someone">Assign to: %1$s</string>
     <string name="deadline_at">Deadline: %1$s</string>
+    <string name="mark_as_done">Mark as done</string>
+    <string name="mark_task_done_message">Are you sure to mark this task as done?</string>
+    <string name="task_done">Task done</string>
+    <string name="participant">Participant</string>
+    <string name="leader">Meeting Leader</string>
+    <string name="task_completed_notification_title">Task Completed</string>
+    <string name="present">Present</string>
+    <string name="not_yet_present">Not Yet/Not Present</string>
+    <string name="update_profile">Update Profile</string>
+    <string name="profile_updated">Profile updated</string>
 </resources>

@@ -36,6 +36,24 @@ class UserRepository @Inject constructor(
         }
     }
 
+    override fun loginGoogle(email: String): Flow<Resource<User>> {
+        return flow {
+            emit(Resource.Loading())
+            when (val apiResponse = userRemoteDataSource.loginGoogle(email).first()) {
+                is ApiResponse.Success -> {
+                    val data = DataMapper.userResponseToModel(apiResponse.data.userData!!)
+                    emit(Resource.Success(data))
+                }
+                is ApiResponse.Empty -> {
+                    emit(Resource.Error("internal server error"))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.errorMessage))
+                }
+            }
+        }
+    }
+
     override fun register(email: String, password: String): Flow<Resource<User?>> {
         return flow {
             emit(Resource.Loading())
@@ -89,6 +107,24 @@ class UserRepository @Inject constructor(
         return flow {
             emit(Resource.Loading())
             when (val apiResponse = userRemoteDataSource.getProfile(token).first()) {
+                is ApiResponse.Success -> {
+                    val data = DataMapper.userProfileToModel(apiResponse.data.profileData!!)
+                    emit(Resource.Success(data))
+                }
+                is ApiResponse.Empty -> {
+                    emit(Resource.Error("not found"))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.errorMessage))
+                }
+            }
+        }
+    }
+
+    override fun updateProfile(token: String, name: String): Flow<Resource<User>> {
+        return flow {
+            emit(Resource.Loading())
+            when (val apiResponse = userRemoteDataSource.updateProfile(token, name).first()) {
                 is ApiResponse.Success -> {
                     val data = DataMapper.userProfileToModel(apiResponse.data.profileData!!)
                     emit(Resource.Success(data))

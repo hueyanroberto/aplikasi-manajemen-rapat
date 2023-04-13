@@ -31,4 +31,5 @@ interface MeetingUseCase {
     fun uploadFile(token: String, files: List<MultipartBody.Part>, meetingId: RequestBody):Flow<Resource<List<Attachment>>>
     fun getListTask(token: String, meetingId: Int): Flow<Resource<List<Task>>>
     fun addTask(token: String, meetingId: Int, userId: Int, title: String, description: String, deadline: Date): Flow<Resource<Task>>
+    fun updateTaskStatus(token: String, taskId: Int, date: Date): Flow<Resource<Task>>
 }

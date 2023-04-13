@@ -5,10 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ac.id.ubaya.aplikasimanajemenrapat.R
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.Resource
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Meeting
+import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Task
 import ac.id.ubaya.aplikasimanajemenrapat.databinding.FragmentMeetingTaskBinding
+import android.content.Intent
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,9 +40,9 @@ class MeetingTaskFragment(
         viewModel.getListTask(token, meeting.id)
         observeListToken()
 
-        binding.swipeRefreshTask.setOnRefreshListener {
-            viewModel.getListTask(token, meeting.id)
-        }
+//        binding.swipeRefreshTask.setOnRefreshListener {
+//            viewModel.getListTask(token, meeting.id)
+//        }
 
         binding.recyclerTask.layoutManager = LinearLayoutManager(context)
     }
@@ -55,7 +56,17 @@ class MeetingTaskFragment(
                     binding.swipeRefreshTask.isRefreshing = false
                     taskResponse.data?.let {
                         val adapter = TaskAdapter(it)
+                        adapter.setOnItemClickCallback(object : TaskAdapter.OnItemClickCallback{
+                            override fun onItemClickCallback(task: Task) {
+                                val intent = Intent(activity, TaskDetailActivity::class.java)
+                                intent.putExtra(TaskDetailActivity.EXTRA_TASK, task)
+                                intent.putExtra(TaskDetailActivity.EXTRA_TOKEN, token)
+                                intent.putExtra(TaskDetailActivity.EXTRA_ROLE, meeting.userRole)
+                                activity?.startActivity(intent)
+                            }
+                        })
                         binding.recyclerTask.adapter = adapter
+                        binding.viewEmpty.root.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
                     }
                 }
                 is Resource.Error -> {
