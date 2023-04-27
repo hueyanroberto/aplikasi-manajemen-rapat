@@ -15,13 +15,13 @@ data class LeaderboardResponse(
 @Parcelize
 data class LeaderboardData(
 	@field:SerializedName("start_date")
-	val startDate: Date,
+	val startDate: Date?,
 
 	@field:SerializedName("end_date")
-	val endDate: Date,
+	val endDate: Date?,
 
 	@field:SerializedName("duration")
-	val duration: Int,
+	val duration: Int?,
 
 	@field:SerializedName("period")
 	val period: Int,

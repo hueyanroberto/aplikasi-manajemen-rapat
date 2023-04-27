@@ -206,7 +206,7 @@ class MeetingActivity : AppCompatActivity() {
                             }
                             R.id.item_edit_meeting -> {
                                 if (meeting.status == 0) {
-                                    val extraMeeting = Meeting(meeting.startTime, meeting.code, meeting.endTime, meeting.description, meeting.location, meeting.id, meeting.title, meeting.status)
+                                    val extraMeeting = Meeting(meeting.startTime, meeting.code, meeting.endTime, meeting.description, meeting.location, meeting.id, meeting.title, 0)
                                     val intent = Intent(this, EditMeetingActivity::class.java)
                                     intent.putExtra(EditMeetingActivity.EXTRA_MEETING, extraMeeting)
                                     intent.putExtra(EditMeetingActivity.EXTRA_TOKEN, user.token.toString())
@@ -254,6 +254,7 @@ class MeetingActivity : AppCompatActivity() {
                     }
                     binding.buttonStartMeeting.visibility = View.VISIBLE
                 } else {
+                    binding.buttonStartMeeting.visibility = View.VISIBLE
                     binding.buttonStartMeeting.text = resources.getString(R.string.meeting_ended)
                     binding.buttonStartMeeting.setBackgroundResource(R.drawable.button_disable)
                     binding.buttonStartMeeting.setOnClickListener(null)
@@ -261,8 +262,14 @@ class MeetingActivity : AppCompatActivity() {
                     binding.buttonShowMinutes.visibility = View.VISIBLE
                     binding.buttonShowMinutes.setOnClickListener {
                         val intent = Intent(this, MinutesActivity::class.java)
+                        val intentMeeting = meeting
+                        intentMeeting.participant = listOf()
+                        intentMeeting.attachments = listOf()
+                        intentMeeting.agenda = listOf()
+                        intent.putExtra(MinutesActivity.EXTRA_MEETING, intentMeeting)
                         intent.putExtra(MinutesActivity.EXTRA_MEETING_ID, meeting.id)
                         intent.putExtra(MinutesActivity.EXTRA_TOKEN, user.token.toString())
+
                         startActivity(intent)
                     }
                 }

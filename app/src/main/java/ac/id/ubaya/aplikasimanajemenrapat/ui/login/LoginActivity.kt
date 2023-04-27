@@ -124,7 +124,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 startActivity(Intent(this, RegisterActivity::class.java))
             }
             binding.buttonSignInGoogle.id -> {
-                Toast.makeText(this, "Coming Soon", Toast.LENGTH_SHORT).show()
                 val signInIntent = googleSignInClient.signInIntent
                 resultLauncher.launch(signInIntent)
             }

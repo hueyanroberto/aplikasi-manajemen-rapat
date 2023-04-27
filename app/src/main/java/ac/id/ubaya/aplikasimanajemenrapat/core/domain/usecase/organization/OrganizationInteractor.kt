@@ -72,4 +72,12 @@ class OrganizationInteractor @Inject constructor(
     ): Flow<Resource<LeaderboardDetail>> {
         return organizationRepository.getLeaderboard(token, organizationId)
     }
+
+    override fun getLeaderboardHistory(
+        token: String,
+        organizationId: Int,
+        period: Int
+    ): Flow<Resource<LeaderboardDetail>> {
+        return organizationRepository.getLeaderboardHistory(token, organizationId, period)
+    }
 }

@@ -217,4 +217,26 @@ class OrganizationRepository @Inject constructor(
             }
         }
     }
+
+    override fun getLeaderboardHistory(
+        token: String,
+        organizationId: Int,
+        period: Int
+    ): Flow<Resource<LeaderboardDetail>> {
+        return flow {
+            emit(Resource.Loading())
+            when (val apiResponse = organizationRemoteDataSource.getLeaderboardHistory(token, organizationId, period).first()) {
+                is ApiResponse.Success -> {
+                    val leaderboardData = apiResponse.data.leaderboardData
+                    emit(Resource.Success(DataMapper.leaderboardResponseToEntity(leaderboardData)))
+                }
+                is ApiResponse.Empty -> {
+                    emit(Resource.Error("unauthenticated"))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.errorMessage))
+                }
+            }
+        }
+    }
 }

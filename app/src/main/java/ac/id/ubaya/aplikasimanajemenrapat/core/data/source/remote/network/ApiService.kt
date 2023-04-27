@@ -127,6 +127,14 @@ interface ApiService {
         @Query("organization_id") organizationId: Int
     ): LeaderboardResponse
 
+    @GET("organization/leaderboard/history/{organizationId}")
+    @Headers("Accept: application/json")
+    suspend fun getLeaderboardHistory(
+        @Header("Authorization") token: String,
+        @Path("organizationId") organizationId: Int,
+        @Query("period") period: Int
+    ): LeaderboardResponse
+
     @GET("meeting/create/member")
     @Headers("Accept: application/json")
     suspend fun getMemberToBeChosen(

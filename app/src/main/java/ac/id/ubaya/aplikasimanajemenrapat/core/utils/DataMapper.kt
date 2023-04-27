@@ -103,10 +103,10 @@ object DataMapper {
     fun leaderboardResponseToEntity(leaderboardData: LeaderboardData): LeaderboardDetail {
         return leaderboardData.let {
             LeaderboardDetail(
-                startDate = it.startDate,
-                endDate = it.endDate,
+                startDate = it.startDate ?: Date(),
+                endDate = it.endDate ?: Date(),
                 period = it.period,
-                duration = it.duration,
+                duration = it.duration ?: 0,
                 leaderboards = leaderboardResponseToEntity(it.leaderboard)
             )
         }

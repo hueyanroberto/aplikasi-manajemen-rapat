@@ -171,4 +171,11 @@
     <string name="not_yet_present">Belum/Tidak Hadir</string>
     <string name="update_profile">Ubah Profil</string>
     <string name="profile_updated">Profil berhasil diubah</string>
+    <string name="reset_password">Atur Ulang Password</string>
+    <string name="submit">Kirim</string>
+    <string name="history_period">Periode: %1$s</string>
+    <string name="no_next_history">Tidak ada data selanjutnya</string>
+    <string name="no_prev_history">Tidak ada data sebelumnya</string>
+    <string name="leaderboard_history">Riwayat Leaderboard</string>
+    <string name="no_history">Tidak ada riwayat</string>
 </resources>

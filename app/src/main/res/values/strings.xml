@@ -170,4 +170,11 @@
     <string name="not_yet_present">Not Yet/Not Present</string>
     <string name="update_profile">Update Profile</string>
     <string name="profile_updated">Profile updated</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="submit">Submit</string>
+    <string name="history_period">Period: %1$s</string>
+    <string name="no_next_history">There is no next data</string>
+    <string name="no_prev_history">There is no previous data</string>
+    <string name="leaderboard_history">Leaderboard History</string>
+    <string name="no_history">No history</string>
 </resources>

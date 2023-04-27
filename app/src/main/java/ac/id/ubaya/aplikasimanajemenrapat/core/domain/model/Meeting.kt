@@ -16,9 +16,9 @@ data class Meeting(
     var status: Int,
     var userStatus: Int = -1,
     val userRole: Int = -1,
-    val agenda: List<Agenda> = listOf(),
-    val participant: List<Participant> = listOf(),
-    val attachments: List<Attachment> = listOf()
+    var agenda: List<Agenda> = listOf(),
+    var participant: List<Participant> = listOf(),
+    var attachments: List<Attachment> = listOf()
 ): Parcelable
 
 @Parcelize

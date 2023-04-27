@@ -2,17 +2,20 @@ package ac.id.ubaya.aplikasimanajemenrapat.ui.meeting.detail.minutes
 
 import ac.id.ubaya.aplikasimanajemenrapat.R
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.Resource
+import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Agenda
+import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Meeting
 import ac.id.ubaya.aplikasimanajemenrapat.databinding.ActivityMinutesBinding
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.*
 
 @AndroidEntryPoint
 class MinutesActivity : AppCompatActivity() {
@@ -20,10 +23,13 @@ class MinutesActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_MEETING_ID = "extra_meeting_id"
         const val EXTRA_TOKEN = "extra_token"
+        const val EXTRA_MEETING = "extra_meeting"
     }
 
     private lateinit var binding: ActivityMinutesBinding
+    private lateinit var listAgenda: List<Agenda>
     private val viewModel: MinutesViewModel by viewModels()
+    private var meeting: Meeting? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +42,13 @@ class MinutesActivity : AppCompatActivity() {
         val meetingId = intent.getIntExtra(EXTRA_MEETING_ID, -1)
         val token = intent.getStringExtra(EXTRA_TOKEN).toString()
 
+        meeting = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra(EXTRA_MEETING, Meeting::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getParcelableExtra(EXTRA_MEETING)
+        }
+
         getMinutes(token, meetingId)
     }
 
@@ -45,18 +58,20 @@ class MinutesActivity : AppCompatActivity() {
                 when (agendaResource) {
                     is Resource.Loading -> {
                         binding.progressBarMinutes.visibility = View.VISIBLE
+                        binding.imageMinutesDownload.setOnClickListener(null)
                     }
                     is Resource.Success -> {
                         binding.progressBarMinutes.visibility = View.GONE
                         val listAgenda = agendaResource.data
                         listAgenda?.let {
                             val adapter = MinutesAdapter(this@MinutesActivity, it)
+                            this@MinutesActivity.listAgenda = it
                             binding.expandableMinutes.setAdapter(adapter)
-
-                            binding.imageMinutesDownload.visibility = View.VISIBLE
-                            binding.imageMinutesDownload.setOnClickListener {
-                                Toast.makeText(this@MinutesActivity, "Coming Soon", Toast.LENGTH_SHORT).show()
-                            }
+//
+//                            binding.imageMinutesDownload.visibility = View.GONE
+//                            binding.imageMinutesDownload.setOnClickListener { _ ->
+//                                Toast.makeText(this@MinutesActivity, "Coming Soon", Toast.LENGTH_SHORT).show()
+//                            }
                         }
                     }
                     is Resource.Error -> {

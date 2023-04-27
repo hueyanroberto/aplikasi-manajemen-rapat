@@ -158,4 +158,16 @@ class OrganizationRemoteDataSource @Inject constructor(private val apiService: A
             }
         }.flowOn(Dispatchers.IO)
     }
+
+    suspend fun getLeaderboardHistory(token: String, organizationId: Int, period: Int): Flow<ApiResponse<LeaderboardResponse>> {
+        return flow {
+            try {
+                val leaderboardResponse = apiService.getLeaderboardHistory("Bearer $token", organizationId, period)
+                emit(ApiResponse.Success(leaderboardResponse))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("OrganizationRDataSource", "getLeaderboardHistory: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
 }

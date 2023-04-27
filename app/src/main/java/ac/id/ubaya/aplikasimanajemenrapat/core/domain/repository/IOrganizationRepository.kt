@@ -16,4 +16,5 @@ interface IOrganizationRepository {
     fun editOrganization(token: String, organizationId: Int, name: String, description: String, duration: Int): Flow<Resource<Organization>>
     fun updateOrganizationProfile(token: String, organizationId: Int, profilePic: String): Flow<Resource<Organization>>
     fun getLeaderboard(token: String, organizationId: Int): Flow<Resource<LeaderboardDetail>>
+    fun getLeaderboardHistory(token: String, organizationId: Int, period: Int): Flow<Resource<LeaderboardDetail>>
 }
