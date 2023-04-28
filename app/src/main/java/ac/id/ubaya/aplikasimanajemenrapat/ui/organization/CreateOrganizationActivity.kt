@@ -38,6 +38,10 @@ class CreateOrganizationActivity : AppCompatActivity(), View.OnClickListener {
             Manifest.permission.READ_EXTERNAL_STORAGE,
         )
 
+        private val REQUIRED_PERMISSION_TIRAMISU = arrayOf(
+            Manifest.permission.CAMERA
+        )
+
         private const val REQUEST_CODE_PERMISSION = 10
     }
 
@@ -163,8 +167,14 @@ class CreateOrganizationActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun allPermissionGranted(): Boolean {
         var isPermitted = false
-        REQUIRED_PERMISSION.forEach { permission ->
-            isPermitted = ContextCompat.checkSelfPermission(baseContext, permission) == PackageManager.PERMISSION_GRANTED
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            REQUIRED_PERMISSION_TIRAMISU.forEach { permission ->
+                isPermitted = ContextCompat.checkSelfPermission(baseContext, permission) == PackageManager.PERMISSION_GRANTED
+            }
+        } else {
+            REQUIRED_PERMISSION.forEach { permission ->
+                isPermitted = ContextCompat.checkSelfPermission(baseContext, permission) == PackageManager.PERMISSION_GRANTED
+            }
         }
         return isPermitted
     }

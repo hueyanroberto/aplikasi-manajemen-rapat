@@ -23,6 +23,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
@@ -40,6 +41,10 @@ class UpdateProfileActivity : AppCompatActivity(), View.OnClickListener {
         private val REQUIRED_PERMISSION = arrayOf(
             Manifest.permission.CAMERA,
             Manifest.permission.READ_EXTERNAL_STORAGE,
+        )
+
+        private val REQUIRED_PERMISSION_TIRAMISU = arrayOf(
+            Manifest.permission.CAMERA
         )
 
         private const val REQUEST_CODE_PERMISSION = 10
@@ -89,6 +94,13 @@ class UpdateProfileActivity : AppCompatActivity(), View.OnClickListener {
                     updateProfile(name)
                 }
             }
+            binding.buttonUpdateProfilePicture.id -> {
+                if (allPermissionGranted()) {
+                    alertDialogChooser()
+                } else {
+                    ActivityCompat.requestPermissions(this, REQUIRED_PERMISSION, REQUEST_CODE_PERMISSION)
+                }
+            }
         }
     }
 
@@ -117,8 +129,14 @@ class UpdateProfileActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun allPermissionGranted(): Boolean {
         var isPermitted = false
-        REQUIRED_PERMISSION.forEach { permission ->
-            isPermitted = ContextCompat.checkSelfPermission(baseContext, permission) == PackageManager.PERMISSION_GRANTED
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            REQUIRED_PERMISSION_TIRAMISU.forEach { permission ->
+                isPermitted = ContextCompat.checkSelfPermission(baseContext, permission) == PackageManager.PERMISSION_GRANTED
+            }
+        } else {
+            REQUIRED_PERMISSION.forEach { permission ->
+                isPermitted = ContextCompat.checkSelfPermission(baseContext, permission) == PackageManager.PERMISSION_GRANTED
+            }
         }
         return isPermitted
     }
@@ -171,7 +189,7 @@ class UpdateProfileActivity : AppCompatActivity(), View.OnClickListener {
             profilePic = bitmapToBase64(bitmapResult)
             binding.circleImageView.setImageBitmap(bitmapResult)
 
-            updateProfilePic()
+            updateProfilePic(profilePic)
         }
     }
 
@@ -188,12 +206,33 @@ class UpdateProfileActivity : AppCompatActivity(), View.OnClickListener {
             profilePic = bitmapToBase64(imageBitmap)
             binding.circleImageView.setImageBitmap(imageBitmap)
 
-            updateProfilePic()
+            updateProfilePic(profilePic)
         }
     }
 
-    private fun updateProfilePic() {
-
+    private fun updateProfilePic(profilePic: String) {
+        lifecycleScope.launch {
+            viewModel.updateProfilePic(token, profilePic).collect {userResource ->
+                when (userResource) {
+                    is Resource.Loading -> {
+                        binding.progressBarUpdateProfile.visibility = View.VISIBLE
+                    }
+                    is Resource.Success -> {
+                        binding.progressBarUpdateProfile.visibility = View.GONE
+                        userViewModel.changeName(profilePic)
+                        Toast.makeText(this@UpdateProfileActivity, getString(R.string.profile_updated), Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+                    is Resource.Error -> {
+                        binding.progressBarUpdateProfile.visibility = View.VISIBLE
+                        Snackbar.make(binding.buttonUpdateProfile, resources.getString(R.string.internal_error_message), Snackbar.LENGTH_LONG)
+                            .setBackgroundTint(resources.getColor(R.color.secondary_dark, theme))
+                            .setTextColor(resources.getColor(R.color.white, theme))
+                            .show()
+                    }
+                }
+            }
+        }
     }
 
     private fun updateProfile(name: String) {

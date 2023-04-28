@@ -274,6 +274,14 @@ interface ApiService {
         @Field("name") name: String
     ): ProfileResponse
 
+    @FormUrlEncoded
+    @PUT("profile/profilePic")
+    @Headers("Accept: application/json")
+    suspend fun updateProfilePic(
+        @Header("Authorization") token: String,
+        @Field("profile_pic") profilePic: String
+    ): ProfileResponse
+
     @GET("profile/{user_id}")
     suspend fun getOtherProfile(
         @Header("Authorization") token: String,

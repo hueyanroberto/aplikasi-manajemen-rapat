@@ -126,6 +126,22 @@ class UserRemoteDataSource @Inject constructor(private val apiService: ApiServic
         }.flowOn(Dispatchers.IO)
     }
 
+    suspend fun updateProfilePic(token: String, profilePic: String): Flow<ApiResponse<ProfileResponse>> {
+        return flow {
+            try {
+                val userResponse = apiService.updateProfilePic("Bearer $token", profilePic)
+                if (userResponse.profileData != null) {
+                    emit(ApiResponse.Success(userResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("UserRDataSource", "updateProfilePic: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
     suspend fun getOtherProfile(token: String, userId: Int): Flow<ApiResponse<ProfileResponse>> {
         return flow {
             try {

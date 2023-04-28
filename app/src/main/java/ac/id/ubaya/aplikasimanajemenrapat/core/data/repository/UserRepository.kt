@@ -139,6 +139,24 @@ class UserRepository @Inject constructor(
         }
     }
 
+    override fun updateProfilePic(token: String, profilePic: String): Flow<Resource<User>> {
+        return flow {
+            emit(Resource.Loading())
+            when (val apiResponse = userRemoteDataSource.updateProfilePic(token, profilePic).first()) {
+                is ApiResponse.Success -> {
+                    val data = DataMapper.userProfileToModel(apiResponse.data.profileData!!)
+                    emit(Resource.Success(data))
+                }
+                is ApiResponse.Empty -> {
+                    emit(Resource.Error("not found"))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.errorMessage))
+                }
+            }
+        }
+    }
+
     override fun getOtherProfile(token: String, userId: Int): Flow<Resource<User>> {
         return flow {
             emit(Resource.Loading())

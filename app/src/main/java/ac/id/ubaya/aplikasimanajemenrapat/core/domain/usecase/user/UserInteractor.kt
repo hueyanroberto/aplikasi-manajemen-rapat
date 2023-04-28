@@ -25,6 +25,7 @@ class UserInteractor @Inject constructor(private val userRepository: UserReposit
 
     override fun getProfile(token: String): Flow<Resource<User>> = userRepository.getProfile(token)
     override fun updateProfile(token: String, name: String): Flow<Resource<User>> = userRepository.updateProfile(token, name)
+    override fun updateProfilePic(token: String, profilePic: String): Flow<Resource<User>> = userRepository.updateProfilePic(token, profilePic)
     override fun getOtherProfile(token: String, userId: Int): Flow<Resource<User>> = userRepository.getOtherProfile(token, userId)
     override fun getAchievements(token: String): Flow<Resource<List<Achievement>>> = userRepository.getAchievements(token)
 }

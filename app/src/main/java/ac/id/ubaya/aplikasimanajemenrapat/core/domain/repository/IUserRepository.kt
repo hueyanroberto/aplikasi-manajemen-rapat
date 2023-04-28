@@ -14,6 +14,7 @@ interface IUserRepository {
     fun registerNameAndProfile(token: String, userId: Int, name: String, profilePic: String): Flow<Resource<User?>>
     fun getProfile(token: String): Flow<Resource<User>>
     fun updateProfile(token: String, name: String): Flow<Resource<User>>
+    fun updateProfilePic(token: String, profilePic: String): Flow<Resource<User>>
     fun getOtherProfile(token: String, userId: Int): Flow<Resource<User>>
     fun getAchievements(token: String): Flow<Resource<List<Achievement>>>
 }

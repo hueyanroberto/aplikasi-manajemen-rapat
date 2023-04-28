@@ -15,4 +15,8 @@ class UpdateProfileViewModel @Inject constructor(
     fun updateProfile(token: String, name: String): Flow<Resource<User>> {
         return userUseCase.updateProfile(token, name)
     }
+
+    fun updateProfilePic(token: String, profilePic: String): Flow<Resource<User>> {
+        return userUseCase.updateProfilePic(token, profilePic)
+    }
 }
