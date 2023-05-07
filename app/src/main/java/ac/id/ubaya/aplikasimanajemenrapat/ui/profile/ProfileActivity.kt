@@ -15,6 +15,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -129,6 +130,8 @@ class ProfileActivity : AppCompatActivity() {
                             binding.recyclerProfileAchievement.layoutManager = LinearLayoutManager(this@ProfileActivity)
                             val adapter = ProfileAchievementAdapter(it.achievement)
                             binding.recyclerProfileAchievement.adapter = adapter
+
+                            binding.viewEmpty.root.visibility = if (it.achievement.isEmpty()) View.VISIBLE else View.GONE
                         }
                     }
                     is Resource.Error -> {

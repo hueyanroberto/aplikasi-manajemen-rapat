@@ -181,6 +181,7 @@ class DetailAgendaActivity : AppCompatActivity(), View.OnClickListener {
                         newSuggestion?.let {
                             listSuggestion.add(it)
                             adapter.notifyItemInserted(listSuggestion.size - 1)
+                            binding.viewEmpty.root.visibility = View.GONE
                         }
                     }
                     is Resource.Error -> {

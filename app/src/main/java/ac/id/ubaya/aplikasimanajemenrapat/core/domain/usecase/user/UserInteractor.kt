@@ -7,7 +7,9 @@ import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.User
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class UserInteractor @Inject constructor(private val userRepository: UserRepository): UserUseCase {
+class UserInteractor @Inject constructor(
+    private val userRepository: UserRepository
+): UserUseCase {
     override fun login(email: String, password: String): Flow<Resource<User?>> =
         userRepository.login(email, password)
 

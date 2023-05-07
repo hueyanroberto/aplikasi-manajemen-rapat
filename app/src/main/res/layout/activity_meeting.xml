@@ -85,6 +85,7 @@
                         style="@style/textStyle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:foreground="?android:attr/selectableItemBackground"
                         tools:text="Location"
                         app:layout_constraintEnd_toEndOf="@+id/text_meeting_detail_title"
                         app:layout_constraintStart_toStartOf="@+id/text_meeting_detail_title"

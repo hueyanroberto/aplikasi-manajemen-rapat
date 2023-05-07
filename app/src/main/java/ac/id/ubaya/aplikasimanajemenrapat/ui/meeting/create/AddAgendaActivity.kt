@@ -69,10 +69,14 @@ class AddAgendaActivity : AppCompatActivity() {
                     if (agendaText.isNotEmpty()) newListAgenda.add(agendaText)
                 }
 
-                val resultIntent = Intent()
-                resultIntent.putExtra(EXTRA_AGENDA, newListAgenda)
-                setResult(AGENDA_RESULT_CODE, resultIntent)
-                finish()
+                if (newListAgenda.size > 0) {
+                    val resultIntent = Intent()
+                    resultIntent.putExtra(EXTRA_AGENDA, newListAgenda)
+                    setResult(AGENDA_RESULT_CODE, resultIntent)
+                    finish()
+                } else {
+                    Toast.makeText(this, resources.getString(R.string.agenda_empty), Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

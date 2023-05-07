@@ -34,7 +34,11 @@ class AssignTaskAdapter(
         with(holder) {
             binding.checkSelectParticipant.visibility = View.GONE
             binding.textSelectParticipantName.text = data.name
-            binding.textSelectParticipantRole.text = data.role
+
+            when (data.role) {
+                "1" -> binding.textSelectParticipantName.text = itemView.context.getString(R.string.leader)
+                "2" -> binding.textSelectParticipantName.text = itemView.context.getString(R.string.participant)
+            }
 
             Glide.with(itemView.context)
                 .load("$BASE_ASSET_URL/Profile/user/${data.profilePic}")

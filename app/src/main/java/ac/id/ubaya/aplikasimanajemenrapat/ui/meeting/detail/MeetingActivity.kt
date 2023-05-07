@@ -17,6 +17,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -118,6 +119,27 @@ class MeetingActivity : AppCompatActivity() {
                         binding.textMeetingDetailTitle.text = meeting.title
                         binding.textMeetingDetailLocation.text = meeting.location
                         binding.textMeetingDetailTime.text = time
+
+                        if (meeting.location.startsWith("https://") || meeting.location.startsWith("http://") ) {
+                            binding.textMeetingDetailLocation.setTextColor(getColor(R.color.google_blue))
+                            binding.textMeetingDetailLocation.setOnClickListener {
+                                val intent = Intent(Intent.ACTION_VIEW)
+                                intent.data = Uri.parse(meeting.location)
+                                val chooser = Intent.createChooser(intent, "Open With")
+                                startActivity(chooser)
+                            }
+                        } else {
+                            binding.textMeetingDetailLocation.setTextColor(getColor(R.color.black))
+                            binding.textMeetingDetailLocation.setOnClickListener(null)
+                        }
+
+                        binding.textMeetingDetailLocation.setOnLongClickListener {
+                            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                            val clip = ClipData.newPlainText("Location", meeting.location)
+                            clipboard.setPrimaryClip(clip)
+                            Toast.makeText(this, resources.getString(R.string.copied_to_clipboard), Toast.LENGTH_SHORT).show()
+                            return@setOnLongClickListener true
+                        }
 
                         selectedTab = binding.tabMeeting.selectedTabPosition
                         initTabLayout(meeting)
@@ -296,7 +318,7 @@ class MeetingActivity : AppCompatActivity() {
                         }
                         2 -> {
                             binding.fabMeeting.setImageResource(R.drawable.baseline_edit_24)
-                            binding.fabMeeting.show()
+                            binding.fabMeeting.hide()
 
                             binding.fabMeeting.setOnClickListener(null)
                         }

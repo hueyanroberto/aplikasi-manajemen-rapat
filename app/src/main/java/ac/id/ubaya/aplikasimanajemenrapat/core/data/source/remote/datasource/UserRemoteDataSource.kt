@@ -15,7 +15,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UserRemoteDataSource @Inject constructor(private val apiService: ApiService) {
+class UserRemoteDataSource @Inject constructor(
+    private val apiService: ApiService
+) {
 
     suspend fun login (email: String, password: String): Flow<ApiResponse<UserResponse>> {
         return flow {

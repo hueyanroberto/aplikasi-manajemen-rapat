@@ -10,6 +10,7 @@ interface ApiService {
 
     @FormUrlEncoded
     @POST("login")
+    @Headers("Accept: application/json")
     suspend fun login(
         @Field("email") email: String,
         @Field("password") password: String
@@ -17,12 +18,14 @@ interface ApiService {
 
     @FormUrlEncoded
     @POST("login/google")
+    @Headers("Accept: application/json")
     suspend fun loginGoogle(
         @Field("email") email: String,
     ): UserResponse
 
     @FormUrlEncoded
     @POST("register")
+    @Headers("Accept: application/json")
     suspend fun register(
         @Field("email") email: String,
         @Field("password") password: String

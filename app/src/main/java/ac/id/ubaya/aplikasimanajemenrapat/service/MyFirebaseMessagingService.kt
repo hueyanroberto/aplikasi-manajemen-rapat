@@ -33,7 +33,11 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         when (data["type"]) {
             "1" -> {
                 title = getString(R.string.meeting_reminder_title)
-                message = getString(R.string.meeting_reminder, data["title"], data["days_left"])
+                message = if (data["days_left"] == "0") {
+                    getString(R.string.meeting_day_reminder, data["title"])
+                } else {
+                    getString(R.string.meeting_reminder, data["title"], data["days_left"])
+                }
             }
             "2" -> {
                 title = getString(R.string.meeting_started)
@@ -64,7 +68,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
                 message = getString(R.string.meeting_invitation_notification, data["title"], data["organization"])
             }
             "7" -> {
-                val statusTask = data["status"];
+                val statusTask = data["status"]
                 title = getString(R.string.task_completed_notification_title)
                 message = if (statusTask == "1") {
                     getString(R.string.task_completed_on_time_notification, data["title"], data["exp"])

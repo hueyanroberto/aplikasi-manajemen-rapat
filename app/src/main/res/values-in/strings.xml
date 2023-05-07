@@ -34,6 +34,7 @@
     <string name="meeting_invitation_notification">Anda diundang dalam rapat (%1$s) dari %2$s</string>
     <string name="task_completed_on_time_notification">Anda telah menyelesaikan tugas %1$s tepat waktu, dan anda mendapatkan %2$s XP</string>
     <string name="task_completed_late_notification">Anda telah menyelesaikan tugas %1$s</string>
+    <string name="sign_out_question">Apakah anda ingin melakukan sign out?</string>
 
     <string-array name="leaderboard_periods">
         <item>Setiap 1 bulan</item>
@@ -178,4 +179,10 @@
     <string name="no_prev_history">Tidak ada data sebelumnya</string>
     <string name="leaderboard_history">Riwayat Leaderboard</string>
     <string name="no_history">Tidak ada riwayat</string>
+    <string name="about">Tentang</string>
+    <string name="developed_by">Dikembangkan Oleh:</string>
+    <string name="developer_name">Hueyan Roberto</string>
+    <string name="supervisor">Dosen Pembimbing:</string>
+    <string name="supervisor_1">Melissa Angga, S.T., M.M.Comp.</string>
+    <string name="supervisor_2">Andre, S.T., M.Sc.</string>
 </resources>

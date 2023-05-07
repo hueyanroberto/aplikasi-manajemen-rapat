@@ -33,6 +33,7 @@
     <string name="meeting_invitation_notification">You are invited to a meeting (%1$s) from %2$s</string>
     <string name="task_completed_on_time_notification">You have completed %1$s task on time. You received %2$s XP</string>
     <string name="task_completed_late_notification">You have completed %1$s task.</string>
+    <string name="sign_out_question">Do you want to sign out?</string>
 
     <string-array name="leaderboard_periods">
         <item>Every 1 month</item>
@@ -177,4 +178,10 @@
     <string name="no_prev_history">There is no previous data</string>
     <string name="leaderboard_history">Leaderboard History</string>
     <string name="no_history">No history</string>
+    <string name="about">About</string>
+    <string name="developed_by">Developed By:</string>
+    <string name="developer_name">Hueyan Roberto</string>
+    <string name="supervisor">Supervisor:</string>
+    <string name="supervisor_1">Melissa Angga, S.T., M.M.Comp.</string>
+    <string name="supervisor_2">Andre, S.T., M.Sc.</string>
 </resources>

@@ -5,6 +5,7 @@ import ac.id.ubaya.aplikasimanajemenrapat.core.data.Resource
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.User
 import ac.id.ubaya.aplikasimanajemenrapat.databinding.DrawerHeaderBinding
 import ac.id.ubaya.aplikasimanajemenrapat.databinding.MainLayoutBinding
+import ac.id.ubaya.aplikasimanajemenrapat.ui.about.AboutActivity
 import ac.id.ubaya.aplikasimanajemenrapat.ui.login.LoginActivity
 import ac.id.ubaya.aplikasimanajemenrapat.ui.organization.CreateOrganizationActivity
 import ac.id.ubaya.aplikasimanajemenrapat.ui.organization.JoinOrganizationActivity
@@ -18,6 +19,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -66,11 +68,6 @@ class MainActivity : AppCompatActivity() {
                     getListOrganization()
                 }
 
-                binding.mainActivity.imageLogOut.setOnClickListener {
-                    Firebase.auth.signOut()
-                    mainViewModel.logOut(user?.token.toString())
-                }
-
                 setUpNavigationDrawer()
             }
         }
@@ -115,7 +112,19 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_drawer_profile -> {
                     startActivity(Intent(this, ProfileActivity::class.java))
                 }
-                R.id.menu_drawer_settings ->{}
+                R.id.menu_drawer_about -> {
+                    startActivity(Intent(this, AboutActivity::class.java))
+                }
+                R.id.menu_drawer_sign_out -> {
+                    AlertDialog.Builder(this)
+                        .setMessage(getString(R.string.sign_out_question))
+                        .setPositiveButton(resources.getString(R.string.sign_out)) {_, _ ->
+                            Firebase.auth.signOut()
+                            mainViewModel.logOut(user?.token.toString())
+                        }
+                        .setNegativeButton(resources.getString(R.string.cancel), null)
+                        .show()
+                }
             }
             binding.drawerLayout.closeDrawer(GravityCompat.START)
             true

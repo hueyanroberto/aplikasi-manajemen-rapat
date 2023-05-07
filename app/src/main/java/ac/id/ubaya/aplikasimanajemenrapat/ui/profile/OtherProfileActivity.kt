@@ -101,6 +101,8 @@ class OtherProfileActivity : AppCompatActivity() {
                             binding.recyclerProfileAchievement.layoutManager = LinearLayoutManager(this@OtherProfileActivity)
                             val adapter = ProfileAchievementAdapter(it.achievement)
                             binding.recyclerProfileAchievement.adapter = adapter
+
+                            binding.viewEmpty.root.visibility = if (it.achievement.isEmpty()) View.VISIBLE else View.GONE
                         }
                     }
                     is Resource.Error -> {

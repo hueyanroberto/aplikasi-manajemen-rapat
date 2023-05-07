@@ -8,8 +8,14 @@
             android:icon="@drawable/ic_baseline_person_24"
             android:title="@string/profile" />
         <item
-            android:id="@+id/menu_drawer_settings"
-            android:icon="@drawable/baseline_settings_24"
-            android:title="@string/settings" />
+            android:id="@+id/menu_drawer_about"
+            android:icon="@drawable/baseline_info_24"
+            android:title="@string/about" />
+    </group>
+    <group>
+        <item
+            android:id="@+id/menu_drawer_sign_out"
+            android:icon="@drawable/baseline_logout_24"
+            android:title="@string/sign_out" />
     </group>
 </menu>

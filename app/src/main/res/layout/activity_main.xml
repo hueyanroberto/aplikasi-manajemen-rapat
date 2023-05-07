@@ -43,15 +43,6 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/logo_text_black" />
 
-                    <ImageView
-                        android:id="@+id/image_log_out"
-                        android:layout_width="@dimen/backIconSize"
-                        android:layout_height="@dimen/backIconSize"
-                        android:layout_marginEnd="16dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/baseline_logout_24" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.appcompat.widget.Toolbar>

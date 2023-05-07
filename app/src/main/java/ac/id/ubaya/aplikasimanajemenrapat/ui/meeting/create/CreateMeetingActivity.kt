@@ -114,9 +114,9 @@ class CreateMeetingActivity : AppCompatActivity(), View.OnClickListener {
         when (v.id) {
             binding.editMeetingDate.id -> {
                 val calendar = Calendar.getInstance()
-                val year = calendar.get(Calendar.YEAR)
-                val month = calendar.get(Calendar.MONTH)
-                val day = calendar.get(Calendar.DAY_OF_MONTH)
+                val year = if (this.year == -1) calendar.get(Calendar.YEAR) else this.year
+                val month = if (this.month == -1) calendar.get(Calendar.MONTH) else this.month
+                val day = if (this.day == -1) calendar.get(Calendar.DAY_OF_MONTH) else this.day
 
                 val datePicker = DatePickerDialog(this, { _, y, m, d ->
                     val calendarGet = Calendar.getInstance()
@@ -133,28 +133,34 @@ class CreateMeetingActivity : AppCompatActivity(), View.OnClickListener {
 
                 datePicker.show()
             }
-            binding.btnStartTime.id, binding.btnEndTime.id -> {
+            binding.btnStartTime.id -> {
                 val calenderTime = Calendar.getInstance()
-                val hour = calenderTime.get(Calendar.HOUR_OF_DAY)
-                val minute = calenderTime.get(Calendar.MINUTE)
+                val hour = if (this.startHour == -1) calenderTime.get(Calendar.HOUR_OF_DAY) else this.startHour
+                val minute = if (this.startMinute == -1) calenderTime.get(Calendar.MINUTE) else this.startMinute
 
                 val timePicker = TimePickerDialog(this, { _, h, m ->
                     val calendarGet = Calendar.getInstance()
                     calendarGet.set(0, 0, 0, h, m)
-                    when (v.id) {
-                        binding.btnStartTime.id -> {
-                            binding.textStartTime.text = convertTimeFormat(calendarGet.time)
-                            binding.textStartTime.setTextColor(resources.getColor(R.color.black, theme))
-                            this.startHour = h
-                            this.startMinute = m
-                        }
-                        binding.btnEndTime.id -> {
-                            binding.textEndTime.text = convertTimeFormat(calendarGet.time)
-                            binding.textEndTime.setTextColor(resources.getColor(R.color.black, theme))
-                            this.endHour = h
-                            this.endMinute = m
-                        }
-                    }
+                    binding.textStartTime.text = convertTimeFormat(calendarGet.time)
+                    binding.textStartTime.setTextColor(resources.getColor(R.color.black, theme))
+                    this.startHour = h
+                    this.startMinute = m
+                }, hour, minute, true)
+
+                timePicker.show()
+            }
+            binding.btnEndTime.id -> {
+                val calenderTime = Calendar.getInstance()
+                val hour = if (this.endHour == -1) calenderTime.get(Calendar.HOUR_OF_DAY) else this.endHour
+                val minute = if (this.endMinute == -1) calenderTime.get(Calendar.MINUTE) else this.endMinute
+
+                val timePicker = TimePickerDialog(this, { _, h, m ->
+                    val calendarGet = Calendar.getInstance()
+                    calendarGet.set(0, 0, 0, h, m)
+                    binding.textEndTime.text = convertTimeFormat(calendarGet.time)
+                    binding.textEndTime.setTextColor(resources.getColor(R.color.black, theme))
+                    this.endHour = h
+                    this.endMinute = m
                 }, hour, minute, true)
 
                 timePicker.show()
