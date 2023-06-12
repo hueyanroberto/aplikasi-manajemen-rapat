@@ -36,8 +36,8 @@ class AssignTaskAdapter(
             binding.textSelectParticipantName.text = data.name
 
             when (data.role) {
-                "1" -> binding.textSelectParticipantName.text = itemView.context.getString(R.string.leader)
-                "2" -> binding.textSelectParticipantName.text = itemView.context.getString(R.string.participant)
+                "1" -> binding.textSelectParticipantRole.text = itemView.context.getString(R.string.leader)
+                "2" -> binding.textSelectParticipantRole.text = itemView.context.getString(R.string.participant)
             }
 
             Glide.with(itemView.context)

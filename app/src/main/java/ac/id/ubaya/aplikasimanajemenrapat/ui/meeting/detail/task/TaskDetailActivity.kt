@@ -70,6 +70,8 @@ class TaskDetailActivity : AppCompatActivity(), View.OnClickListener {
             } else {
                 binding.buttonMarkTaskAsDone.visibility = View.GONE
             }
+
+            binding.textInfo.visibility = if (userRole == 1) View.GONE else View.VISIBLE
         }
 
     }
@@ -106,6 +108,7 @@ class TaskDetailActivity : AppCompatActivity(), View.OnClickListener {
                     }
                     is Resource.Success -> {
                         binding.buttonMarkTaskAsDone.visibility = View.GONE
+                        binding.textTaskStatus.text = resources.getString(R.string.suggestion_status, getString(R.string.completed))
                         Toast.makeText(this@TaskDetailActivity, getString(R.string.task_done), Toast.LENGTH_SHORT).show()
                     }
                     is Resource.Error -> {

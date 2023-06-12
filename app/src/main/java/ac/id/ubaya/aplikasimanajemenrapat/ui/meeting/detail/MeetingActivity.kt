@@ -329,6 +329,8 @@ class MeetingActivity : AppCompatActivity() {
                             binding.fabMeeting.setOnClickListener {
                                 val intent = Intent(this@MeetingActivity, AddTaskActivity::class.java)
                                 intent.putExtra(AddTaskActivity.EXTRA_LIST_PARTICIPANT, meeting.participant.toTypedArray())
+                                intent.putExtra(AddTaskActivity.EXTRA_TOKEN, user.token.toString())
+                                intent.putExtra(AddTaskActivity.EXTRA_MEETING_ID, meeting.id)
                                 startActivity(intent)
                             }
                         }

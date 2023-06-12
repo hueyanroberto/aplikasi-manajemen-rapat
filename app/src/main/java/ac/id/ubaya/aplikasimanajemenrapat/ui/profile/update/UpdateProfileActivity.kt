@@ -218,8 +218,11 @@ class UpdateProfileActivity : AppCompatActivity(), View.OnClickListener {
                         binding.progressBarUpdateProfile.visibility = View.VISIBLE
                     }
                     is Resource.Success -> {
+                        val user = userResource.data
+                        user?.let {
+                            userViewModel.changeProfile(it.profilePic.toString())
+                        }
                         binding.progressBarUpdateProfile.visibility = View.GONE
-                        userViewModel.changeName(profilePic)
                         Toast.makeText(this@UpdateProfileActivity, getString(R.string.profile_updated), Toast.LENGTH_SHORT).show()
                         finish()
                     }

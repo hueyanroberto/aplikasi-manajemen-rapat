@@ -38,4 +38,10 @@ class UserViewModel @Inject constructor(
             userPreferenceUseCase.updateName(name)
         }
     }
+
+    fun changeProfile(profile: String) {
+        viewModelScope.launch {
+            userPreferenceUseCase.updateProfile(profile)
+        }
+    }
 }

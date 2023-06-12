@@ -161,7 +161,7 @@
     <string name="task_added">Tugas berhasil ditambahkan</string>
     <string name="not_completed">Belum Selesai</string>
     <string name="completed">Selesai</string>
-    <string name="assign_to_someone">itugaskan Kepada: %1$s</string>
+    <string name="assign_to_someone">Ditugaskan Kepada: %1$s</string>
     <string name="deadline_at">Tenggat Waktu: %1$s</string>
     <string name="mark_as_done">Tandai Selesai</string>
     <string name="mark_task_done_message">Apakah anda yakin ingin menandai tugas ini sebagai selesai?</string>
@@ -185,4 +185,5 @@
     <string name="supervisor">Dosen Pembimbing:</string>
     <string name="supervisor_1">Melissa Angga, S.T., M.M.Comp.</string>
     <string name="supervisor_2">Andre, S.T., M.Sc.</string>
+    <string name="version">Versi %1$s</string>
 </resources>

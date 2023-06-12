@@ -57,6 +57,12 @@ class UserPreferenceRepository @Inject constructor(
         }
     }
 
+    override suspend fun updateProfile(profile: String) {
+        dataStore.edit { preference ->
+            preference[PROFILE_PIC_KEY] = profile
+        }
+    }
+
     override suspend fun logout() {
         dataStore.edit { preference ->
             preference[ID_KEY] = -1

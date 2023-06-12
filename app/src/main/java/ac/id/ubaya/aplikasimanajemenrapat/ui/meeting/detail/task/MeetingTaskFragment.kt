@@ -53,7 +53,6 @@ class MeetingTaskFragment(
                 is Resource.Loading -> {}
                 is Resource.Success -> {
                     binding.progressBarTask.visibility = View.GONE
-                    binding.swipeRefreshTask.isRefreshing = false
                     taskResponse.data?.let {
                         val adapter = TaskAdapter(it)
                         adapter.setOnItemClickCallback(object : TaskAdapter.OnItemClickCallback{
@@ -71,7 +70,6 @@ class MeetingTaskFragment(
                 }
                 is Resource.Error -> {
                     binding.progressBarTask.visibility = View.GONE
-                    binding.swipeRefreshTask.isRefreshing = false
                 }
             }
         }

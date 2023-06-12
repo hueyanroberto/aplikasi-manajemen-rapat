@@ -97,6 +97,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/text_task_status" />
 
             <TextView
+                android:id="@+id/text_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="* Contact your meeting leader for the update"
+                android:textColor="@color/secondary_dark"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@+id/text_task_deadline"
+                app:layout_constraintTop_toBottomOf="@+id/text_task_deadline" />
+
+            <TextView
                 android:id="@+id/button_mark_task_as_done"
                 style="@style/whiteTextStyle.subtitle"
                 android:layout_width="0dp"
@@ -108,7 +119,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/text_task_desc"
                 app:layout_constraintStart_toStartOf="@+id/text_task_desc"
-                app:layout_constraintTop_toBottomOf="@+id/text_task_deadline" />
+                app:layout_constraintTop_toBottomOf="@+id/text_info" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>

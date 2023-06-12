@@ -12,6 +12,7 @@ import ac.id.ubaya.aplikasimanajemenrapat.ui.meeting.create.CreateMeetingActivit
 import android.content.Intent
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -66,6 +67,16 @@ class MeetingsListFragment : Fragment() {
         binding.swipeRefreshMeeting.setOnRefreshListener {
             getMeetingList(token, organizationId)
         }
+
+        binding.recyclerMeetingList.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0 && binding.fabCreateMeeting.isShown) {
+                    binding.fabCreateMeeting.hide()
+                } else if (dy < 0 && !binding.fabCreateMeeting.isShown) {
+                    binding.fabCreateMeeting.show()
+                }
+            }
+        })
     }
 
     private fun getMeetingList(token: String, organizationId: Int) {
@@ -77,6 +88,7 @@ class MeetingsListFragment : Fragment() {
                 is Resource.Success -> {
                     binding.swipeRefreshMeeting.isRefreshing = false
                     binding.recyclerMeetingList.adapter = meetingResource.data?.let {
+                        binding.viewEmpty.root.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
                         MeetingAdapter(it)
                     }
                 }

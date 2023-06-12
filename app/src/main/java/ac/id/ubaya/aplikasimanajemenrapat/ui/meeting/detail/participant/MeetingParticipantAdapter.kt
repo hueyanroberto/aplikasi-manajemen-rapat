@@ -47,7 +47,7 @@ class MeetingParticipantAdapter(
             }
 
             Glide.with(itemView.context)
-                .load("$BASE_ASSET_URL/Profile/user/${data.profilePic}")
+                .load("$BASE_ASSET_URL/Profile/User/${data.profilePic}")
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
                 .error(R.drawable.blank_profile)

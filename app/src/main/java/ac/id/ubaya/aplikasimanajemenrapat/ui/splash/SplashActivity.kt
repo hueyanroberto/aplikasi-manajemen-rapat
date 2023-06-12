@@ -1,5 +1,6 @@
 package ac.id.ubaya.aplikasimanajemenrapat.ui.splash
 
+import ac.id.ubaya.aplikasimanajemenrapat.R
 import ac.id.ubaya.aplikasimanajemenrapat.databinding.ActivitySplashBinding
 import ac.id.ubaya.aplikasimanajemenrapat.ui.login.LoginActivity
 import ac.id.ubaya.aplikasimanajemenrapat.ui.main.MainActivity
@@ -37,6 +38,8 @@ class SplashActivity : AppCompatActivity() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.textVersion.text = resources.getString(R.string.version, "Beta 1.0.0")
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (!allPermissionGranted()) {
                 ActivityCompat.requestPermissions(this, REQUIRED_PERMISSION, REQUEST_CODE_PERMISSION)
@@ -46,9 +49,9 @@ class SplashActivity : AppCompatActivity() {
         } else {
             openActivity()
         }
-
     }
 
+    @Suppress("DEPRECATION")
     private fun openActivity() {
         Handler().postDelayed({
             splashViewModel.getUser().observe(this) {

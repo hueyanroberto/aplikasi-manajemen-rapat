@@ -75,6 +75,10 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                     register(email, password)
                 }
             }
+            .addOnFailureListener { e ->
+                Log.e("FirebaseRegister", e.message.toString())
+                binding.textInputRegisterEmail.error = resources.getString(R.string.email_used)
+            }
     }
 
     override fun onClick(v: View) {

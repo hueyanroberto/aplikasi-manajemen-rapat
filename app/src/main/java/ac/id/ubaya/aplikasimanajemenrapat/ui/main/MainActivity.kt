@@ -23,6 +23,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.snackbar.Snackbar
@@ -78,6 +79,12 @@ class MainActivity : AppCompatActivity() {
                 Log.d("MainActivity", user.toString())
                 mainViewModel.changeGetUserStatus()
                 navBinding.textDrawerName.text = it.name
+                Glide.with(this)
+                    .load("$BASE_ASSET_URL/Profile/User/${user?.profilePic}")
+                    .error(R.drawable.blank_profile)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(navBinding.imageDrawerProfile)
 
                 FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -173,6 +180,16 @@ class MainActivity : AppCompatActivity() {
         binding.mainActivity.fabJoinOrganization.visibility = View.GONE
         binding.mainActivity.textCreateOrganization.visibility = View.GONE
         binding.mainActivity.textJoinOrganization.visibility = View.GONE
+
+        binding.mainActivity.recyclerOrganizations.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0 && binding.mainActivity.fabAddOrganization.isShown) {
+                    binding.mainActivity.fabAddOrganization.hide()
+                } else if (dy < 0 && !binding.mainActivity.fabAddOrganization.isShown) {
+                    binding.mainActivity.fabAddOrganization.show()
+                }
+            }
+        })
 
         binding.mainActivity.fabAddOrganization.shrink()
 

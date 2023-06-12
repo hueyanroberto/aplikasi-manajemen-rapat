@@ -9,4 +9,5 @@ interface UserPreferenceUseCase {
     suspend fun logout()
     suspend fun saveName(user: User)
     suspend fun updateName(name: String)
+    suspend fun updateProfile(profile: String)
 }

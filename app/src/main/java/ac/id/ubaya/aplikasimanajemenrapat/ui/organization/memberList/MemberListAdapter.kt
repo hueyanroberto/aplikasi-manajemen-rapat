@@ -50,7 +50,7 @@ class MemberListAdapter(private val members: List<User>): RecyclerView.Adapter<M
             binding.textPersonStatus.visibility = View.GONE
 
             Glide.with(itemView.context)
-                .load("$BASE_ASSET_URL/Profile/user/${data.profilePic}")
+                .load("$BASE_ASSET_URL/Profile/User/${data.profilePic}")
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
                 .error(R.drawable.blank_profile)
