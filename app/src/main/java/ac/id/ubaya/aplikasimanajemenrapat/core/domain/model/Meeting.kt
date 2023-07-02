@@ -18,7 +18,11 @@ data class Meeting(
     val userRole: Int = -1,
     var agenda: List<Agenda> = listOf(),
     var participant: List<Participant> = listOf(),
-    var attachments: List<Attachment> = listOf()
+    var attachments: List<Attachment> = listOf(),
+    val meetingNote: String = "",
+    val realStart: Date? = null,
+    val realEnd: Date? = null,
+    val point: Int = 0
 ): Parcelable
 
 @Parcelize
@@ -26,7 +30,7 @@ data class Agenda(
     var task: String,
     val meetingId: Int,
     val id: Int,
-    val completed: Int,
+    var completed: Int,
     val suggestions: List<Suggestion>? = null
 ): Parcelable
 
@@ -39,4 +43,10 @@ data class Participant(
     val status: Int,
     val role: String,
     val levelId: Int
+): Parcelable
+
+@Parcelize
+data class MeetingPoint(
+    val point: Int,
+    val description: String
 ): Parcelable

@@ -63,6 +63,22 @@ class MeetingDetailFragment(
         binding.textAttachmentAdd.visibility = View.GONE
         binding.viewEmpty.root.visibility = if (attachments.isEmpty()) View.VISIBLE else View.GONE
 
+        if (meeting.meetingNote.isEmpty()) {
+            if (meeting.status < 2) {
+                binding.textMeetingDetailNote.visibility = View.GONE
+                binding.textMeetingDetailNoteTitle.visibility = View.GONE
+            } else {
+                binding.textMeetingDetailNote.visibility = View.VISIBLE
+                binding.textMeetingDetailNoteTitle.visibility = View.VISIBLE
+                binding.textMeetingDetailNote.text = getString(R.string.no_note)
+            }
+        } else {
+            binding.textMeetingDetailNote.visibility = View.VISIBLE
+            binding.textMeetingDetailNoteTitle.visibility = View.VISIBLE
+
+            binding.textMeetingDetailNote.text = meeting.meetingNote
+        }
+
 //        if (meeting.userRole == 1) {
 //            binding.textAttachmentAdd.visibility = View.VISIBLE
 //            binding.textAttachmentAdd.setOnClickListener {

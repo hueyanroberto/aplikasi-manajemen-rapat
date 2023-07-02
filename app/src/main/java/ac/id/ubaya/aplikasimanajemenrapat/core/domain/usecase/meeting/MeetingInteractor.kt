@@ -58,6 +58,10 @@ class MeetingInteractor @Inject constructor(
         return meetingRepository.acceptSuggestion(token, suggestionId)
     }
 
+    override fun deleteSuggestion(token: String, suggestionId: Int): Flow<Resource<Suggestion>> {
+        return meetingRepository.deleteSuggestion(token, suggestionId)
+    }
+
     override fun startMeeting(token: String, meetingId: Int, date: Date): Flow<Resource<Meeting>> {
         return meetingRepository.startMeeting(token, meetingId, date)
     }
@@ -71,12 +75,16 @@ class MeetingInteractor @Inject constructor(
         return meetingRepository.joinMeeting(token, meetingId, meetingCode, date)
     }
 
-    override fun endMeeting(token: String, meetingId: Int, date: Date): Flow<Resource<Meeting>> {
-        return meetingRepository.endMeeting(token, meetingId, date)
+    override fun endMeeting(token: String, meetingId: Int, date: Date, meetingNote: String): Flow<Resource<Meeting>> {
+        return meetingRepository.endMeeting(token, meetingId, date, meetingNote)
     }
 
     override fun getMinutes(token: String, meetingId: Int): Flow<Resource<List<Agenda>>> {
         return meetingRepository.getMinutes(token, meetingId)
+    }
+
+    override fun getMeetingPointLog(token: String, meetingId: Int): Flow<Resource<List<MeetingPoint>>> {
+        return meetingRepository.getMeetingPointLog(token, meetingId)
     }
 
     override fun editAgenda(token: String, agendaId: Int, task: String): Flow<Resource<Agenda>> {
@@ -85,6 +93,14 @@ class MeetingInteractor @Inject constructor(
 
     override fun deleteAgenda(token: String, agendaId: Int): Flow<Resource<Agenda>> {
         return meetingRepository.deleteAgenda(token, agendaId)
+    }
+
+    override fun updateAgendaStatus(token: String, agendaId: Int): Flow<Resource<Agenda>> {
+        return meetingRepository.updateAgendaStatus(token, agendaId)
+    }
+
+    override fun getAgendaDetail(token: String, agendaId: Int): Flow<Resource<Agenda>> {
+        return meetingRepository.getAgendaDetail(token, agendaId)
     }
 
     override fun editMeeting(

@@ -1,6 +1,7 @@
 package ac.id.ubaya.aplikasimanajemenrapat.ui.meeting.detail.agenda
 
 import ac.id.ubaya.aplikasimanajemenrapat.core.data.Resource
+import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Agenda
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Suggestion
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.usecase.meeting.MeetingUseCase
 import androidx.lifecycle.LiveData
@@ -24,5 +25,17 @@ class DetailAgendaViewModel @Inject constructor(
 
     fun acceptSuggestion(token: String, suggestionId: Int): Flow<Resource<Suggestion>> {
         return meetingUseCase.acceptSuggestion(token, suggestionId)
+    }
+
+    fun deleteSuggestion(token: String, suggestionId: Int): Flow<Resource<Suggestion>> {
+        return meetingUseCase.deleteSuggestion(token, suggestionId)
+    }
+
+    fun updateAgendaStatus(token: String, agendaId: Int): Flow<Resource<Agenda>> {
+        return meetingUseCase.updateAgendaStatus(token, agendaId)
+    }
+
+    fun getAgendaDetail(token: String, agendaId: Int): Flow<Resource<Agenda>> {
+        return meetingUseCase.getAgendaDetail(token, agendaId)
     }
 }

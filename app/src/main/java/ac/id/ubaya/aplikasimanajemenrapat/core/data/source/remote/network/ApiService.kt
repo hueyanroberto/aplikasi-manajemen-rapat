@@ -197,6 +197,14 @@ interface ApiService {
     ): SuggestionResponse
 
     @FormUrlEncoded
+    @HTTP(method = "DELETE", path = "agenda/suggestion", hasBody = true)
+    @Headers("Accept: application/json")
+    suspend fun deleteSuggestion(
+        @Header("Authorization") token: String,
+        @Field("suggestion_id") suggestionId: Int
+    ): SuggestionResponse
+
+    @FormUrlEncoded
     @PUT("agenda/suggestion/accept")
     @Headers("Accept: application/json")
     suspend fun acceptSuggestion(
@@ -229,7 +237,8 @@ interface ApiService {
     suspend fun endMeeting(
         @Header("Authorization") token: String,
         @Field("meeting_id") meetingId: Int,
-        @Field("date") date: Date
+        @Field("date") date: Date,
+        @Field("meeting_note") meetingNote: String
     ): MeetingDetailResponse
 
     @GET("meeting/minutes")
@@ -238,6 +247,13 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Query("meeting_id") meetingId: Int
     ): AgendaResponse
+
+    @GET("meeting/point")
+    @Headers("Accept: application/json")
+    suspend fun getMeetingPointLog(
+        @Header("Authorization") token: String,
+        @Query("meeting_id") meetingId: Int
+    ): MeetingPointResponse
 
     @FormUrlEncoded
     @PUT("agenda")
@@ -254,6 +270,21 @@ interface ApiService {
     suspend fun deleteAgenda(
         @Header("Authorization") token: String,
         @Field("agenda_id") agendaId: Int
+    ): AgendaResponse
+
+    @FormUrlEncoded
+    @PATCH("agenda")
+    @Headers("Accept: application/json")
+    suspend fun updateAgendaStatus(
+        @Header("Authorization") token: String,
+        @Field("agenda_id") agendaId: Int
+    ): AgendaResponse
+
+    @GET("meeting")
+    @Headers("Accept: application/json")
+    suspend fun getAgendaDetail(
+        @Header("Authorization") token: String,
+        @Query("agendaId") agendaId: Int
     ): AgendaResponse
 
     @Multipart

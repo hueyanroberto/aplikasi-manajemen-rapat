@@ -27,7 +27,7 @@ class MeetingViewModel @Inject constructor(
         return meetingUseCase.joinMeeting(token, meetingId, meetingCode, date)
     }
 
-    fun endMeeting(token: String, meetingId: Int, date: Date): Flow<Resource<Meeting>> {
-        return meetingUseCase.endMeeting(token, meetingId, date)
+    fun endMeeting(token: String, meetingId: Int, date: Date, meetingNote: String): Flow<Resource<Meeting>> {
+        return meetingUseCase.endMeeting(token, meetingId, date, meetingNote)
     }
 }

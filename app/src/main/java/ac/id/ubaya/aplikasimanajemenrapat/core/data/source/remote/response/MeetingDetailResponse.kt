@@ -52,7 +52,19 @@ data class MeetingDetailData(
 	val userRole: Int,
 
 	@field:SerializedName("attachments")
-	val attachments: List<AttachmentItem>
+	val attachments: List<AttachmentItem>,
+
+	@field:SerializedName("meeting_note")
+	val meetingNote: String,
+
+	@field:SerializedName("real_start")
+	val realStart: Date?,
+
+	@field:SerializedName("real_end")
+	val realEnd: Date?,
+
+	@field:SerializedName("point")
+	val point: Int
 ) : Parcelable
 
 @Parcelize

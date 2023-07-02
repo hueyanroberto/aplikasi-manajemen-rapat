@@ -161,7 +161,7 @@ object DataMapper {
         }
     }
 
-    fun meetingDataResponseToModel(meetingDetailData: MeetingDetailData): Meeting =
+    fun meetingDetailResponseToModel(meetingDetailData: MeetingDetailData): Meeting =
         meetingDetailData.let {
             Meeting(
                 id = it.id,
@@ -176,7 +176,11 @@ object DataMapper {
                 userRole = it.userRole,
                 agenda = agendaResponseToModel(it.agenda),
                 participant = participantResponseToModel(it.participant),
-                attachments = attachmentResponseToModel(it.attachments)
+                attachments = attachmentResponseToModel(it.attachments),
+                meetingNote = it.meetingNote,
+                realStart = it.realStart,
+                realEnd = it.realEnd,
+                point = it.point
             )
         }
 
@@ -262,5 +266,14 @@ object DataMapper {
             deadline = taskResponse.deadline,
             user = taskResponse.user
         )
+    }
+
+    fun meetingPointResponseToModel(meetingPointResponse: MeetingPointResponse): List<MeetingPoint> {
+        return meetingPointResponse.data.map {
+            MeetingPoint(
+                point = it.point,
+                description = it.description
+            )
+        }
     }
 }

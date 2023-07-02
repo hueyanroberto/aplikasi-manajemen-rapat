@@ -20,12 +20,16 @@ interface MeetingUseCase {
     fun getListSuggestion(token: String, agendaId: Int): Flow<Resource<List<Suggestion>>>
     fun addSuggestion(token: String, agendaId: Int, suggestion: String): Flow<Resource<Suggestion>>
     fun acceptSuggestion(token: String, suggestionId: Int): Flow<Resource<Suggestion>>
+    fun deleteSuggestion(token: String, suggestionId: Int): Flow<Resource<Suggestion>>
     fun startMeeting(token: String, meetingId: Int, date: Date): Flow<Resource<Meeting>>
     fun joinMeeting(token: String, meetingId: Int, meetingCode: String, date: Date): Flow<Resource<Meeting>>
-    fun endMeeting(token: String, meetingId: Int, date: Date): Flow<Resource<Meeting>>
+    fun endMeeting(token: String, meetingId: Int, date: Date, meetingNote: String): Flow<Resource<Meeting>>
     fun getMinutes(token: String, meetingId: Int): Flow<Resource<List<Agenda>>>
+    fun getMeetingPointLog(token: String, meetingId: Int): Flow<Resource<List<MeetingPoint>>>
     fun editAgenda(token: String, agendaId: Int, task: String): Flow<Resource<Agenda>>
     fun deleteAgenda(token: String, agendaId: Int): Flow<Resource<Agenda>>
+    fun updateAgendaStatus(token: String, agendaId: Int): Flow<Resource<Agenda>>
+    fun getAgendaDetail(token: String, agendaId: Int): Flow<Resource<Agenda>>
     fun editMeeting(token: String, title: String, startTime: Date, endTime: Date, location: String, description: String, meetingId: Int): Flow<Resource<Meeting>>
     fun deleteMeeting(token: String, meetingId: Int): Flow<Resource<Meeting>>
     fun uploadFile(token: String, files: List<MultipartBody.Part>, meetingId: RequestBody):Flow<Resource<List<Attachment>>>

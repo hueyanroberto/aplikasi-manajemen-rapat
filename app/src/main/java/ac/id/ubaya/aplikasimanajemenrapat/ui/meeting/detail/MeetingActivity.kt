@@ -5,6 +5,7 @@ import ac.id.ubaya.aplikasimanajemenrapat.core.data.Resource
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Meeting
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.User
 import ac.id.ubaya.aplikasimanajemenrapat.databinding.ActivityMeetingBinding
+import ac.id.ubaya.aplikasimanajemenrapat.databinding.AlertEndMeetngBinding
 import ac.id.ubaya.aplikasimanajemenrapat.databinding.AlertJoinMeetngBinding
 import ac.id.ubaya.aplikasimanajemenrapat.ui.UserViewModel
 import ac.id.ubaya.aplikasimanajemenrapat.ui.login.LoginActivity
@@ -121,7 +122,7 @@ class MeetingActivity : AppCompatActivity() {
                         binding.textMeetingDetailTime.text = time
 
                         if (meeting.location.startsWith("https://") || meeting.location.startsWith("http://") ) {
-                            binding.textMeetingDetailLocation.setTextColor(getColor(R.color.google_blue))
+                            binding.textMeetingDetailLocation.setTextColor(getColor(R.color.light_blue))
                             binding.textMeetingDetailLocation.setOnClickListener {
                                 val intent = Intent(Intent.ACTION_VIEW)
                                 intent.data = Uri.parse(meeting.location)
@@ -164,11 +165,16 @@ class MeetingActivity : AppCompatActivity() {
 
     private fun setUpButtonMeeting(meeting: Meeting) {
         binding.buttonShowMinutes.visibility = View.GONE
+        binding.textMeetingDetailPoint.visibility = View.GONE
+        binding.textMeetingDetailPointMore.visibility = View.GONE
+        binding.textMeetingDetailPointMore.setOnClickListener(null)
         when (meeting.userRole) {
             1 -> {
                 when (meeting.status) {
                     0 -> {
                         binding.buttonStartMeeting.text = resources.getString(R.string.start_meeting)
+                        binding.buttonStartMeeting.setBackgroundResource(R.drawable.button_primary_light)
+                        binding.buttonStartMeeting.setTextColor(resources.getColor(R.color.black, theme))
                         binding.buttonStartMeeting.setOnClickListener {
                             AlertDialog.Builder(this)
                                 .setMessage(resources.getString(R.string.start_meeting_question))
@@ -181,19 +187,34 @@ class MeetingActivity : AppCompatActivity() {
                     }
                     1 -> {
                         binding.buttonStartMeeting.text = resources.getString(R.string.end_meeting)
+                        binding.buttonStartMeeting.setBackgroundResource(R.drawable.button_secondary)
+                        binding.buttonStartMeeting.setTextColor(resources.getColor(R.color.white, theme))
                         binding.buttonStartMeeting.setOnClickListener {
-                            AlertDialog.Builder(this)
-                                .setMessage(resources.getString(R.string.end_meeting_question))
-                                .setPositiveButton(resources.getString(R.string.end)) {_, _ ->
-                                    endMeeting(user.token.toString(), meeting.id)
-                                }
-                                .setNegativeButton(resources.getString(R.string.cancel), null)
-                                .show()
+                            val builder = AlertDialog.Builder(this)
+                            val alertBinding = AlertEndMeetngBinding.inflate(LayoutInflater.from(this))
+
+                            with(builder) {
+                                setView(alertBinding.root)
+                                setCancelable(false)
+                            }
+                            val alertDialog = builder.create()
+                            alertDialog.setTitle(resources.getString(R.string.end_meeting) + "?")
+
+                            alertBinding.buttonEndMeetingCancel.setOnClickListener { alertDialog.dismiss() }
+                            alertBinding.buttonEndMeeting.setOnClickListener {
+                                var meetingNote = alertBinding.editEndMeetingNote.text.toString().trim()
+                                if (meetingNote.isEmpty()) meetingNote = " "
+                                endMeeting(user.token.toString(), meeting.id, meetingNote)
+                                alertDialog.dismiss()
+                            }
+                            alertDialog.setCancelable(false)
+                            alertDialog.show()
                         }
                     }
                     else -> {
                         binding.buttonStartMeeting.text = resources.getString(R.string.meeting_ended)
                         binding.buttonStartMeeting.setBackgroundResource(R.drawable.button_disable)
+                        binding.buttonStartMeeting.setTextColor(resources.getColor(R.color.white, theme))
                         binding.buttonStartMeeting.setOnClickListener(null)
 
                         binding.buttonShowMinutes.visibility = View.VISIBLE
@@ -202,6 +223,17 @@ class MeetingActivity : AppCompatActivity() {
                             intent.putExtra(MinutesActivity.EXTRA_MEETING_ID, meeting.id)
                             intent.putExtra(MinutesActivity.EXTRA_TOKEN, user.token.toString())
                             startActivity(intent)
+                        }
+
+                        binding.textMeetingDetailPoint.visibility = View.VISIBLE
+                        binding.textMeetingDetailPoint.text = resources.getString(R.string.your_point, meeting.point.toString())
+
+                        binding.textMeetingDetailPointMore.visibility = View.VISIBLE
+                        binding.textMeetingDetailPointMore.setOnClickListener {
+                            val meetingPointFragment = MeetingPointLogFragment.newInstance(user.token.toString(), meetingId)
+                            supportFragmentManager.beginTransaction().let {
+                                meetingPointFragment.show(it, "Meeting Point Log")
+                            }
                         }
                     }
                 }
@@ -245,6 +277,8 @@ class MeetingActivity : AppCompatActivity() {
                 if (meeting.status == 0 || meeting.status == 1) {
                     if (meeting.userStatus == 0) {
                         binding.buttonStartMeeting.text = resources.getString(R.string.join_meeting)
+                        binding.buttonStartMeeting.setBackgroundResource(R.drawable.button_primary_light)
+                        binding.buttonStartMeeting.setTextColor(resources.getColor(R.color.black, theme))
                         binding.buttonStartMeeting.setOnClickListener {
                             val builder = AlertDialog.Builder(this)
                             val alertBinding = AlertJoinMeetngBinding.inflate(LayoutInflater.from(this))
@@ -293,6 +327,17 @@ class MeetingActivity : AppCompatActivity() {
                         intent.putExtra(MinutesActivity.EXTRA_TOKEN, user.token.toString())
 
                         startActivity(intent)
+                    }
+
+                    binding.textMeetingDetailPoint.visibility = View.VISIBLE
+                    binding.textMeetingDetailPoint.text = resources.getString(R.string.your_point, meeting.point.toString())
+
+                    binding.textMeetingDetailPointMore.visibility = View.VISIBLE
+                    binding.textMeetingDetailPointMore.setOnClickListener {
+                        val meetingPointFragment = MeetingPointLogFragment.newInstance(user.token.toString(), meetingId)
+                        supportFragmentManager.beginTransaction().let {
+                            meetingPointFragment.show(it, "Meeting Point Log")
+                        }
                     }
                 }
             }
@@ -371,11 +416,7 @@ class MeetingActivity : AppCompatActivity() {
                         meetingGet?.let {
                             meeting.status = it.status
                             setUpButtonMeeting(meeting)
-                            Toast.makeText(
-                                this@MeetingActivity,
-                                resources.getString(R.string.meeting_started),
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(this@MeetingActivity, resources.getString(R.string.meeting_started), Toast.LENGTH_SHORT).show()
                         }
                     }
                     is Resource.Error -> {
@@ -424,16 +465,17 @@ class MeetingActivity : AppCompatActivity() {
         }
     }
 
-    private fun endMeeting(token: String, meetingId: Int) {
+    private fun endMeeting(token: String, meetingId: Int, meetingNote: String) {
         lifecycleScope.launch {
-            meetingViewModel.endMeeting(token, meetingId, Date()).collect { meetingResource ->
+            meetingViewModel.endMeeting(token, meetingId, Date(), meetingNote).collect { meetingResource ->
                 when (meetingResource) {
                     is Resource.Loading -> {}
                     is Resource.Success -> {
                         val meetingGet = meetingResource.data
                         meetingGet?.let {
                             meeting.status = it.status
-                            setUpButtonMeeting(meeting)
+//                            setUpButtonMeeting(meeting)
+                            observeMeetingDetail(token, meetingId)
                             Toast.makeText(
                                 this@MeetingActivity,
                                 resources.getString(R.string.meeting_ended),

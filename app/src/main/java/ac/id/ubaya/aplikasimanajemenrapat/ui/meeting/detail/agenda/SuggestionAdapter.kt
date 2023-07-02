@@ -11,13 +11,18 @@ import androidx.recyclerview.widget.RecyclerView
 class SuggestionAdapter(
     private val listSuggestion: List<Suggestion>,
     private val role: Int,
-    private val meetingStatus: Int
+    private val meetingStatus: Int,
+    private var agendaStatus: Int = 0
 ): RecyclerView.Adapter<SuggestionAdapter.ViewHolder>() {
 
     private lateinit var onItemClickedCallback: OnItemClickedCallback
 
     fun setOnItemClickedCallback(onItemClickedCallback: OnItemClickedCallback) {
         this.onItemClickedCallback = onItemClickedCallback
+    }
+
+    fun updateAgendaStatus(agendaStatus: Int) {
+        this.agendaStatus = agendaStatus
     }
 
     class ViewHolder(val binding: ItemSuggestionBinding): RecyclerView.ViewHolder(binding.root)
@@ -40,17 +45,31 @@ class SuggestionAdapter(
             binding.textSuggestionStatus.text = itemView.context.getString(R.string.suggestion_status, status)
 
             binding.textAcceptSuggestion.visibility = View.GONE
+            binding.textDeleteSuggestion.visibility = View.GONE
             if (role == 1 && meetingStatus == 1) {
-                binding.textAcceptSuggestion.visibility = View.VISIBLE
-                if (data.accepted == 0) {
-                    binding.textAcceptSuggestion.setBackgroundResource(R.drawable.rounded_pill_primary)
-                    binding.textAcceptSuggestion.text = itemView.context.getString(R.string.accept)
+                if (agendaStatus == 0) {
+                    binding.textAcceptSuggestion.visibility = View.VISIBLE
+                    if (data.accepted == 0) {
+                        binding.textAcceptSuggestion.setBackgroundResource(R.drawable.rounded_pill_primary)
+                        binding.textAcceptSuggestion.text = itemView.context.getString(R.string.accept)
+
+                        binding.textDeleteSuggestion.visibility = View.VISIBLE
+                        binding.textDeleteSuggestion.setOnClickListener {
+                            onItemClickedCallback.onDeleteClickedCallback(data, adapterPosition)
+                        }
+                    } else {
+                        binding.textAcceptSuggestion.setBackgroundResource(R.drawable.rounded_pill_grey)
+                        binding.textAcceptSuggestion.text = itemView.context.getString(R.string.accepted)
+
+                        binding.textDeleteSuggestion.visibility = View.GONE
+                        binding.textDeleteSuggestion.setOnClickListener(null)
+                    }
+                    binding.textAcceptSuggestion.setOnClickListener {
+                        onItemClickedCallback.onItemClickedCallback(data, adapterPosition)
+                    }
                 } else {
-                    binding.textAcceptSuggestion.setBackgroundResource(R.drawable.rounded_pill_grey)
-                    binding.textAcceptSuggestion.text = itemView.context.getString(R.string.accepted)
-                }
-                binding.textAcceptSuggestion.setOnClickListener {
-                    onItemClickedCallback.onItemClickedCallback(data, adapterPosition)
+                    binding.textAcceptSuggestion.visibility = View.GONE
+                    binding.textDeleteSuggestion.visibility = View.GONE
                 }
             }
         }
@@ -58,5 +77,6 @@ class SuggestionAdapter(
 
     interface OnItemClickedCallback {
         fun onItemClickedCallback(data: Suggestion, position: Int)
+        fun onDeleteClickedCallback(data: Suggestion, position: Int)
     }
 }

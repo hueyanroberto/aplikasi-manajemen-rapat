@@ -102,31 +102,53 @@
                         app:layout_constraintTop_toBottomOf="@+id/text_meeting_detail_location" />
 
                     <TextView
+                        android:id="@+id/text_meeting_detail_point"
+                        style="@style/textStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="@+id/text_meeting_detail_time"
+                        app:layout_constraintTop_toBottomOf="@+id/text_meeting_detail_time"
+                        tools:text="@string/your_point" />
+
+                    <TextView
+                        android:id="@+id/text_meeting_detail_point_more"
+                        style="@style/textStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:text="@string/show_more"
+                        android:textColor="@color/light_blue"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@id/text_meeting_detail_point"
+                        app:layout_constraintEnd_toEndOf="@+id/text_meeting_detail_time"
+                        app:layout_constraintTop_toTopOf="@id/text_meeting_detail_point" />
+
+                    <TextView
                         android:id="@+id/button_start_meeting"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="8dp"
                         android:layout_marginEnd="4dp"
                         android:layout_marginBottom="16dp"
-                        android:background="@drawable/button_secondary"
+                        android:background="@drawable/button_primary_light"
                         android:foreground="?android:attr/selectableItemBackground"
                         android:gravity="center"
                         android:text="@string/join_meeting"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/button_show_minutes"
                         app:layout_constraintStart_toStartOf="@+id/text_meeting_detail_time"
-                        app:layout_constraintTop_toBottomOf="@+id/text_meeting_detail_time" />
+                        app:layout_constraintTop_toBottomOf="@+id/text_meeting_detail_point" />
 
                     <TextView
                         android:id="@+id/button_show_minutes"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:layout_marginTop="16dp"
                         android:layout_marginEnd="4dp"
                         android:layout_marginBottom="16dp"
                         android:background="@drawable/button_secondary"
@@ -140,7 +162,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/text_meeting_detail_time"
                         app:layout_constraintStart_toEndOf="@+id/button_start_meeting"
-                        app:layout_constraintTop_toBottomOf="@+id/text_meeting_detail_time" />
+                        app:layout_constraintTop_toTopOf="@+id/button_start_meeting" />
 
                     <ProgressBar
                         android:id="@+id/progress_bar_meeting"

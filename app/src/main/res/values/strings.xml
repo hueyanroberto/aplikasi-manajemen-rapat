@@ -34,6 +34,11 @@
     <string name="task_completed_on_time_notification">You have completed %1$s task on time. You received %2$s XP</string>
     <string name="task_completed_late_notification">You have completed %1$s task.</string>
     <string name="sign_out_question">Do you want to sign out?</string>
+    <string name="mark_task_done_message">Are you sure to mark this task as done?</string>
+    <string name="mark_agenda_done_message">Are you sure to mark this agenda as done?</string>
+    <string name="no_suggestion_accepted">You can only mark this agenda as done after you accept at least one suggestion</string>
+    <string name="cannot_mark_agenda_done">Unable to Mark as Done</string>
+    <string name="delete_suggestion_message">Are you sure want to delete this suggestion? \nnote: this action can not be undone.</string>
 
     <string-array name="leaderboard_periods">
         <item>Every 1 month</item>
@@ -162,7 +167,6 @@
     <string name="assign_to_someone">Assign to: %1$s</string>
     <string name="deadline_at">Deadline: %1$s</string>
     <string name="mark_as_done">Mark as done</string>
-    <string name="mark_task_done_message">Are you sure to mark this task as done?</string>
     <string name="task_done">Task done</string>
     <string name="participant">Participant</string>
     <string name="leader">Meeting Leader</string>
@@ -185,4 +189,10 @@
     <string name="supervisor_1">Melissa Angga, S.T., M.M.Comp.</string>
     <string name="supervisor_2">Andre, S.T., M.Sc.</string>
     <string name="version">Version %1$s</string>
+    <string name="success">Success</string>
+    <string name="note">Note (optional)</string>
+    <string name="real_time">Real Time :</string>
+    <string name="your_point">Your Point : %1$s</string>
+    <string name="show_more">Show More</string>
+    <string name="no_note">no note</string>
 </resources>

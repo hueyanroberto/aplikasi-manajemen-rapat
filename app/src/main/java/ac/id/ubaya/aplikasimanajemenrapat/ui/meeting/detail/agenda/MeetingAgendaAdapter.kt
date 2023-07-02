@@ -31,6 +31,12 @@ class MeetingAgendaAdapter(
         with(holder) {
             binding.textAgendaTask.text = itemView.context.getString(R.string.agenda_task, (position + 1).toString(), data.task)
 
+            binding.textAgendaStatus.text = if (data.completed == 0) {
+                itemView.context.getString(R.string.suggestion_status, itemView.context.getString(R.string.not_completed))
+            } else {
+                itemView.context.getString(R.string.suggestion_status, itemView.context.getString(R.string.completed))
+            }
+
             itemView.setOnClickListener {
                 onItemClickedCallback.onItemClickedCallback(data)
             }

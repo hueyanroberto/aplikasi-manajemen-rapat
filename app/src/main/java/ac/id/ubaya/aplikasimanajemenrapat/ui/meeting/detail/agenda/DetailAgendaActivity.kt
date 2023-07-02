@@ -65,10 +65,37 @@ class DetailAgendaActivity : AppCompatActivity(), View.OnClickListener {
         meetingStatus = intent.getIntExtra(EXTRA_MEETING_STATUS, -1)
 
         binding.textAgendaTitle.text = agenda?.task.toString()
+        binding.textAgendaStatus.text = if (agenda?.completed == 0) {
+            binding.constraintSuggestionAdd.visibility = View.VISIBLE
+            resources.getString(R.string.suggestion_status, resources.getString(R.string.not_completed))
+        } else {
+            binding.constraintSuggestionAdd.visibility = View.GONE
+            resources.getString(R.string.suggestion_status, resources.getString(R.string.completed))
+        }
         binding.recyclerSuggestions.layoutManager = LinearLayoutManager(this)
-        adapter = SuggestionAdapter(listSuggestion, role, meetingStatus)
+        adapter = SuggestionAdapter(listSuggestion, role, meetingStatus, agenda!!.completed)
 
         if (role == 1 && meetingStatus != 2) {
+
+            if (agenda?.completed == 0 && meetingStatus == 1) {
+                binding.buttonAgendaDone.visibility = View.VISIBLE
+                binding.buttonAgendaDone.setOnClickListener {
+                    AlertDialog.Builder(this@DetailAgendaActivity)
+                        .setMessage(resources.getString(R.string.mark_agenda_done_message))
+                        .setPositiveButton(resources.getString(R.string.mark_as_done)) { _,_ ->
+                            agenda?.let {
+                                updateAgendaStatus(token, it.id)
+                            }
+                        }
+                        .setNegativeButton(resources.getString(R.string.cancel), null)
+                        .show()
+                }
+            } else {
+                binding.buttonAgendaDone.visibility = View.GONE
+                binding.buttonAgendaDone.setOnClickListener(null)
+                binding.constraintSuggestionAdd.visibility = View.GONE
+            }
+
             adapter.setOnItemClickedCallback(object: SuggestionAdapter.OnItemClickedCallback {
                 override fun onItemClickedCallback(data: Suggestion, position: Int) {
                     val message = if (data.accepted == 0) {
@@ -85,10 +112,21 @@ class DetailAgendaActivity : AppCompatActivity(), View.OnClickListener {
                         .setNegativeButton(resources.getString(R.string.cancel), null)
                         .show()
                 }
+
+                override fun onDeleteClickedCallback(data: Suggestion, position: Int) {
+                    AlertDialog.Builder(this@DetailAgendaActivity)
+                        .setMessage(getString(R.string.delete_suggestion_message))
+                        .setPositiveButton(resources.getString(R.string.delete)) {_, _ ->
+                            deleteSuggestion(data, position)
+                        }
+                        .setNegativeButton(resources.getString(R.string.cancel), null)
+                        .show()
+                }
             })
 
             if (meetingStatus == 0) {
                 binding.imageAddAgendaMore.visibility = View.VISIBLE
+                binding.buttonAgendaDone.visibility = View.GONE
                 binding.imageAddAgendaMore.setOnClickListener {
                     val popupMenu = PopupMenu(this, it)
                     popupMenu.inflate(R.menu.menu_agenda)
@@ -117,13 +155,71 @@ class DetailAgendaActivity : AppCompatActivity(), View.OnClickListener {
 
         agenda?.id?.let {
             getListSuggestion(token, it)
+            getAgendaDetail(token, it)
 
             binding.swipeDetailAgenda.setOnRefreshListener {
                 getListSuggestion(token, it)
+                getAgendaDetail(token, it)
             }
 
             binding.imageSuggestionSend.setOnClickListener {
                 Toast.makeText(this, "Please wait", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun updateAgendaStatus(token: String, agendaId: Int) {
+        lifecycleScope.launch {
+            viewModel.updateAgendaStatus(token, agendaId).collect { agendaResource ->
+                when (agendaResource) {
+                    is Resource.Loading -> {
+                        binding.progressBarAgendaDetail.visibility = View.VISIBLE
+                    }
+                    is Resource.Success -> {
+                        binding.progressBarAgendaDetail.visibility = View.GONE
+                        if (agendaResource.data?.completed == 1) {
+                            agenda?.completed = 1
+                            binding.buttonAgendaDone.setBackgroundResource(R.drawable.button_disable)
+                            binding.buttonAgendaDone.setOnClickListener(null)
+                            binding.constraintSuggestionAdd.visibility = View.GONE
+                            binding.buttonAgendaDone.visibility = View.GONE
+                            adapter.updateAgendaStatus(1)
+                            getListSuggestion(token, agendaId)
+                            Toast.makeText(this@DetailAgendaActivity, resources.getText(R.string.success), Toast.LENGTH_SHORT).show()
+                        } else {
+                            AlertDialog.Builder(this@DetailAgendaActivity)
+                                .setTitle(resources.getString(R.string.cannot_mark_agenda_done))
+                                .setMessage(resources.getString(R.string.no_suggestion_accepted))
+                                .setPositiveButton(resources.getString(R.string.ok), null)
+                                .show()
+                        }
+                    }
+                    is Resource.Error -> {
+                        binding.progressBarAgendaDetail.visibility = View.GONE
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getAgendaDetail(token: String, agendaId: Int) {
+        lifecycleScope.launch {
+            viewModel.getAgendaDetail(token, agendaId).collect { agendaResource ->
+                when (agendaResource) {
+                    is Resource.Loading -> { }
+                    is Resource.Success -> {
+                        agenda = agendaResource.data
+                        binding.textAgendaStatus.text = if (agenda?.completed == 0) {
+                            binding.constraintSuggestionAdd.visibility = View.VISIBLE
+                            resources.getString(R.string.suggestion_status, resources.getString(R.string.not_completed))
+                        } else {
+                            binding.constraintSuggestionAdd.visibility = View.GONE
+                            resources.getString(R.string.suggestion_status, resources.getString(R.string.completed))
+                        }
+                        binding.textAgendaTitle.text = agenda?.task
+                    }
+                    is Resource.Error -> {}
+                }
             }
         }
     }
@@ -210,6 +306,39 @@ class DetailAgendaActivity : AppCompatActivity(), View.OnClickListener {
                         newSuggestion?.let {
                             data.accepted = it.accepted
                             adapter.notifyItemChanged(position)
+                        }
+                    }
+                    is Resource.Error -> {
+                        binding.progressBarAgendaDetail.visibility = View.GONE
+                        Snackbar.make(binding.recyclerSuggestions, resources.getString(R.string.internal_error_message), Snackbar.LENGTH_LONG)
+                            .setBackgroundTint(resources.getColor(R.color.secondary_dark, theme))
+                            .setTextColor(resources.getColor(R.color.white, theme))
+                            .show()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun deleteSuggestion(data: Suggestion, position: Int) {
+        lifecycleScope.launch {
+            viewModel.deleteSuggestion(token, data.id).collect { suggestionResource ->
+                when (suggestionResource) {
+                    is Resource.Loading -> {
+                        binding.progressBarAgendaDetail.visibility = View.VISIBLE
+                    }
+                    is Resource.Success -> {
+                        binding.progressBarAgendaDetail.visibility = View.GONE
+                        val deletedSuggestion = suggestionResource.data
+                        deletedSuggestion?.let {
+                            for ((i, suggestion) in listSuggestion.withIndex()) {
+                                if (suggestion.id == it.id) {
+                                    listSuggestion.removeAt(i)
+                                    adapter.notifyItemRemoved(position)
+                                    if (listSuggestion.size == 0) binding.viewEmpty.root.visibility = View.VISIBLE
+                                    break
+                                }
+                            }
                         }
                     }
                     is Resource.Error -> {

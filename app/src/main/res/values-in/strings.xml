@@ -35,6 +35,11 @@
     <string name="task_completed_on_time_notification">Anda telah menyelesaikan tugas %1$s tepat waktu, dan anda mendapatkan %2$s XP</string>
     <string name="task_completed_late_notification">Anda telah menyelesaikan tugas %1$s</string>
     <string name="sign_out_question">Apakah anda ingin melakukan sign out?</string>
+    <string name="mark_task_done_message">Apakah anda yakin ingin menandai tugas ini sebagai selesai?</string>
+    <string name="mark_agenda_done_message">Apakah anda yakin ingin menandai agenda ini sebagai selesai?</string>
+    <string name="no_suggestion_accepted">Anda hanya dapat menandai agenda ini sebagai selesai jika anda telah menerima minimal 1 saran</string>
+    <string name="cannot_mark_agenda_done">Gagal Menandai Sebagai Selesai</string>
+    <string name="delete_suggestion_message">Apakah anda yakin ingin menghapus saran ini? \ncatatan: tindakan ini tidak bisa dibatalkan.</string>
 
     <string-array name="leaderboard_periods">
         <item>Setiap 1 bulan</item>
@@ -164,7 +169,6 @@
     <string name="assign_to_someone">Ditugaskan Kepada: %1$s</string>
     <string name="deadline_at">Tenggat Waktu: %1$s</string>
     <string name="mark_as_done">Tandai Selesai</string>
-    <string name="mark_task_done_message">Apakah anda yakin ingin menandai tugas ini sebagai selesai?</string>
     <string name="task_done">Tugas terselesaikan</string>
     <string name="participant">Peserta</string>
     <string name="leader">Pemimpin Rapat</string>
@@ -182,8 +186,14 @@
     <string name="about">Tentang</string>
     <string name="developed_by">Dikembangkan Oleh:</string>
     <string name="developer_name">Hueyan Roberto</string>
-    <string name="supervisor">Dosen Pembimbing:</string>
+    <string name="supervisor">Supervisor:</string>
     <string name="supervisor_1">Melissa Angga, S.T., M.M.Comp.</string>
     <string name="supervisor_2">Andre, S.T., M.Sc.</string>
     <string name="version">Versi %1$s</string>
+    <string name="success">Sukses</string>
+    <string name="note">Catatan (opsional)</string>
+    <string name="real_time">Waktu Sebenarnya :</string>
+    <string name="your_point">Point Anda : %1$s</string>
+    <string name="show_more">Lebih Banyak</string>
+    <string name="no_note">tidak ada catatan</string>
 </resources>

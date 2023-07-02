@@ -92,7 +92,7 @@ class MeetingRepository @Inject constructor(
             when (val apiResponse = meetingRemoteDataSource.getMeetingDetail(token, meetingId).first()) {
                 is ApiResponse.Success -> {
                     val meetingData = apiResponse.data.meetingDetailData
-                    emit(Resource.Success(DataMapper.meetingDataResponseToModel(meetingData!!)))
+                    emit(Resource.Success(DataMapper.meetingDetailResponseToModel(meetingData!!)))
                 }
                 is ApiResponse.Empty -> {
                     emit(Resource.Success(null))
@@ -184,13 +184,31 @@ class MeetingRepository @Inject constructor(
         }
     }
 
+    override fun deleteSuggestion(token: String, suggestionId: Int): Flow<Resource<Suggestion>> {
+        return flow {
+            emit(Resource.Loading())
+            when (val apiResponse = meetingRemoteDataSource.deleteSuggestion(token, suggestionId).first()) {
+                is ApiResponse.Success -> {
+                    val suggestionItem = apiResponse.data.suggestionItem!!
+                    emit(Resource.Success(DataMapper.suggestionResponseToModel(suggestionItem)))
+                }
+                is ApiResponse.Empty -> {
+                    emit(Resource.Error("Unauthorized"))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.errorMessage))
+                }
+            }
+        }
+    }
+
     override fun startMeeting(token: String, meetingId: Int, date: Date): Flow<Resource<Meeting>> {
         return flow {
             emit(Resource.Loading())
             when (val apiResponse = meetingRemoteDataSource.startMeeting(token, meetingId, date).first()) {
                 is ApiResponse.Success -> {
                     val meetingData = apiResponse.data.meetingDetailData
-                    emit(Resource.Success(DataMapper.meetingDataResponseToModel(meetingData!!)))
+                    emit(Resource.Success(DataMapper.meetingDetailResponseToModel(meetingData!!)))
                 }
                 is ApiResponse.Empty -> {
                     emit(Resource.Error("unauthenticated"))
@@ -208,7 +226,7 @@ class MeetingRepository @Inject constructor(
             when (val apiResponse = meetingRemoteDataSource.joinMeeting(token, meetingId, meetingCode, date).first()) {
                 is ApiResponse.Success -> {
                     val meetingData = apiResponse.data.meetingDetailData
-                    emit(Resource.Success(DataMapper.meetingDataResponseToModel(meetingData!!)))
+                    emit(Resource.Success(DataMapper.meetingDetailResponseToModel(meetingData!!)))
                 }
                 is ApiResponse.Empty -> {
                     emit(Resource.Error("wrong code"))
@@ -220,13 +238,13 @@ class MeetingRepository @Inject constructor(
         }
     }
 
-    override fun endMeeting(token: String, meetingId: Int, date: Date): Flow<Resource<Meeting>> {
+    override fun endMeeting(token: String, meetingId: Int, date: Date, meetingNote: String): Flow<Resource<Meeting>> {
         return flow {
             emit(Resource.Loading())
-            when (val apiResponse = meetingRemoteDataSource.endMeeting(token, meetingId, date).first()) {
+            when (val apiResponse = meetingRemoteDataSource.endMeeting(token, meetingId, date, meetingNote).first()) {
                 is ApiResponse.Success -> {
                     val meetingData = apiResponse.data.meetingDetailData
-                    emit(Resource.Success(DataMapper.meetingDataResponseToModel(meetingData!!)))
+                    emit(Resource.Success(DataMapper.meetingDetailResponseToModel(meetingData!!)))
                 }
                 is ApiResponse.Empty -> {
                     emit(Resource.Error("unauthenticated"))
@@ -248,6 +266,27 @@ class MeetingRepository @Inject constructor(
                 }
                 is ApiResponse.Empty -> {
                     emit(Resource.Success(listOf<Agenda>()))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.errorMessage))
+                }
+            }
+        }
+    }
+
+    override fun getMeetingPointLog(
+        token: String,
+        meetingId: Int
+    ): Flow<Resource<List<MeetingPoint>>> {
+        return flow {
+            emit(Resource.Loading())
+            when (val apiResponse = meetingRemoteDataSource.getMeetingPointLog(token, meetingId).first()) {
+                is ApiResponse.Success -> {
+                    val meetingPointLog = apiResponse.data
+                    emit(Resource.Success(DataMapper.meetingPointResponseToModel(meetingPointLog)))
+                }
+                is ApiResponse.Empty -> {
+                    emit(Resource.Success(listOf<MeetingPoint>()))
                 }
                 is ApiResponse.Error -> {
                     emit(Resource.Error(apiResponse.errorMessage))
@@ -278,6 +317,42 @@ class MeetingRepository @Inject constructor(
         return flow {
             emit(Resource.Loading())
             when (val apiResponse = meetingRemoteDataSource.deleteAgenda(token, agendaId).first()) {
+                is ApiResponse.Success -> {
+                    val agendaData = apiResponse.data.agendaData
+                    emit(Resource.Success(DataMapper.agendaResponseToModel(agendaData)[0]))
+                }
+                is ApiResponse.Empty -> {
+                    emit(Resource.Error("unauthenticated"))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.errorMessage))
+                }
+            }
+        }
+    }
+
+    override fun updateAgendaStatus(token: String, agendaId: Int): Flow<Resource<Agenda>> {
+        return flow {
+            emit(Resource.Loading())
+            when (val apiResponse = meetingRemoteDataSource.updateAgendaStatus(token, agendaId).first()) {
+                is ApiResponse.Success -> {
+                    val agendaData = apiResponse.data.agendaData
+                    emit(Resource.Success(DataMapper.agendaResponseToModel(agendaData)[0]))
+                }
+                is ApiResponse.Empty -> {
+                    emit(Resource.Error("unauthenticated"))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.errorMessage))
+                }
+            }
+        }
+    }
+
+    override fun getAgendaDetail(token: String, agendaId: Int): Flow<Resource<Agenda>> {
+        return flow {
+            emit(Resource.Loading())
+            when (val apiResponse = meetingRemoteDataSource.getAgendaDetail(token, agendaId).first()) {
                 is ApiResponse.Success -> {
                     val agendaData = apiResponse.data.agendaData
                     emit(Resource.Success(DataMapper.agendaResponseToModel(agendaData)[0]))

@@ -178,6 +178,22 @@ class MeetingRemoteDataSource @Inject constructor(private val apiService: ApiSer
         }.flowOn(Dispatchers.IO)
     }
 
+    suspend fun deleteSuggestion(token: String, suggestionId: Int) : Flow<ApiResponse<SuggestionResponse>> {
+        return flow {
+            try {
+                val suggestionResponse = apiService.deleteSuggestion("Bearer $token", suggestionId)
+                if (suggestionResponse.suggestionItem != null) {
+                    emit(ApiResponse.Success(suggestionResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("MeetingRDataSource", "deleteSuggestion: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
     suspend fun startMeeting(token: String, meetingId: Int, date: Date) : Flow<ApiResponse<MeetingDetailResponse>> {
         return flow {
             try {
@@ -210,10 +226,10 @@ class MeetingRemoteDataSource @Inject constructor(private val apiService: ApiSer
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun endMeeting(token: String, meetingId: Int, date: Date) : Flow<ApiResponse<MeetingDetailResponse>> {
+    suspend fun endMeeting(token: String, meetingId: Int, date: Date, meetingNote: String) : Flow<ApiResponse<MeetingDetailResponse>> {
         return flow {
             try {
-                val meetingDetailResponse = apiService.endMeeting("Bearer $token", meetingId, date)
+                val meetingDetailResponse = apiService.endMeeting("Bearer $token", meetingId, date, meetingNote)
                 if (meetingDetailResponse.meetingDetailData != null) {
                     emit(ApiResponse.Success(meetingDetailResponse))
                 } else {
@@ -238,6 +254,22 @@ class MeetingRemoteDataSource @Inject constructor(private val apiService: ApiSer
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
                 Log.e("MeetingRDataSource", "getMinutes: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun getMeetingPointLog(token: String, meetingId: Int): Flow<ApiResponse<MeetingPointResponse>> {
+        return flow {
+            try {
+                val taskResponse = apiService.getMeetingPointLog("Bearer $token", meetingId)
+                if (taskResponse.data.isNotEmpty()) {
+                    emit(ApiResponse.Success(taskResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("MeetingRDataSource", "updateTaskStatus: $e")
             }
         }.flowOn(Dispatchers.IO)
     }
@@ -270,6 +302,38 @@ class MeetingRemoteDataSource @Inject constructor(private val apiService: ApiSer
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
                 Log.e("MeetingRDataSource", "deleteAgenda: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun updateAgendaStatus(token: String, agendaId: Int): Flow<ApiResponse<AgendaResponse>> {
+        return flow {
+            try {
+                val meetingDetailResponse = apiService.updateAgendaStatus("Bearer $token", agendaId)
+                if (meetingDetailResponse.agendaData.isNotEmpty()) {
+                    emit(ApiResponse.Success(meetingDetailResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("MeetingRDataSource", "updateAgendaStatus: $e")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun getAgendaDetail(token: String, agendaId: Int): Flow<ApiResponse<AgendaResponse>> {
+        return flow {
+            try {
+                val meetingDetailResponse = apiService.getAgendaDetail("Bearer $token", agendaId)
+                if (meetingDetailResponse.agendaData.isNotEmpty()) {
+                    emit(ApiResponse.Success(meetingDetailResponse))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("MeetingRDataSource", "getAgendaDetail: $e")
             }
         }.flowOn(Dispatchers.IO)
     }

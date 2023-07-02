@@ -98,6 +98,11 @@ class LeaderboardHistoryFragment : DialogFragment(), View.OnClickListener {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
     override fun onClick(v: View) {
         when (v.id) {
             binding.imageHistoryNext.id -> {

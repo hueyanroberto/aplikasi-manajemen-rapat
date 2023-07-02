@@ -5,6 +5,7 @@ import ac.id.ubaya.aplikasimanajemenrapat.core.data.Resource
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Agenda
 import ac.id.ubaya.aplikasimanajemenrapat.core.domain.model.Meeting
 import ac.id.ubaya.aplikasimanajemenrapat.databinding.ActivityMinutesBinding
+import ac.id.ubaya.aplikasimanajemenrapat.utils.convertDateFormat
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -49,6 +50,9 @@ class MinutesActivity : AppCompatActivity() {
             intent.getParcelableExtra(EXTRA_MEETING)
         }
 
+        binding.textMinutesMeetingTitle.text = meeting?.title
+
+        getMeeting(token, meetingId)
         getMinutes(token, meetingId)
     }
 
@@ -84,6 +88,28 @@ class MinutesActivity : AppCompatActivity() {
                             }
                             .show()
                     }
+                }
+            }
+        }
+    }
+
+    private fun getMeeting(token: String, meetingId: Int) {
+        lifecycleScope.launch {
+            viewModel.getMeetingDetail(token, meetingId).collect { meetingResource ->
+                when (meetingResource) {
+                    is Resource.Loading -> {}
+                    is Resource.Success -> {
+                        val meeting = meetingResource.data
+                        meeting?.let {meetingGet ->
+                            val realStart = meetingGet.realStart?.let { convertDateFormat(it) }
+                            val realEnd = meetingGet.realEnd?.let { convertDateFormat(it) }
+                            val endSplit = realEnd?.split(" ")
+                            val time = "$realStart - ${endSplit?.get(3)}"
+                            binding.textMinutesMeetingRealtime.text = time
+                            binding.textMinutesMeetingTitle.text = meetingGet.title
+                        }
+                    }
+                    is Resource.Error -> {}
                 }
             }
         }
