@@ -1,8 +1,8 @@
 # Aplikasi Manajemen Rapat Dengan Lingkungan yang Tergamifikasi
-Projek ini merupakan projek tugas akhir yang digunakan untuk lulus dari jurusan Teknik Informatika Program Multimedia Universitas Surabaya.
+Projek ini merupakan projek tugas akhir yang digunakan untuk lulus dari jurusan Teknik Informatika Program Multimedia Universitas Surabaya. (REST API: https://github.com/hueyanroberto/app-manajemen-rapat-api)
 
 ## Manara (Manajemen Rapat)
-Manara merupakan aplikasi manajemen rapat yang berfungsi untuk membantu pengguna dalam membuat jadwal, agenda, dan notulen rapat. Selain itu, ada applikasi ini juga terdapat elemen gamifikasi seperti Level, Leaderboard, Badge, dan Achievement yang berfunsi untuk meningkatkan motivasi pengguna.
+Manara merupakan aplikasi manajemen rapat yang berfungsi untuk membantu pengguna dalam membuat jadwal, agenda, dan notulen rapat. Selain itu, ada applikasi ini juga terdapat elemen gamifikasi seperti Level, Leaderboard, Badge, dan Achievement yang berfunsi untuk meningkatkan motivasi pengguna. 
 
 ## Fitur
 - Pengelompokan organisasi
